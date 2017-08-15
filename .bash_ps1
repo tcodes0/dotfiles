@@ -1,0 +1,93 @@
+#! /bin/bash
+
+#------------------
+#unicode hex values
+#------------------
+pinkflower="f0 9f 8c b8"
+greenbranch="f0 9f 8c bf"
+blackheart="f0 9f 96 a4"
+canadaleaf="f0 9f 8d 81"
+wineglass="f0 9f 8d b7"
+purplecristal="f0 9f 94 ae"
+bluebutterfly="f0 9f a6 8b"
+moonphase1="f0 9f 8c 92"
+moonphase2="f0 9f 8c 93"
+moonphase3="f0 9f 8c 94"
+moonphase4="f0 9f 8c 95"
+moonphase5="f0 9f 8c 96"
+moonphase6="f0 9f 8c 97"
+moonphase7="f0 9f 8c 98"
+moneysack="f0 9f 92 b0"
+yellowpentagon="f0 9f 8f b5"
+mountain="f0 9f 8f 94"
+blackwolf="f0 9f 90 ba"
+volcano="f0 9f 8c 8b"
+lightbluemosaic="f0 9f 92 a0"
+#------------------
+#The D variables compose the prompt decorarions. They are echo'ed together starting from D1. ($D1$D2$D3$D4...)
+#exported on bashrc, formatting for the current dir.
+D1=$TMZLCOLOR
+#it avoids emoji collapsing on themselves. Emoji are on D2 and D4.
+D3=" "
+if [ $(whoami) != "root" ]; then
+    case "$(tty | sed -e "s:/dev/::")" in
+	ttys000)
+	    D2=$(unicode $blackwolf)
+	    D4=$(unicode $volcano)
+	    ;;
+	ttys001)
+	    D2=$(unicode $pinkflower)
+	    D4=$(unicode $greenbranch)
+	    ;;
+	ttys002)
+	    D2=$(unicode $moonphase6)
+	    D4=$(unicode $blackheart)
+	    ;;
+	ttys003)
+	    D2=$(unicode $canadaleaf)
+	    D4=$(unicode $wineglass)
+	    ;;
+	ttys004)
+	    D2=$(unicode $purplecristal)
+	    D4=$(unicode $bluebutterfly)
+	    ;;
+	*)
+	    #hard bg, white fg, gray bg
+	    D1="\e[7;107;90m"
+	    D2="[ --"
+	    D3=
+	    D4=
+	    ;;
+    esac
+fi
+#avoids glitches
+D5=
+D6=
+D7=
+#random 2% chance to get a fun prompt
+if [ $(($RANDOM % 100)) -gt 98 ];then
+    D1=$(unicode $moonphase1)
+    D2=$(unicode $moonphase2)
+    D3=$(unicode $moonphase3)
+    D4=$(unicode $moonphase4)
+    D5=$(unicode $moonphase5)
+    D6=$(unicode $moonphase6)
+    D7=$(unicode $moneysack)
+fi
+if [ $(whoami) == "root" ]; then
+    #bold, similar to default fg on all text
+    D1="\e[1;49;37m"
+    D2=$(unicode $lightbluemosaic)
+    D3=" "
+    D4=$(unicode $lightbluemosaic)
+    D5=""
+    D6=""
+    D7=""
+    USERTOKEN=$(echo -n "#")
+else
+    #stops formatting started on D1
+    USERTOKEN="\e[0m"$(echo -n "$")
+fi
+#this echo call gets rid of empty D's, otherwise they show up as spaces
+decorations=$(echo $D1$D2$D3$D4$D5$D6$D7)
+export PS1="$decorations  \W $USERTOKEN "

@@ -1,0 +1,17 @@
+# set variable-name value
+
+# When a variable value is read, empty or null values, "on" (case-insensitive), 
+#      and "1" are equivalent to On. 
+# All other values are equivalent to Off
+
+# delete-char (not bound)
+# add to emacs config "\C-u": unix-line-discard
+#"\C-d": kill-whole-line
+
+set completion-query-items 30
+set mark-directories 1
+set mark-modified-lines 0
+set mark-symlinked-directories 1
+set show-all-if-ambiguous 1
+set show-all-if-unmodified 1 
+
