@@ -9,7 +9,7 @@ export TIMEFORMAT=$'\n-time elapsed-\nreal\t%3Rs\nuser\t%3Us\nsystem\t%3Ss'
 export BLOCKSIZE=1000000
 export EDITOR='/usr/bin/emacs'
 export PAGER='/usr/bin/less'
-export TMZLCOLOR="\e[0;49;35m"
+export TMZLCOLOR="\e[0;49;91m" #0;49;35m pink,
 shopt -s autocd cdspell dirspell globstar lithist histverify
 #========== Functions
 if [ -f ~/.bash_functions ]; then

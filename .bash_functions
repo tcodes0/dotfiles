@@ -3,7 +3,7 @@
 cl () {
 	\cd "$1"
 	if [[ $? == 0 ]]; then
-	    ls ./
+	    ls -Gph ./
 	fi
 }
 

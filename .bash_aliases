@@ -51,9 +51,17 @@ alias gits='git status'
 alias gitca='git commit -a'
 alias gitc='git commit'
 alias gitl='git log'
-alias gitch='git checkout'
+alias gith='git checkout'
+alias gita='git add'
+alias gitb='git branch'
+#-------bash files
+alias bashrc='emacs ~/.bashrc'
+alias bashalias='emacs ~/.bash_aliases'
+alias bashfunc='emacs ~/.bash_functions'
+alias bashps1='emacs ~/.bash_ps1'
 #--------mistakes
 alias loca='local'
 alias emcas='emacs'
 alias emasc='emcas'
 alias me='emacs'
+
