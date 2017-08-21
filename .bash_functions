@@ -108,7 +108,7 @@ alias tree='treeless'
 unicode () {
     if [ $# -lt "4" ]; then
 	precho "usage: unicode f0 9f 8c b8"
-	precho "...echoes $(unicode f0 9f 8c b8)"
+	precho "...echoes $(echo -e \\xf0\\x9f\\x8c\\xb8)"
 	return
     fi
 
@@ -286,12 +286,12 @@ start-commands() {
 sritgo() {
     if [ "$1" == "-x" ];then
 	shift
-	srit
+	source $HOME/.bashrc
 	set -x
 	"$@"
 	set +x
     else
-	srit
+	source $HOME/.bashrc
 	"$@"
     fi
 }

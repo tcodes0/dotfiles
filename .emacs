@@ -4,12 +4,29 @@
 ;; quick movement
 (global-set-key	(kbd "ESC <up>") 'backward-list)
 (global-set-key	(kbd "ESC <down>") 'forward-list)
+;;(global-set-key	(kbd "<up>") 'previous-line)
+;;(global-set-key	(kbd "<down>") 'next-line)
+
+;; (global-set-key	(kbd "C-f") 'forward-char)
+;; (global-set-key	(kbd "C-b") 'backward-char)
+;; (global-set-key	(kbd "M-f") 'forward-word) ;;also ESC <right>
+;; (global-set-key	(kbd "M-b") 'backward-word) ;;also ESC <left>
+(global-set-key	(kbd "<right>") 'right-char)
+(global-set-key	(kbd "<left>") 'left-char)
+
+;; (global-set-key      (kbd "C-f") 'forward-char)                   
+;; (global-set-key      (kbd "C-b") 'backward-char)                  
+;; (global-set-key      (kbd "M-f") 'forward-word) ;;also ESC <right>
+;; (global-set-key      (kbd "M-b") 'backward-word) ;;also ESC <left>
+;; (global-set-key      (kbd "<right>") 'forward-word)                 
+;; (global-set-key      (kbd "<left>") 'backward-word)                   
 
 ;; for xterm-mouse-mode
 (global-set-key (kbd "<mouse-4>") 'previous-line)
 (global-set-key (kbd "<mouse-5>") 'next-line)
 (global-set-key (kbd "<mouse-2>") 'yank)
 (global-set-key (kbd "<mouse-3>") 'kill-region) ;;default (mouse-save-then-kill)
+(global-set-key (kbd "<M-mouse-2>") 'kill-ring-save)
 
 
 ;;===================================== PACKAGES =====================================
@@ -69,7 +86,7 @@
 (put 'upcase-region 'disabled nil)
 
 ;; indentation
-(setq tab-width 4)
+(setq tab-width 2)
 (defvaralias 'c-basic-offset 'tab-width)
 (defvaralias 'cperl-indent-level 'tab-width)
 
