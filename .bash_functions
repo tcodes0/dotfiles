@@ -279,7 +279,7 @@ runc () { #run n check
 start-commands() {
     scheduler.sh --check
     start-on-desktop
-    clear
+    #clear
     return
 }
 #- - - - - - - - - - -
