@@ -28,6 +28,8 @@
 (global-set-key (kbd "<mouse-3>") 'kill-region) ;;default (mouse-save-then-kill)
 (global-set-key (kbd "<M-mouse-2>") 'kill-ring-save)
 
+;; saving
+(global-set-key (kbd "<f5>") 'save-buffer)
 
 ;;===================================== PACKAGES =====================================
 
@@ -67,7 +69,7 @@
 (setq inferior-lisp-program "/usr/local/bin/sbcl") ;;ccl64, sbcl
 (setq slime-contribs '(slime-fancy))
 
-;;======================================== MODES ========================================
+;;======================================== MODES & VARS ================================
 
 (transient-mark-mode    	1) 
 (show-paren-mode        	1)
@@ -90,12 +92,17 @@
 (defvaralias 'c-basic-offset 'tab-width)
 (defvaralias 'cperl-indent-level 'tab-width)
 
+;; autosave
+(setq auto-save-visited-file-name t)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (folding doremi-mac slime ##)))
+ '(package-selected-packages
+   (quote
+    (Vamac-theme rainbow-mode save-visited-files real-auto-save folding doremi-mac slime ##)))
  '(show-paren-mode t))
 
 (custom-set-faces

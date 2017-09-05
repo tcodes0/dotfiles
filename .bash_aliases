@@ -1,5 +1,4 @@
 #! /bin/bash
-
 alias cd='cd -P'
 alias cd='cl'
 alias rm='rm -ri'
@@ -15,7 +14,6 @@ alias part='partutil'
 alias dd='gdd status=progress bs=4M'
 alias srit='source ~/.bashrc'
 alias pbc='pbcopy'
-alias pbp='pbpaste'
 alias grep='gfgrep --color=auto'
 alias dirs='dirs -v'
 alias history='history | less'
@@ -27,15 +25,21 @@ alias g='grep -e'
 alias ping='ping -c 1'
 alias em='emacs'
 alias mkp='cd $(dirname $(readlink $HOME/.bashrc))'
+#------------------
 #--------ls aliases
+#------------------
 alias ls='ls -Gph'
 alias la='ls -A'
 alias ll='ls -lSAi'
+#------------------
 #-----internet guys
+#------------------
 alias wget='wget -c'
 alias histg="history | grep"
 alias myip='curl http://ipecho.net/plain; echo'
+#------------------
 #-----brew and cask
+#------------------
 alias brewi='brew info'
 alias caski='brew cask info'
 alias brewl='brew list'
@@ -46,22 +50,34 @@ alias brewh='brew home'
 alias caskh='brew cask home'
 alias brewI='brew install'
 alias caskI='brew cask install'
-#--------git
+#------------------
+#---------------git
+#------------------
 alias gits='git status'
 alias gitca='git commit -a'
 alias gitc='git commit'
 alias gitl='git log'
 alias gith='git checkout'
 alias gita='git add'
+alias gitaa='git add --all'
 alias gitb='git branch'
-#-------bash files
+alias gitd='git diff'
+alias gitp='git push'
+#------------------
+#--------bash files
+#------------------
 alias bashrc='emacs ~/.bashrc'
-alias bashalias='emacs ~/.bash_aliases'
-alias bashfunc='emacs ~/.bash_functions'
+alias bashaliases='emacs ~/.bash_aliases'
+alias bashfunctions='emacs ~/.bash_functions'
 alias bashps1='emacs ~/.bash_ps1'
-#--------mistakes
+#------------------
+#----------mistakes
+#------------------
 alias loca='local'
 alias emcas='emacs'
 alias emasc='emcas'
 alias me='emacs'
-
+#------------------
+#------------webdev
+#------------------
+alias rendercss='npx postcss *.css --use autoprefixer --dir ./css --watch 2>/dev/null 1>&2 &'

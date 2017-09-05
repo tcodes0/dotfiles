@@ -149,11 +149,11 @@ EOF
 
 findname () {
     if [ $# == "0" ]; then
-	precho 'find -Hx . -name "*$1*"'
+	precho 'run find here ./ case-insensitive and glob around args'
 	return
     fi
 	
-    find -Hx . -name "*$1*"
+    find -Hx . -iname "*$1*"
 }
 
 #- - - - - - - - - - -
@@ -295,5 +295,11 @@ sritgo() {
 	"$@"
     fi
 }
+#- - - - - - - - - - -
+
+pbp () {
+	echo "$(pbpaste)"
+}
+
 #- - - - - - - - - - -
 
