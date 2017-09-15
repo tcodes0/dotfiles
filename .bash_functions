@@ -302,4 +302,23 @@ pbp () {
 }
 
 #- - - - - - - - - - -
+#------------webdev
+mupush () {
+    precho "git checkout master"
+    runc -c git checkout master
+    prehco "git merge wip"
+    runc -c git merge wip
+    precho "git push"
+    runc -c git push
+}
+
+murevert () {
+    precho "git reset --hard \$webco"
+    runc -c git reset --hard $webco
+    precho "git push --force"
+    runc -c git push --force
+    precho "git checkout wip"
+    runc -c git checkout wip
+}
+
 

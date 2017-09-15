@@ -1,5 +1,6 @@
 #! /bin/bash
-
+#custom user color for prompt
+export TMZLCOLOR="\e[0;49;91m" #0;49;35m pink,
 #------------------
 #unicode hex values
 #------------------
@@ -24,47 +25,27 @@ blackwolf="f0 9f 90 ba"
 volcano="f0 9f 8c 8b"
 lightbluemosaic="f0 9f 92 a0"
 #------------------
-#The D variables compose the prompt decorarions. They are echo'ed together starting from D1. ($D1$D2$D3$D4...)
-#TMZLCOLOR is exported on bashrc, it sets font formatting for the current dir (\W).
-D1=$TMZLCOLOR
-#This space avoids emoji collapsing on themselves. Emoji are on D2 and D4.
-D3=" "
-if [ $(whoami) != "root" ]; then
-    case "$(tty | sed -e "s:/dev/::")" in
-	ttys000)
-	    D2=$(unicode $blackwolf)
-	    D4=$(unicode $volcano)
-	    ;;
-	ttys001)
-	    D2=$(unicode $pinkflower)
-	    D4=$(unicode $greenbranch)
-	    ;;
-	ttys002)
-	    D2=$(unicode $moonphase6)
-	    D4=$(unicode $blackheart)
-	    ;;
-	ttys003)
-	    D2=$(unicode $canadaleaf)
-	    D4=$(unicode $wineglass)
-	    ;;
-	ttys004)
-	    D2=$(unicode $purplecristal)
-	    D4=$(unicode $bluebutterfly)
-	    ;;
-	*)
-	    #hard bg, white fg, gray bg
-	    D1="\e[7;107;90m"
-	    D2="[ --"
-	    D3=
-	    D4=
-	    ;;
+function ttyemoji () {
+    case $(($RANDOM % 5)) in
+	0)
+	    #The space avoids emoji collapsing on themselves
+	    D4=$(unicode $blackwolf)" "$(unicode $volcano)
+	;;
+	1)
+	    D4=$(unicode $pinkflower)" "$(unicode $greenbranch)
+	;;
+	2)
+	    D4=$(unicode $moonphase6)" "$(unicode $blackheart)
+	;;
+	3)
+	    D4=$(unicode $canadaleaf)" "$(unicode $wineglass)
+	;;
+	4)
+	    D4=$(unicode $purplecristal)" "$(unicode $bluebutterfly)
+	;;
     esac
-fi
-#Avoids glitches
-D5=
-D6=
-D7=
-if [ $(whoami) == "root" ]; then
+}
+function rootemoji () {
     #Bold, similar to default fg on all text
     D1="\e[1;49;37m"
     D2=$(unicode $lightbluemosaic)
@@ -73,23 +54,26 @@ if [ $(whoami) == "root" ]; then
     D5=""
     D6=""
     D7=""
-    USERTOKEN=$(echo -n "#")
-else
+}
+#reseting the vars avoids glitches
+unset D1 D2 D3 D4 D5 D6 D7
+if [ $(whoami) != "root" ]; then
+    D1=$TMZLCOLOR
+    ttyemoji
+    #Random chance to get a fun prompt
+    if [ $(($RANDOM % 100)) -gt 98 ];then
+	D1=$(unicode $moonphase1)" "
+	D2=$(unicode $moonphase2)" "
+	D3=$(unicode $moonphase3)" "
+	D4=$(unicode $moonphase4)" "
+	D5=$(unicode $moonphase5)" "
+	D6=$(unicode $moonphase6)" "
+	D7=$(unicode $moneysack)
+    fi
     #Stops formatting started on D1
-    USERTOKEN="\e[0m"$(echo -n "$")
-fi
-#This echo call gets rid of empty D's, otherwise they show up as spaces
-decorations=$(echo $D1$D2$D3$D4$D5$D6$D7)
-export PS1="$decorations  \W $USERTOKEN "
-#Random 2% chance to get a fun prompt
-if [ $(($RANDOM % 100)) -gt 98 ];then
-    D1=$(unicode $moonphase1)" "
-    D2=$(unicode $moonphase2)" "
-    D3=$(unicode $moonphase3)" "
-    D4=$(unicode $moonphase4)" "
-    D5=$(unicode $moonphase5)" "
-    D6=$(unicode $moonphase6)" "
-    D7=$(unicode $moneysack)
-    decorations=$(echo $D1$D2$D3$D4$D5$D6$D7)
-    export PS1="$decorations "
+    export PS1="$(echo $D1$D2$D3$D4$D5$D6$D7)  \W \e[0m$(echo -n "$") "
+else
+    rootemoji
+    #This echo call gets rid of empty D's, otherwise they show up as spaces
+    export PS1="$(echo $D1$D2$D3$D4$D5$D6$D7)  \W $(echo -n "#") "
 fi

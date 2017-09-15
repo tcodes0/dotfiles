@@ -12,7 +12,7 @@ alias tra='trash'
 alias disk='diskutil'
 alias part='partutil'
 alias dd='gdd status=progress bs=4M'
-alias srit='source ~/.bashrc'
+alias srit='source $HOME/.bashrc'
 alias pbc='pbcopy'
 alias grep='gfgrep --color=auto'
 alias dirs='dirs -v'
@@ -54,15 +54,19 @@ alias caskI='brew cask install'
 #---------------git
 #------------------
 alias gits='git status'
+alias gs='git status'
 alias gitca='git commit -a'
+alias gca='git commit -a'
 alias gitc='git commit'
 alias gitl='git log'
+alias gl='git log'
 alias gith='git checkout'
 alias gita='git add'
 alias gitaa='git add --all'
 alias gitb='git branch'
 alias gitd='git diff'
 alias gitp='git push'
+alias gitm='git merge'
 #------------------
 #--------bash files
 #------------------
@@ -81,3 +85,4 @@ alias me='emacs'
 #------------webdev
 #------------------
 alias rendercss='npx postcss *.css --use autoprefixer --dir ./css --watch 2>/dev/null 1>&2 &'
+alias caniuse='caniuse --mobile'
