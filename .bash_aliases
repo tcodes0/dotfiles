@@ -24,7 +24,11 @@ alias f='fg'
 alias g='grep -e'
 alias ping='ping -c 1'
 alias em='emacs'
-alias mkp='cd $(dirname $(readlink $HOME/.bashrc))'
+#------------------
+#-------saved paths
+#------------------
+alias mackupdir='cd $(dirname $(readlink $HOME/.bashrc))'
+alias abletondir='cd /Volumes/Izi/Ableton/_projects/major-minor-rmk\ Project'
 #------------------
 #--------ls aliases
 #------------------
@@ -61,12 +65,16 @@ alias gitc='git commit'
 alias gitl='git log'
 alias gl='git log'
 alias gith='git checkout'
+alias gh='git checkout'
 alias gita='git add'
 alias gitaa='git add --all'
 alias gitb='git branch'
+alias gb='git branch'
 alias gitd='git diff'
 alias gitp='git push'
+alias gp='git push'
 alias gitm='git merge'
+alias gitr='git reset'
 #------------------
 #--------bash files
 #------------------

@@ -1,29 +1,21 @@
 #! /bin/bash
-
 cl () {
 	\cd "$1"
 	if [[ $? == 0 ]]; then
 	    ls -Gph ./
 	fi
 }
-
 #- - - - - - - - - - -
-
 clp () {
 	cl "$(pbpaste)"
 }
-
 #- - - - - - - - - - -
-
 cdp () {
 	\cd "$(pbpaste)"
 }
-
 #- - - - - - - - - - -
-
 tml () {                   #too many lines
     lines=$("$@" | wc -l)
-    
     if [ $lines -gt '100' ]; then
 	precho "number of lines is $lines. Pipe into less? (y/n)"
 	read
@@ -34,54 +26,39 @@ tml () {                   #too many lines
 	"$@"
     fi    
 }
-
 #- - - - - - - - - - -
-
 hexdec () {
     if [ $# == 0 ];then
 	precho "usage example: hexdec 1f "
 	precho "returns 0x1f in decimal"
 	return
     fi
-
     while [ "$1" != "" ]; do
 	echo -n "$((0x$1))"
-
 	if [ "$2" != "" ]; then
 	    echo -n ", "
 	fi
-
 	shift
     done
-
     echo ""
-    
 }
-
 #- - - - - - - - - - -
-
 dechex () {
     if [ $# == 0 ]; then
 	precho "usage example: dechex 83"
 	precho "finds 83 in hex"
 	return
     fi
-
     while [ "$1" != "" ]; do
 	printf '%x' $1
-
 	if [ "$2" != "" ]; then
 	    echo -n ", "
 	fi
-
 	shift
     done
-    
     echo ""
 }
-
 #- - - - - - - - - - -
-
 treeless () {
     case $# in
 	0)
@@ -98,13 +75,9 @@ treeless () {
 	    ;;
     esac
     return
-
 }
-
 alias tree='treeless'
-
 #- - - - - - - - - - -
-
 unicode () {
     if [ $# -lt "4" ]; then
 	precho "usage: unicode f0 9f 8c b8"
@@ -119,9 +92,7 @@ unicode () {
 	echo -e \\x$1\\x$2\\x$3\\x$4
     fi
 }
-
 #- - - - - - - - - - -
-
 start-on-desktop () {  
        
     if [ "$(pwd)" == "$HOME" ]; then
@@ -129,44 +100,33 @@ start-on-desktop () {
     fi
     return
 }
-
 #- - - - - - - - - - -
-
 hexdumb () {
     if [ $# == "0" ]; then
 	precho "usage: hexdumb $(echo -ne \\U1f319)" #crescent moon unicode symbol
 	precho "...dumps hex for the crescent moon"
 	return
     fi
-    
     hexdump <<EOF
 $1
 EOF
-    
 }
-
 #- - - - - - - - - - -
-
 findname () {
     if [ $# == "0" ]; then
 	precho 'run find here ./ case-insensitive and glob around args'
 	return
     fi
-	
     find -Hx . -iname "*$1*"
 }
-
 #- - - - - - - - - - -
-
 findexec () {
     if [ $# == "0" ]; then
 	precho 'gfind . -name "*$1*" -execdir $2 {} \;'
 	return
     fi
-    
     gfind . -name "*$1*" -execdir "$2" {} \;
 }
-
 #- - - - - - - - - - -
 precho () { #pretty echo
     if [ "$#" == "0" ];then
@@ -296,29 +256,6 @@ sritgo() {
     fi
 }
 #- - - - - - - - - - -
-
 pbp () {
 	echo "$(pbpaste)"
 }
-
-#- - - - - - - - - - -
-#------------webdev
-mupush () {
-    precho "git checkout master"
-    runc -c git checkout master
-    prehco "git merge wip"
-    runc -c git merge wip
-    precho "git push"
-    runc -c git push
-}
-
-murevert () {
-    precho "git reset --hard \$webco"
-    runc -c git reset --hard $webco
-    precho "git push --force"
-    runc -c git push --force
-    precho "git checkout wip"
-    runc -c git checkout wip
-}
-
-

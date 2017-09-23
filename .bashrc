@@ -12,8 +12,7 @@ export PAGER='/usr/bin/less'
 shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend nullglob
 set -o noclobber
 #-- my vars
-export abletonpa='/Volumes/Izi/Ableton/_projects/major-minor-rmk Project'
-export webco='4506e56'
+export webcommit='4506e56'
 #========== Functions
 if [ -f ~/.bash_functions ]; then
     source ~/.bash_functions
