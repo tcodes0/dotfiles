@@ -75,6 +75,7 @@ alias gitp='git push'
 alias gp='git push'
 alias gitm='git merge'
 alias gitr='git reset'
+alias gamend='git commit --amend'
 #------------------
 #--------bash files
 #------------------
