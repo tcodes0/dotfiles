@@ -24,11 +24,12 @@ alias f='fg'
 alias g='grep -e'
 alias ping='ping -c 1'
 alias em='emacs'
+alias goo='google'
 #------------------
 #-------saved paths
 #------------------
 alias mackupdir='cd $(dirname $(readlink $HOME/.bashrc))'
-alias abletondir='cd /Volumes/Izi/Ableton/_projects/major-minor-rmk\ Project'
+alias abletondir='cd /Volumes/Izi/Ableton/_projects/time-killer\ Project'
 #------------------
 #--------ls aliases
 #------------------
@@ -93,5 +94,6 @@ alias me='emacs'
 #------------------
 #------------webdev
 #------------------
-alias rendercss='npx postcss *.css --use autoprefixer --dir ./css --watch 2>/dev/null 1>&2 &'
+alias rendercss='npx postcss *.css --use autoprefixer --dir ./css'
+alias renderwatchcss='npx postcss *.css --use autoprefixer --dir ./css --watch 2>/dev/null 1>&2 &'
 alias caniuse='caniuse --mobile'

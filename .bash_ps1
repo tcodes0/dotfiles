@@ -26,9 +26,11 @@ volcano="f0 9f 8c 8b"
 lightbluemosaic="f0 9f 92 a0"
 carrot="f0 9f a5 95"
 chocolatebar="f0 9f 8d ab"
+ghost="f0 9f 91 bb"
+twohearts="f0 9f 92 95"
 #------------------
 function ttyemoji () {
-    case $(($RANDOM % 6)) in
+    case $(($RANDOM % 7)) in
 	0)
 	    #The space avoids emoji collapsing on themselves
 	    D4=$(unicode $blackwolf)" "$(unicode $volcano)
@@ -47,6 +49,9 @@ function ttyemoji () {
 	    ;;
 	5)
 	    D4=$(unicode $carrot)" "$(unicode $chocolatebar)
+	    ;;
+	6)
+	    D4=$(unicode $ghost)" "$(unicode $twohearts)
 	    ;;
     esac
 }
