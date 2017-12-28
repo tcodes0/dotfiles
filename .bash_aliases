@@ -25,6 +25,8 @@ alias g='grep -e'
 alias ping='ping -c 1'
 alias em='emacs'
 alias goo='google'
+alias webs='google webster'
+alias sed='gsed'
 #------------------
 #-------saved paths
 #------------------
@@ -80,10 +82,10 @@ alias gamend='git commit --amend'
 #------------------
 #--------bash files
 #------------------
-alias bashrc='emacs ~/.bashrc'
-alias bashaliases='emacs ~/.bash_aliases'
-alias bashfunctions='emacs ~/.bash_functions'
-alias bashps1='emacs ~/.bash_ps1'
+alias bashrc='atom ~/.bashrc'
+alias bashaliases='atom ~/.bash_aliases'
+alias bashfunctions='atom ~/.bash_functions'
+alias bashps1='atom ~/.bash_ps1'
 #------------------
 #----------mistakes
 #------------------
@@ -94,6 +96,8 @@ alias me='emacs'
 #------------------
 #------------webdev
 #------------------
-alias rendercss='npx postcss *.css --use autoprefixer --dir ./css'
-alias renderwatchcss='npx postcss *.css --use autoprefixer --dir ./css --watch 2>/dev/null 1>&2 &'
+alias rendercss='npx postcss css/*.css --use autoprefixer --dir ./public'
+alias watchcss='npx postcss css/*.css --use autoprefixer --dir ./public --watch 2>/dev/null 1>&2 &'
 alias caniuse='caniuse --mobile'
+alias mdn='google mdn'
+alias watchsass="sass --watch css/index.sass:css/index.css 2>/dev/null 1>&2 &"
