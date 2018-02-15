@@ -1,3 +1,2 @@
 #! /bin/bash
-
-scheduler.sh --check
+bash-shutdown-file shutdown-cleanly

@@ -384,3 +384,39 @@ center() {
 	printf "\n"
 }
 #- - - - - - - - - - -
+bash-shutdown-file() {
+	case "$1" in
+		"shutdown-cleanly")
+		if [[ -f "$HOME/.bash-shutdown-cleanly" ]]; then
+			echo clean file exists, doing nothin
+			return
+		else
+			touch "$HOME/.bash-shutdown-cleanly"
+			echo created clean file
+		fi
+		if [[ -f "$HOME/.bash-shutdown-dirty" ]]; then
+			\rm "$HOME/.bash-shutdown-dirty"
+			echo rming dirty file
+		else
+			echo dirty file no exist, doing nothing
+			return
+		fi
+		;;
+		"bootup-check")
+		if [[ -f "$HOME/.bash-shutdown-cleanly" ]]; then
+			\rm "$HOME/.bash-shutdown-cleanly"
+			echo clean file removed
+		else
+			touch "$HOME/.bash-shutdown-dirty"
+			echo dirty file created
+		fi
+		;;
+		"*")
+		precho --usage
+		precho "manage a pair of lock files to see if bash is not being abruptly restored"
+		precho "use 'shutdown-cleanly' in .bash_logout"
+		precho "and use 'bootup-check' in .bashrc"
+		return
+		;;
+	esac
+}
