@@ -2,7 +2,7 @@
 cl () {
 	\cd "$1"
 	if [[ $? == 0 ]]; then
-		ls -Gph ./
+		\ls -Gph ./
 	fi
 }
 #- - - - - - - - - - -
@@ -11,7 +11,11 @@ clp () {
 }
 #- - - - - - - - - - -
 cdp () {
-	\cd "$(pbpaste)"
+	local path="$(pbpaste)"
+	if ! [[ -d $path ]]; then
+		path=$(dirname $path)
+	fi
+	\cd $path
 }
 #- - - - - - - - - - -
 tml () {                   #too many lines
@@ -115,9 +119,10 @@ hexdumb () {
 	$string
 	EOF
 	)
-	echo -n "$hex" | pbcopy
 	echo -en '\e[1;49;97m'
-	echo $hex
+	for number in $hex; do
+		echo $number
+	done
 	echo -en '\e[0m'
 }
 #- - - - - - - - - - -
@@ -138,38 +143,8 @@ findexec () {
 }
 #- - - - - - - - - - -
 precho () { #pretty echo
-if [ "$#" == "0" ];then
-	echo -e "options: "
-	echo -e "-c --critical 		critical text"
-	echo -e "-d --no-delim 		to omit -> at the beginning"
-	echo -e "-n 			to omit new line at the end"
-	echo -e "Precho uses echo -e by default."
-	return
-fi
-#font formatting
-#yellow fg, default bg
-format=$TMZLCOLOR
-#delimiter to use
-delim="-> "
-end="\e[0m"
-case "$1" in
-	"--critical" | "-c")
-	#red fg, default bg, bold
-	format="\e[1;100;31m"
-	shift
-	;;&
-	"--no-delim" | "-d")
-	delim=""
-	shift
-	;;&
-esac
-#shift logic and $1 not working. need to put it inside a loop to process args and use continue to resume iteration
-if [ "$1" == "-n" ]; then
-	shift
-	echo -en "$format$delim$@$end"
-else
-	echo -e "$format$delim$@$end"
-fi
+	# precho.sh $@
+	center $@
 }
 #- - - - - - - - - - -
 qmon () { #quick mount
@@ -246,9 +221,20 @@ fi
 }
 #- - - - - - - - - - -
 start-commands() {
+	local i=30
+	for x in $(echo h e l l o \!); do
+		echo -en \\e[${i}m $x
+		i=$((i+1))
+	done
+	echo -e \\e[0m
+	echo "->>  Keep in mind bash doesn't use < > for comparisons~~"
+	for x in $(echo b y e b y e \!); do
+		echo -en \\e[${i}m $x
+		i=$((i-1))
+	done
+	echo -e \\e[0m
 	scheduler.sh --check
 	start-on-desktop
-	#clear
 	return
 }
 #- - - - - - - - - - -
@@ -256,9 +242,7 @@ sritgo() {
 	if [ "$1" == "-x" ];then
 		shift
 		source $HOME/.bashrc
-		set -x
-		"$@"
-		set +x
+		bug "$@"
 	else
 		source $HOME/.bashrc
 		"$@"
@@ -268,21 +252,135 @@ sritgo() {
 pbp () {
 	echo "$(pbpaste)"
 }
-#-----
+#- - - - - - - - - - -
 echoform() {
-	case "$1" in
-		"--clear" | "-c")
-			echo -ne '\e[0m'
-			return
-		;;
-		"-h" | "--help")
-		echo "give some numbers to set text formatting, or --clear, -c to clear formatting"
-		echo "warning: a fancy prompt will likely interfere in the results"
-		;;
-	esac
-	re='^[0-9]+$' #regex to match numbers
-	while [[ "$1" =~ $re ]]; do
-	    echo -ne "\e[$1m"
-	    shift
+	if [ "$1" == "-h" -o "$1" == "--help" ] || ! [[ "$1" =~ ^[0-9]+$ ]]; then
+		echo "usage: echoform 1 49 39 formatted text"
+		echo -n "result: "; echoform 1 49 39 "formatted text"
+		echo "the formatting is reset after each call, or use --clear/-c"
+		return
+	fi
+	if [ "$1" == "-c" -o "$1" == "--clear" ]; then
+		shift
+		echo -ne '\e[0m'
+		return
+	fi
+	local i=0
+	while [[ "$1" =~ ^[0-9]+$ ]] && [ $i -lt 3 ]; do #regex to match numbers && 3 numbers max
+		echo -ne "\e[$1m"
+		shift
+		i=$((i+1))
+	done
+	#echos all remaining arguments (words), and then formating is reset.
+	echo -e "$@\e[0m"
+}
+#- - - - - - - - - - -
+publish() {
+	if ! [[ "$(dirname $PWD)" =~ ^/Users/vamac/Code ]]; then   # Don't run outside ~/Code
+		echo "can't run publish outside $(echo ~/Code)"
+		return
+	fi
+	rendercss
+	echoform 1 49 32 "✔ Moving project files to ./public"
+	\cp -R ./index.html ./public		#
+	\cp -R ./js ./public						#
+	\cp -R ./img ./public						#
+	\cp -R ./node_modules ./public	#
+	\cp -R ./*json ./public					# the backlash \ on \cp avoids any aliases called "cp"
+}
+#- - - - - - - - - - -
+tra () {
+	if [[ $# == 0 ]]; then
+		return
+	fi
+	trash "$@"
+	if [[ $? != 0 ]]; then
+		return
+	else
+		\ls -Gph ./
+	fi
+}
+#- - - - - - - - - - -
+gr() { #grep recursive
+	if [ "$#" == "0" -o "$1" == "-h" -o "$1" == "--help" ]; then
+		echo ggrep -ri -E 'args' -l
+		echo gnu grep, recursive, case-insensitive, extended regex, files with matches
+		return
+	fi
+	# shopt -u nullglob #unset this shopt. It messes up regexes
+	ggrep --color=auto -ri -E $@ -l
+	# shopt -s nullglob #because it removes strings with *. Set it back.
+}
+#- - - - - - - - - - -
+gf() { #grep file
+	if [ "$#" -lt 1 -o "$1" == "-h" -o "$1" == "--help" ]; then
+    echo "with 3 args: (pattern, context lines, file)"
+    echo "with 2 args: (pattern, file)"
+		echo "gnu grep, case-insensitive, extended regex"
+		return
+	fi
+	shopt -u nullglob
+	if [[ "$#" == 3 ]]; then
+		ggrep --color=auto -i -"$2" -E "$1" "$3"
+	else
+		ggrep --color=auto -i -E "$1" "$2"
+	fi
+	shopt -s nullglob
+}
+#- - - - - - - - - - -
+spaceString() {
+	local string=$@ #all arguments
+	local length=${#string}
+	local index=0
+	while [[ $index -lt $length ]]; do
+		echo -n ${string:index:1}" " #give us a substring with length 1 starting at index $index
+		index=$((index+1))
 	done
 }
+alias eatString='spaceString'
+#- - - - - - - - - - -
+bug() {
+	set -x
+	"$@"
+	set +x
+}
+#- - - - - - - - - - -
+center() {
+	if [ $# == "0" -o "$1" == "-h" -o "$1" == "--help" ]; then
+		echo center\(\) prints a message on the center of the screen
+		center ~~ your message here ~~
+		echo "--padding=N   push the message N chars right (positive) or left (negative)"
+		return
+	fi
+	local padding=0
+	local temp
+	while [[ "${1:0:2}" == "--" ]]; do #while first arg begins with --
+		case ${1%%=*} in
+			"--padding")
+			temp=${1##--*=}
+			padding=$((padding + temp))
+			;;
+			*)
+			echo "unkown opt ${1%%=*}"
+			return
+			;;
+		esac
+		shift
+	done
+	local message="$@"
+	local message_length=${#message}
+	let empty_space=$(tput cols)-$message_length #tput cols gives how many chars fit in a terminal line
+	if [[ "$padding" -gt "$((empty_space / 2))" ]]; then		#
+		padding=$((empty_space / 2))													#
+	elif [[ "$padding" -lt "$((empty_space / -2))" ]]; then	# handles $padding being out of bounds
+		padding=$((empty_space / -2))													#
+	fi 																											#
+	let pad_left=($empty_space/2)+$padding
+	# echo $pad_left is left padding!
+	let pad_right=($empty_space/2)-$padding
+	# echo $pad_right is right padding!
+	printf "%${pad_left}s%s%${pad_right}s" '' "$message" ''
+	if [ "$((message_length % 2))" == 0 ]; then printf " "; fi #compensate for rounding down of odd nums
+	printf "\n"
+}
+#- - - - - - - - - - -

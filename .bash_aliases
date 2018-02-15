@@ -8,13 +8,12 @@ alias mkdir='mkdir -p'
 alias ..='cl ..'
 alias df='df -h'
 alias ln='ln -si'
-alias tra='trash'
 alias disk='diskutil'
 alias part='partutil'
 alias dd='gdd status=progress bs=4M'
 alias srit='source $HOME/.bashrc'
 alias pbc='pbcopy'
-alias grep='gfgrep --color=auto'
+alias grep='ggrep --color=auto'
 alias dirs='dirs -v'
 alias history='history | less'
 alias du='du -xa | sort -rn'
@@ -27,6 +26,7 @@ alias em='emacs'
 alias goo='google'
 alias webs='google webster'
 alias sed='gsed'
+alias e='echo'
 #------------------
 #-------saved paths
 #------------------
@@ -47,6 +47,7 @@ alias myip='curl http://ipecho.net/plain; echo'
 #------------------
 #-----brew and cask
 #------------------
+alias cask='brew cask'
 alias brewi='brew info'
 alias caski='brew cask info'
 alias brewl='brew list'
@@ -96,8 +97,9 @@ alias me='emacs'
 #------------------
 #------------webdev
 #------------------
-alias rendercss='npx postcss css/*.css --use autoprefixer --dir ./public'
-alias watchcss='npx postcss css/*.css --use autoprefixer --dir ./public --watch 2>/dev/null 1>&2 &'
+alias rendercss='npx postcss css/*.css --use autoprefixer --dir ./public/css'
+alias watchcss='npx postcss css/*.css --use autoprefixer --dir ./public/css --watch 2>/dev/null 1>&2 &'
 alias caniuse='caniuse --mobile'
 alias mdn='google mdn'
 alias watchsass="sass --watch css/index.sass:css/index.css 2>/dev/null 1>&2 &"
+alias twoSpacesOnly="gsed -n -e '/^  [^ ]/p'"
