@@ -15,8 +15,6 @@ shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend 
 if [ -f ~/.bash_functions ]; then
     source ~/.bash_functions
 fi
-#========== Bash restore check
-bash-shutdown-file bootup-check
 #========== Aliases
 if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
