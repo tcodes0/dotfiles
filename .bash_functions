@@ -96,13 +96,6 @@ unicode () {
 	fi
 }
 #- - - - - - - - - - -
-start-on-desktop () {
-	if [ "$(pwd)" == "$HOME" ]; then
-		\cd ~/Desktop
-	fi
-	return
-}
-#- - - - - - - - - - -
 hexdumb () {
 	if [ $# == "0" ]; then
 		precho "usage: hexdumb $(echo -ne \\U1f319)" #crescent moon unicode symbol
@@ -221,20 +214,10 @@ fi
 }
 #- - - - - - - - - - -
 start-commands() {
-	local i=30
-	for x in $(echo h e l l o \!); do
-		echo -en \\e[${i}m $x
-		i=$((i+1))
-	done
-	echo -e \\e[0m
-	echo "->>  Keep in mind bash doesn't use < > for comparisons~~"
-	for x in $(echo b y e b y e \!); do
-		echo -en \\e[${i}m $x
-		i=$((i-1))
-	done
-	echo -e \\e[0m
 	scheduler.sh --check
-	start-on-desktop
+	if [ "$(pwd)" == "$HOME" ]; then
+		\cd ~/Desktop
+	fi
 	return
 }
 #- - - - - - - - - - -
