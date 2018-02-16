@@ -112,11 +112,7 @@ hexdumb () {
 	$string
 	EOF
 	)
-	echo -en '\e[1;49;97m'
-	for number in $hex; do
-		echo $number
-	done
-	echo -en '\e[0m'
+	spaced-and-together $hex
 }
 #- - - - - - - - - - -
 findname () {
@@ -367,3 +363,19 @@ center() {
 	printf "\n"
 }
 #- - - - - - - - - - -
+spaced-and-together() {
+	if [[ "$#" == 0 ]] || [[ "$1" == '-h' ]] || [[ "$1" == '--help' ]]; then
+		echo "give numbers separated by spaces to receive them back spaced and together"
+		return
+	fi
+	local spaced=''
+	local together=''
+	for n in "$@"; do
+		spaced=$spaced' '$n
+		together=$together$n
+	done
+	spaced='\e[1;97m'${spaced:1}'\e[0m'
+	together='\e[1;97m'${together}'\e[0m'
+	echo -e "  spaced: $spaced"
+	echo -e "together: $together"
+}
