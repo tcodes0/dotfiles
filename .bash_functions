@@ -83,17 +83,29 @@ treeless () {
 alias tree='treeless'
 #- - - - - - - - - - -
 unicode () {
-	if [ $# -lt "4" ]; then
+	if [ "$#" == "0" ] || [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
 		precho "usage: unicode f0 9f 8c b8"
 		precho "...echoes $(echo -e \\xf0\\x9f\\x8c\\xb8)"
+		precho "Warning: beware of invisible/control chars"
 		return
 	fi
-	if [ "$1" == "-n" ]; then
-		shift
-		echo -en \\x$1\\x$2\\x$3\\x$4
-	else
-		echo -e \\x$1\\x$2\\x$3\\x$4
-	fi
+	echo -en '\e[1;97m'
+	local space_every_two_numbers_apart=''
+	local e='s/([0-9][0-9])/\1 /gm'
+	for arg in "$@"; do
+		if [[ "$((${#arg} % 2))" == 0 ]] && [ "${#arg}" != 2 ]; then
+			space_every_two_numbers_apart=$(gsed --regexp-extended --expression="$e" <<-EOF
+			$arg
+			EOF
+			)
+			for number in $space_every_two_numbers_apart; do
+				echo -ne \\x${number}
+			done
+		else
+			echo -ne \\x$arg
+		fi
+	done
+	echo -e '\e[0m'
 }
 #- - - - - - - - - - -
 hexdumb () {
@@ -132,8 +144,7 @@ findexec () {
 }
 #- - - - - - - - - - -
 precho () { #pretty echo
-	# precho.sh $@
-	center $@
+	echo -e "\e[34m""| $@""\e[0m"
 }
 #- - - - - - - - - - -
 qmon () { #quick mount
