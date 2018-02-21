@@ -33,8 +33,8 @@ fi
 #- - - - - - - - - - -
 hexdec () {
 	if [ $# == 0 ];then
-		precho "usage example: hexdec 1f "
-		precho "returns 0x1f in decimal"
+		precho "usage: hexdec 1f "
+		precho "finds 0x1f in decimal"
 		return
 	fi
 	while [ "$1" != "" ]; do
@@ -44,12 +44,12 @@ hexdec () {
 		fi
 		shift
 	done
-	echo ""
+	printf '\n'
 }
 #- - - - - - - - - - -
 dechex () {
 	if [ $# == 0 ]; then
-		precho "usage example: dechex 83"
+		precho "usage: dechex 83"
 		precho "finds 83 in hex"
 		return
 	fi
@@ -60,7 +60,38 @@ dechex () {
 		fi
 		shift
 	done
-	echo ""
+	printf '\n'
+}
+#- - - - - - - - - - -
+bindec () {
+	if [ $# == 0 ];then
+		precho "usage: bindec 1101 "
+		precho "finds 1101 in decimal"
+		return
+	fi
+	while [ "$1" != "" ]; do
+		echo -n "$((2#$1))"
+		if [ "$2" != "" ]; then
+			echo -n ", "
+		fi
+		shift
+	done
+	printf '\n'
+}
+#- - - - - - - - - - -
+decbin () {
+	if [ $# == 0 ]; then
+		precho "usage: decbin 73"
+		precho "finds 73 in binary"
+		return
+	fi
+	while [ "$1" != "" ]; do
+		echo "obase=2;$1" | bc
+		if [ "$2" != "" ]; then
+			echo -n ", "
+		fi
+		shift
+	done
 }
 #- - - - - - - - - - -
 treeless () {
@@ -274,9 +305,13 @@ publish() {
 	echoform 1 49 32 "✔ Moving project files to ./public"
 	\cp -R ./index.html ./public		#
 	\cp -R ./js ./public						#
-	\cp -R ./img ./public						#
-	\cp -R ./node_modules ./public	#
+	\cp -R ./css/img ./public/css				#
+	\cp -R ./LICENSE.* ./public			#
 	\cp -R ./*json ./public					# the backlash \ on \cp avoids any aliases called "cp"
+	echoform 1 49 32 "✔ Killing sourcemapping lines in css files on ./public/css/"
+	for file in ./public/css/*.css; do
+		gsed --in-place --regexp-extended --expression='/[/][*]# sourceMappingURL.*[*][/]/d' $file
+	done
 }
 #- - - - - - - - - - -
 tra () {

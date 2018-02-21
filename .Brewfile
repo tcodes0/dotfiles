@@ -77,4 +77,5 @@ cask "caskroom/fonts/font-firacode-nerd-font"
 cask "caskroom/fonts/font-inconsolata-nerd-font"
 cask "caskroom/fonts/font-mononoki-nerd-font"
 cask "caskroom/fonts/font-robotomono-nerd-font"
+mas "macOS High Sierra", id: Install
 mas "Xcode", id: 497799835
