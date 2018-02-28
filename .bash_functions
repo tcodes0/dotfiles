@@ -303,7 +303,7 @@ publish() {
 	fi
 	rendercss
 	echoform 1 49 32 "✔ Moving project files to ./public"
-	\cp -R ./index.html ./public		#
+	\cp -R ./*.html ./public		#
 	\cp -R ./js ./public						#
 	\cp -R ./css/img ./public/css				#
 	\cp -R ./LICENSE.* ./public			#
@@ -312,6 +312,9 @@ publish() {
 	for file in ./public/css/*.css; do
 		gsed --in-place --regexp-extended --expression='/[/][*]# sourceMappingURL.*[*][/]/d' $file
 	done
+	if [[ -d ${PWD}/public ]]; then
+		Open $PWD/public
+	fi
 }
 #- - - - - - - - - - -
 tra () {
