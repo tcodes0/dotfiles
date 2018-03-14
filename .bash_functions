@@ -296,24 +296,51 @@ echoform() {
 	echo -e "$@\e[0m"
 }
 #- - - - - - - - - - -
-publish() {
-	if ! [[ "$(dirname $PWD)" =~ ^/Users/vamac/Code ]]; then   # Don't run outside ~/Code
-		echo "can't run publish outside $(echo ~/Code)"
-		return
+bailout() {
+	local message=$@
+	if [[ "$#" == "0" ]]; then
+		message="error"
 	fi
-	rendercss
-	echoform 1 49 32 "✔ Moving project files to ./public"
-	\cp -R ./*.html ./public		#
-	\cp -R ./js ./public						#
-	\cp -R ./css/img ./public/css				#
-	\cp -R ./LICENSE.* ./public			#
-	\cp -R ./*json ./public					# the backlash \ on \cp avoids any aliases called "cp"
-	echoform 1 49 32 "✔ Killing sourcemapping lines in css files on ./public/css/"
-	for file in ./public/css/*.css; do
-		gsed --in-place --regexp-extended --expression='/[/][*]# sourceMappingURL.*[*][/]/d' $file
-	done
-	if [[ -d ${PWD}/public ]]; then
+	echoform 1 49 31 "❌  $message"
+	if [[ ! "$-" =~ i ]]; then
+		exit 1 #shell is not interactive, so kill it.
+	fi
+}
+#- - - - - - - - - - -
+publish-upload() {
+	if [[ ! -d ${PWD}/sftp ]]; then
+		echoform 1 49 33 "♦︎ No ./sftp dir found for upload batch files, please upload manually"
 		Open $PWD/public
+		return
+	else
+		echoform 1 49 34 "♦︎ Upload to server via SFTP? (y/n)"
+		echoform 1 49 34 "...defaulting to yes in 6s"
+		read -t 6
+		if [ "$?" != 0 ]; then
+			REPLY=''
+			# return
+		fi
+		if [ "$REPLY" != "y" ] && [ "$REPLY" != "yes" ] && [ "$REPLY" != "Y" ] && [ "$REPLY" != "YES" ] && [ "$REPLY" != "" ]; then
+			return
+		else
+			echoform 1 49 32 "✔ Uploading HTML, JS and CSS..."
+			echo sftp -b ./sftp/html-css.batch -P 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com
+			if [[ ! -d ${PWD}/css/img ]]; then
+				return
+			fi
+			echoform 1 49 34 "♦︎ Upload only svgs on css/img and avoid other imgs? (y/n)"
+			echoform 1 49 34 "...defaulting to yes in 6s"
+			read -t 6
+			if [ "$?" != 0 ]; then
+				REPLY=''
+				# return
+			fi
+			if [ "$REPLY" == "y" ] || [ "$REPLY" == "yes" ] || [ "$REPLY" == "Y" ] || [ "$REPLY" == "YES" ] || [ "$REPLY" == "" ]; then
+				echo sftp -b ./sftp/img-svg.batch -P 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com
+			else
+				echo sftp -b ./sftp/img-all.batch -P 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com
+			fi
+		fi
 	fi
 }
 #- - - - - - - - - - -
@@ -331,8 +358,8 @@ tra () {
 #- - - - - - - - - - -
 gr() { #grep recursive
 	if [ "$#" == "0" -o "$1" == "-h" -o "$1" == "--help" ]; then
-		echo ggrep -ri -E 'args' -l
 		echo gnu grep, recursive, case-insensitive, extended regex, files with matches
+		echo -e ggrep -ri -E '\e[4;32margs\e[0m' -l
 		return
 	fi
 	# shopt -u nullglob #unset this shopt. It messes up regexes
@@ -342,9 +369,9 @@ gr() { #grep recursive
 #- - - - - - - - - - -
 gf() { #grep file
 	if [ "$#" -lt 1 -o "$1" == "-h" -o "$1" == "--help" ]; then
+		echo "gnu grep, case-insensitive, extended regex"
     echo "with 3 args: (pattern, context lines, file)"
     echo "with 2 args: (pattern, file)"
-		echo "gnu grep, case-insensitive, extended regex"
 		return
 	fi
 	shopt -u nullglob
@@ -427,4 +454,28 @@ spaced-and-together() {
 	together='\e[1;97m'${together}'\e[0m'
 	echo -e "  spaced: $spaced"
 	echo -e "together: $together"
+}
+post-css() {
+	if [[ "$1" == '-h' ]] || [[ "$1" == '--help' ]]; then
+		precho 'npx postcss css/*.css --use autoprefixer --dir ./public/css'
+		precho '-w,--watch:\tnpx postcss css/*.css --use autoprefixer --dir ./public/css --watch 2>/dev/null 1>&2 &'
+		return
+	fi
+	if [[ $1 == '-w' ]] || [ "$1" == "--watch" ]; then
+		npx postcss css/*.css --use autoprefixer --dir ./public/css --watch 2>/dev/null 1>&2 &
+	else
+		npx postcss css/*.css --use autoprefixer --dir ./public/css
+	fi
+}
+do-sass() {
+	if [[ "$1" == '-h' ]] || [[ "$1" == '--help' ]]; then
+		precho 'sass --watch css/:css/   2>/dev/null 1>&2 &'
+		precho '-v,--verbose:\tsass --watch css/:css/'
+		return
+	fi
+	if [[ $1 == '-v' ]] || [ "$1" == "--verbose" ]; then
+		sass --watch css/:css/
+	else
+		sass --watch css/:css/   2>/dev/null 1>&2 &
+	fi
 }
