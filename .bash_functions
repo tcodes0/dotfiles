@@ -307,40 +307,21 @@ bailout() {
 	fi
 }
 #- - - - - - - - - - -
-publish-upload() {
-	if [[ ! -d ${PWD}/sftp ]]; then
-		echoform 1 49 33 "♦︎ No ./sftp dir found for upload batch files, please upload manually"
-		Open $PWD/public
-		return
-	else
-		echoform 1 49 34 "♦︎ Upload to server via SFTP? (y/n)"
-		echoform 1 49 34 "...defaulting to yes in 6s"
-		read -t 6
-		if [ "$?" != 0 ]; then
-			REPLY=''
-			# return
-		fi
-		if [ "$REPLY" != "y" ] && [ "$REPLY" != "yes" ] && [ "$REPLY" != "Y" ] && [ "$REPLY" != "YES" ] && [ "$REPLY" != "" ]; then
-			return
-		else
-			echoform 1 49 32 "✔ Uploading HTML, JS and CSS..."
-			echo sftp -b ./sftp/html-css.batch -P 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com
-			if [[ ! -d ${PWD}/css/img ]]; then
-				return
-			fi
-			echoform 1 49 34 "♦︎ Upload only svgs on css/img and avoid other imgs? (y/n)"
-			echoform 1 49 34 "...defaulting to yes in 6s"
-			read -t 6
-			if [ "$?" != 0 ]; then
-				REPLY=''
-				# return
-			fi
-			if [ "$REPLY" == "y" ] || [ "$REPLY" == "yes" ] || [ "$REPLY" == "Y" ] || [ "$REPLY" == "YES" ] || [ "$REPLY" == "" ]; then
-				echo sftp -b ./sftp/img-svg.batch -P 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com
-			else
-				echo sftp -b ./sftp/img-all.batch -P 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com
-			fi
-		fi
+publish-rsync(){
+	echoform 1 49 34 "♦︎ Upload to server via rsync? (y/n)"
+	echo -e "\e[1;49;34m...defaulting to yes in 6s\e[0m"
+	read -t 6
+	if [ "$?" != 0 ]; then
+		REPLY=''
+	fi
+	if [ "$REPLY" == "y" ] || [ "$REPLY" == "yes" ] || [ "$REPLY" == "Y" ] || [ "$REPLY" == "YES" ] || [ "$REPLY" == "" ]; then
+		echo -e "\r\e[1;49;32m✔ Uploading all files with rsync...\e[0m"
+		local options="--recursive --update --inplace --no-relative --checksum --compress"
+		local SSH="ssh -p 21098"
+		local host="tazemuad@server179.web-hosting.com:/home/tazemuad"
+		local remote_dir=$host/sites/$(basename $PWD)/
+		local local_dir=$PWD/public/
+		rsync $options -e "$SSH" $local_dir $remote_dir
 	fi
 }
 #- - - - - - - - - - -
