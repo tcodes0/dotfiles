@@ -97,9 +97,11 @@ alias me='emacs'
 #------------------
 #------------webdev
 #------------------
-alias rendercss='npx postcss css/*.css --use autoprefixer --dir ./public/css'
-alias watchcss='npx postcss css/*.css --use autoprefixer --dir ./public/css --watch 2>/dev/null 1>&2 &'
 alias caniuse='caniuse --mobile'
+alias cani='caniuse'
 alias mdn='google mdn'
 alias watchsass="sass --watch css/index.sass:css/index.css 2>/dev/null 1>&2 &"
 alias twoSpacesOnly="gsed -n -e '/^  [^ ]/p'"
+alias webb="webbot.sh"
+alias sshhost="ssh -p 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com"
+alias sftphost="sftp -P 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com"
