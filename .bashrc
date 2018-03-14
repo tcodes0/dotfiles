@@ -10,6 +10,7 @@ export TIMEFORMAT=$'\n-time elapsed-\nreal\t%3Rs\nuser\t%3Us\nsystem\t%3Ss'
 export BLOCKSIZE=1000000 #1 Megabyte
 export EDITOR='/usr/local/bin/atom'
 export PAGER='/usr/bin/less'
+export BASH_ENV="$HOME/.bashrc"
 shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend #nullglob
 #========== Functions
 if [ -f ~/.bash_functions ]; then
