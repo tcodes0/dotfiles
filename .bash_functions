@@ -308,20 +308,36 @@ bailout() {
 }
 #- - - - - - - - - - -
 publish-rsync(){
-	echoform 1 49 34 "♦︎ Upload to server via rsync? (y/n)"
-	echo -e "\e[1;49;34m...defaulting to yes in 6s\e[0m"
-	read -t 6
-	if [ "$?" != 0 ]; then
-		REPLY=''
+	if [[ "$@" =~ -h ]]; then
+		precho "uploads ./public via ssh to web server"
+		precho "-y\t auto confirm"
+		precho "-v\t verbose rsync"
+		precho "-h\t see this help"
+		return
+	elif [[ "$@" =~ -y ]]; then
+		REPLY="yes"
+	else
+		echoform 1 49 34 "♦︎ Upload to server via rsync? (y/n)"
+		echo -e "\e[1;49;34m...defaulting to yes in 6s\e[0m"
+		read -t 6
+		if [ "$?" != 0 ]; then
+			REPLY=''
+		fi
 	fi
 	if [ "$REPLY" == "y" ] || [ "$REPLY" == "yes" ] || [ "$REPLY" == "Y" ] || [ "$REPLY" == "YES" ] || [ "$REPLY" == "" ]; then
-		echo -e "\r\e[1;49;32m✔ Uploading all files with rsync...\e[0m"
+		echo -ne "\e[1;49;33m♦︎ Uploading all files with rsync...\e[0m"
 		local options="--recursive --update --inplace --no-relative --checksum --compress"
+		if [[ "$@" =~ -v ]]; then
+			options=$options" -v"
+		fi
 		local SSH="ssh -p 21098"
 		local host="tazemuad@server179.web-hosting.com:/home/tazemuad"
 		local remote_dir=$host/sites/$(basename $PWD)/
 		local local_dir=$PWD/public/
 		rsync $options -e "$SSH" $local_dir $remote_dir
+		if [[ "$?" == 0 ]]; then
+			echo -e "\r\e[1;49;32m✔ Done $(date +%H:%M)                                         \e[0m"
+		fi
 	fi
 }
 #- - - - - - - - - - -
@@ -459,4 +475,10 @@ do-sass() {
 	else
 		sass --watch css/:css/   2>/dev/null 1>&2 &
 	fi
+}
+sed-rm-html-tags() {
+	gsed -Ee 's/<[^>]+>|<\/[^>]+>//gm' || echo error. Please cat an html file into this function.
+}
+sed-rm-term-color-escapes() {
+	gsed -Ee 's/\[[0-9][0-9]?m/ /gm' || echo error. Please cat terminal output into this function. TIP: caniuse-cli output
 }
