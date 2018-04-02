@@ -1,44 +1,51 @@
-#! /bin/bash
-#custom user color for prompt
-export TMZLCOLOR="\e[0;49;34m"
-function ttyemoji () {
-  case $(($RANDOM % 7)) in
-    #The space avoids emoji collapsing on themselves
-    0)
-      decorations="🐺 🌋"
-    ;;
-    1)
-      decorations="🌸 🌿"
-    ;;
-    2)
-      decorations="🌗 🖤"
-    ;;
-    3)
-      decorations="🍁 🍷"
-    ;;
-    4)
-      decorations="🔮 🦋"
-    ;;
-    5)
-      decorations="🥕 🍫"
-    ;;
-    6)
-      decorations="❣️ 💕"
-    ;;
-  esac
-}
-function rootemoji () {
-  #Bold, similar to default fg on all text
-  decorations="\e[1;49;37m""💠 💠"
-}
+#! /usr/bin/env bash
+purp="\[\e[34m\]"
+pink="\[\e[35m\]"
+lblack="\[\e[90m\]"
+black="\[\e[30m\]"
+end="\[\e[0m\]"
+under="\[\e[4m\]"
+bold="\[\e[1m\]"
+
 #unsetting avoids glitches
 unset decorations
 if [ $(whoami) != "root" ]; then
-  ttyemoji
-  decorations=$TMZLCOLOR$decorations
-  export PS1="$(echo $decorations)  \W \e[0m$(echo -n "$") "
+  case $(($RANDOM % 7)) in
+    0)
+      #The spaces avoids emoji collapsing on themselves. MacOS glitch.
+      decorations="🐺 🌋"'  '
+    ;;
+    1)
+      decorations="🌸 🌿"'  '
+    ;;
+    2)
+      decorations="🚀 💫"'  '
+    ;;
+    3)
+      decorations="🍁 🍷"'  '
+    ;;
+    4)
+      decorations="🔮 🦋"'  '
+    ;;
+    5)
+      decorations="🌄 🎆"'  '
+    ;;
+    6)
+      decorations="🍇 🥓"'  '
+    ;;
+  esac
+  colorMain=$purp
+  colorMeh=$lblack
 else
-  rootemoji
-  #This echo call gets rid of empty D's, otherwise they show up as spaces
-  export PS1="$(echo $decorations)  \W $(echo -n "#") "
+  colorMain=$pink
+  colorMeh=$black
+  colorText=$pink
+  decorations="💠 💠"'  '
 fi
+
+blankLine="$colorMain$under\011\011$end\n" #octal for \t = \011
+workdir="$colorMain\w $end"
+hist="$colorMeh!\! $end"
+tim="$colorMeh\@ $end"
+S="$colorMeh$bold\\$ $end$colorText"
+export PS1="${blankLine}${decorations}${hist}${workdir}${tim}\n${S}"
