@@ -121,15 +121,12 @@ unicode () {
 		return
 	fi
 	echo -en '\e[1;97m'
-	local space_every_two_numbers_apart=''
+	local spaceNumberPair=''
 	local e='s/([0-9][0-9])/\1 /gm'
 	for arg in "$@"; do
 		if [[ "$((${#arg} % 2))" == 0 ]] && [ "${#arg}" != 2 ]; then
-			space_every_two_numbers_apart=$(gsed --regexp-extended --expression="$e" <<-EOF
-			$arg
-			EOF
-			)
-			for number in $space_every_two_numbers_apart; do
+			spaceNumberPair=$(gsed --regexp-extended --expression="$e" <<< $arg)
+			for number in $spaceNumberPair; do
 				echo -ne \\x${number}
 			done
 		else
@@ -145,16 +142,12 @@ hexdumb () {
 		precho "...dumps hex for the crescent moon"
 		return
 	fi
-	local string="$(hexdump <<-EOF
-	$1
-	EOF
-	)"
-	local e1="s/^[0-9]{7} |^[0-9]{7}| 0a[[:space:]]*$//g" #deletes sequences of numbers and 0a, in each line
-	local e2=/^$/d #zaps empty lines
-	local hex=$(gsed --regexp-extended --expression="$e1" --expression="$e2" <<-EOF
-	$string
-	EOF
-	)
+	local string="$(hexdump <<< $1)"
+	#deletes sequences of numbers and 0a, in each line
+	local e1="s/^[0-9]{7} |^[0-9]{7}| 0a[[:space:]]*$//g"
+	#zaps empty lines
+	local e2=/^$/d
+	local hex=$(gsed --regexp-extended --expression="$e1" --expression="$e2" <<< $string)
 	spaced-and-together $hex
 }
 #- - - - - - - - - - -
@@ -174,8 +167,8 @@ findexec () {
 	gfind . -name "*$1*" -execdir "$2" {} \;
 }
 #- - - - - - - - - - -
-precho () { #pretty echo
-	echo -e "\e[34m""| $@""\e[0m"
+precho(){
+	precho.sh "$@"
 }
 #- - - - - - - - - - -
 qmon () { #quick mount
@@ -274,26 +267,8 @@ pbp () {
 	echo "$(pbpaste)"
 }
 #- - - - - - - - - - -
-echoform() {
-	if [ "$1" == "-h" -o "$1" == "--help" ] || ! [[ "$1" =~ ^[0-9]+$ ]]; then
-		echo "usage: echoform 1 49 39 formatted text"
-		echo -n "result: "; echoform 1 49 39 "formatted text"
-		echo "the formatting is reset after each call, or use --clear/-c"
-		return
-	fi
-	if [ "$1" == "-c" -o "$1" == "--clear" ]; then
-		shift
-		echo -ne '\e[0m'
-		return
-	fi
-	local i=0
-	while [[ "$1" =~ ^[0-9]+$ ]] && [ $i -lt 3 ]; do #regex to match numbers && 3 numbers max
-		echo -ne "\e[$1m"
-		shift
-		i=$((i+1))
-	done
-	#echos all remaining arguments (words), and then formating is reset.
-	echo -e "$@\e[0m"
+color() {
+	color.sh "$@"
 }
 #- - - - - - - - - - -
 bailout() {
@@ -301,7 +276,7 @@ bailout() {
 	if [[ "$#" == "0" ]]; then
 		message="error"
 	fi
-	echoform 1 49 31 "❌  $message"
+	color --bold --red "❌  $message"
 	if [[ ! "$-" =~ i ]]; then
 		exit 1 #shell is not interactive, so kill it.
 	fi
@@ -317,7 +292,7 @@ publish-rsync(){
 	elif [[ "$@" =~ -y ]]; then
 		REPLY="yes"
 	else
-		echoform 1 49 34 "♦︎ Upload to server via rsync? (y/n)"
+		color --bold --purple "♦︎ Upload to server via rsync? (y/n)"
 		echo -e "\e[1;49;34m...defaulting to yes in 6s\e[0m"
 		read -t 6
 		if [ "$?" != 0 ]; then
