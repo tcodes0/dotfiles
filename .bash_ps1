@@ -47,5 +47,5 @@ blankLine="$colorMain$under\011\011$end\n" #octal for \t = \011
 workdir="$colorMain\w $end"
 hist="$colorMeh!\! $end"
 tim="$colorMeh\@ $end"
-S="$colorMeh$bold\\$ $end$colorText"
-export PS1="${blankLine}${decorations}${hist}${workdir}${tim}\n${S}"
+S="$colorMain\\$ $end$colorText"
+export PS1="${blankLine}${hist}${workdir}${tim}\n${decorations}"

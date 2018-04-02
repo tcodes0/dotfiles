@@ -168,7 +168,20 @@ findexec () {
 }
 #- - - - - - - - - - -
 precho(){
-	precho.sh "$@"
+	case "$@" in
+		-k* | *--ok*)
+			color --green --bold "✔ " $@
+		;;
+		-w* | *--warning*)
+			color --yellow --bold "⚠️  " $@
+		;;
+		-e* | *--err* | *--error*)
+			color --red --bold "❌  " $@
+		;;
+		*)
+			color --teal --bold "♦︎ " $@
+		;;
+	esac
 }
 #- - - - - - - - - - -
 qmon () { #quick mount
@@ -278,7 +291,8 @@ bailout() {
 	fi
 	color --bold --red "❌  $message"
 	if [[ ! "$-" =~ i ]]; then
-		exit 1 #shell is not interactive, so kill it.
+		#shell is not interactive, so kill it.
+		exit 1
 	fi
 }
 #- - - - - - - - - - -

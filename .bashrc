@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #========== Environment
 export PATH=/bin:/usr/local/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/bin
 export HISTSIZE=3000
@@ -12,13 +12,13 @@ export EDITOR='/usr/local/bin/atom'
 export PAGER='/usr/bin/less'
 export BASH_ENV="$HOME/.bashrc"
 shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend #nullglob
-#========== Functions
-if [ -f ~/.bash_functions ]; then
-    source ~/.bash_functions
-fi
 #========== Aliases
 if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
+fi
+#========== Functions
+if [ -f ~/.bash_functions ]; then
+    source ~/.bash_functions
 fi
 #========== Prompt
 if [ -f ~/.bash_ps1 ]; then
@@ -26,8 +26,14 @@ if [ -f ~/.bash_ps1 ]; then
 else
   export PS1="\W \e?"
 fi
-#========== Misc
-#homebrew told me to do it
+#========== Software + Misc
 if [ -f /usr/local/share/bash-completion/bash_completion ]; then
     source /usr/local/share/bash-completion/bash_completion
 fi
+if [[ "$(which tabs)" ]]; then
+  tabs 4 #tab size = 2 on MacOs/iTerm...
+fi
+# if [ -f "/usr/local/opt/bash-git-prompt/share/gitprompt.sh" ]; then
+#   __GIT_PROMPT_DIR="/usr/local/opt/bash-git-prompt/share"
+#   source "/usr/local/opt/bash-git-prompt/share/gitprompt.sh"
+# fi
