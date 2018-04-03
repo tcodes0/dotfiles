@@ -9,7 +9,7 @@ bold="\[\e[1m\]"
 
 #unsetting avoids glitches
 unset decorations
-if [ $(whoami) != "root" ]; then
+if [ "$(whoami)" != "root" ]; then
   case $(($RANDOM % 7)) in
     0)
       #The spaces avoids emoji collapsing on themselves. MacOS glitch.
@@ -43,9 +43,9 @@ else
   decorations="💠 💠"'  '
 fi
 
-blankLine="$colorMain$under\011\011$end\n" #octal for \t = \011
+blankLine="$colorMain$under$(printf %${COLUMNS}s)$end\n"
 workdir="$colorMain\w $end"
 hist="$colorMeh!\! $end"
-tim="$colorMeh\@ $end"
+clock="$colorMeh\@ $end"
 S="$colorMain\\$ $end$colorText"
-export PS1="${blankLine}${hist}${workdir}${tim}\n${decorations}"
+export PS1="${blankLine}${hist}${workdir}${clock}\n${decorations}"

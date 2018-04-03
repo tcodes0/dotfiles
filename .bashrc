@@ -10,10 +10,6 @@ if [[ "$(uname -s)" =~ Linux|Darwin ]]; then
   else
     export PS1="\W \e?"
   fi
-
-  if [[ "$(which tabs)" ]]; then
-    tabs 4 #tab size = 2 on MacOs/iTerm...
-  fi
 fi
 #========== Environment
 export HISTSIZE=3000
