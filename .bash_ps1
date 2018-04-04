@@ -1,51 +1,56 @@
 #! /usr/bin/env bash
-purp="\[\e[34m\]"
-pink="\[\e[35m\]"
-lblack="\[\e[90m\]"
-black="\[\e[30m\]"
-end="\[\e[0m\]"
-under="\[\e[4m\]"
-bold="\[\e[1m\]"
+main () {
+  local purple="\[\e[34m\]"
+  local pink="\[\e[35m\]"
+  local light_black="\[\e[90m\]"
+  local black="\[\e[30m\]"
+  local end="\[\e[0m\]"
+  local underline="\[\e[4m\]"
+  local bold="\[\e[1m\]"
+  local decorations colorMain colorMeh colorText
 
-#unsetting avoids glitches
-unset decorations
-if [ "$(whoami)" != "root" ]; then
-  case $(($RANDOM % 7)) in
-    0)
+  #unsetting avoids glitches
+  # unset decorations
+  if [ "$(whoami)" != "root" ]; then
+    case $(($RANDOM % 7)) in
+      0)
       #The spaces avoids emoji collapsing on themselves. MacOS glitch.
       decorations="🐺 🌋"'  '
-    ;;
-    1)
+      ;;
+      1)
       decorations="🌸 🌿"'  '
-    ;;
-    2)
+      ;;
+      2)
       decorations="🚀 💫"'  '
-    ;;
-    3)
+      ;;
+      3)
       decorations="🍁 🍷"'  '
-    ;;
-    4)
+      ;;
+      4)
       decorations="🔮 🦋"'  '
-    ;;
-    5)
+      ;;
+      5)
       decorations="🌄 🎆"'  '
-    ;;
-    6)
+      ;;
+      6)
       decorations="🍇 🥓"'  '
-    ;;
-  esac
-  colorMain=$purp
-  colorMeh=$lblack
-else
-  colorMain=$pink
-  colorMeh=$black
-  colorText=$pink
-  decorations="💠 💠"'  '
-fi
+      ;;
+    esac
+    colorMain=$purple
+    colorMeh=$light_black
+  else
+    colorMain=$pink
+    colorMeh=$black
+    colorText=$pink
+    decorations="💠 💠"'  '
+  fi
 
-blankLine="$colorMain$under$(printf %${COLUMNS}s)$end\n"
-workdir="$colorMain\w $end"
-hist="$colorMeh!\! $end"
-clock="$colorMeh\@ $end"
-S="$colorMain\\$ $end$colorText"
-export PS1="${blankLine}${hist}${workdir}${clock}\n${decorations}"
+  local horizontalSeparator="$colorMeh$underline$(printf %${COLUMNS}s)$end\n"
+  local workdir="$colorMain\w $end"
+  local histoty="$colorMeh!\! $end"
+  local clock="$colorMeh\@ $end"
+  local S="$colorMain\\$ $end$colorText"
+
+  printf "${horizontalSeparator}${histoty}${workdir}${clock}\n${decorations}"
+}
+export PS1=$(main)

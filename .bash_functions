@@ -170,13 +170,15 @@ findexec () {
 precho(){
 	case "$@" in
 		-k* | *--ok*)
-			color --green --bold "✔ " $@
+			# just a checkmark
+			color --green --bold "✔" $@
 		;;
 		-w* | *--warning*)
-			color --yellow --bold "⚠️  " $@
+			#\\040 - octal for space (0x20)
+			color --yellow --bold "⚠️\040" $@
 		;;
 		-e* | *--err* | *--error*)
-			color --red --bold "❌  " $@
+			color --red --bold "❌\040" $@
 		;;
 		*)
 			color --teal --bold "♦︎ " $@
@@ -470,4 +472,11 @@ sed-rm-html-tags() {
 }
 sed-rm-term-color-escapes() {
 	gsed -Ee 's/\[[0-9][0-9]?m/ /gm' || echo error. Please cat terminal output into this function. TIP: caniuse-cli output
+}
+maybeDebug() {
+	if [ "$debug" ]; then
+		local name=$(if [ "${FUNCNAME[1]}" == "main" ]; then printf "$0"; else printf "${FUNCNAME[1]}"; fi)
+		printf "\n\e[4;33m$(printf %${COLUMNS}s) $(center DEBUGGING $name!)$(printf %${COLUMNS}s)\e[0m\n"
+		set -x
+	fi
 }
