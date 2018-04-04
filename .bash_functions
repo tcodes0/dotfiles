@@ -12,10 +12,10 @@ clp () {
 #- - - - - - - - - - -
 cdp () {
 	local path="$(pbpaste)"
-	if ! [[ -d $path ]]; then
-		path=$(dirname $path)
+	if ! [[ -d "$path" ]]; then
+		path=$(dirname "$path")
 	fi
-	\cd $path
+	\cd "$path"
 }
 #- - - - - - - - - - -
 tml () {                   #too many lines
@@ -31,14 +31,13 @@ else
 fi
 }
 #- - - - - - - - - - -
-hexdec () {
-	if [ $# == 0 ];then
-		precho "usage: hexdec 1f "
-		precho "finds 0x1f in decimal"
-		return
-	fi
+xdec () {
+	# from base x to decimal
+	# input - $1 base of input
+	local base=$1
+	shift
 	while [ "$1" != "" ]; do
-		echo -n "$((0x$1))"
+		echo -n "$(($base#$1))"
 		if [ "$2" != "" ]; then
 			echo -n ", "
 		fi
@@ -47,53 +46,86 @@ hexdec () {
 	printf '\n'
 }
 #- - - - - - - - - - -
-dechex () {
-	if [ $# == 0 ]; then
-		precho "usage: dechex 83"
-		precho "finds 83 in hex"
-		return
-	fi
+decx () {
+	# from decimal to base x
+	# input - $1 base of output
+	local base=$1
+	shift
 	while [ "$1" != "" ]; do
-		printf '%x' $1
+		echo "obase=$base;$1" | bc | tr -d \\n
 		if [ "$2" != "" ]; then
 			echo -n ", "
 		fi
 		shift
 	done
-	printf '\n'
+	printf \\n
 }
 #- - - - - - - - - - -
 bindec () {
 	if [ $# == 0 ];then
-		precho "usage: bindec 1101 "
-		precho "finds 1101 in decimal"
+		precho "usage: bindec 1101\n\
+      finds 1101 in decimal"
 		return
 	fi
-	while [ "$1" != "" ]; do
-		echo -n "$((2#$1))"
-		if [ "$2" != "" ]; then
-			echo -n ", "
-		fi
-		shift
-	done
-	printf '\n'
+	xdec 2 "$@"
+}
+#- - - - - - - - - - -
+hexdec () {
+	if [ $# == 0 ];then
+		precho "usage: hexdec ff\n\
+      finds ff in decimal"
+		return
+	fi
+	xdec 16 "$@"
+}
+#- - - - - - - - - - -
+octdec () {
+	if [ $# == 0 ];then
+		precho "usage: octdec 040\n\
+      finds 40 in decimal"
+		return
+	fi
+	xdec 8 "$@"
 }
 #- - - - - - - - - - -
 decbin () {
 	if [ $# == 0 ]; then
-		precho "usage: decbin 73"
-		precho "finds 73 in binary"
+		precho "usage: decbin 73\n\
+      finds 73 in binary"
 		return
 	fi
-	while [ "$1" != "" ]; do
-		echo "obase=2;$1" | bc
-		if [ "$2" != "" ]; then
-			echo -n ", "
-		fi
-		shift
-	done
+	decx 2 "$@"
 }
 #- - - - - - - - - - -
+decoct () {
+	if [ $# == 0 ]; then
+		precho "usage: decoct 20\n\
+      finds 20 in octal"
+		return
+	fi
+	decx 8 "$@"
+}
+#- - - - - - - - - - -
+dechex () {
+	if [ $# == 0 ]; then
+		precho "usage: decoct 20\n\
+      finds 20 in octal"
+		return
+	fi
+	decx 16 "$@"
+}
+hexoct() {
+	decoct $(hexdec "$@")
+}
+octhex() {
+	dechex $(octdec "$@")
+}
+hexbin() {
+	decbin $(hexdec "$@")
+}
+binhex() {
+	dechex $(bindec "$@")
+}
 treeless () {
 	case $# in
 		0)
@@ -168,20 +200,33 @@ findexec () {
 }
 #- - - - - - - - - - -
 precho(){
-	case "$@" in
-		-k* | *--ok*)
+	case "$1" in
+		-k )
+			shift
 			# just a checkmark
-			color --green --bold "✔" $@
+			color --green --bold -- "✔" $@
 		;;
-		-w* | *--warning*)
+		-w )
+			shift
 			#\\040 - octal for space (0x20)
-			color --yellow --bold "⚠️\040" $@
+			color --yellow --bold -- "⚠️\040" $@
 		;;
-		-e* | *--err* | *--error*)
-			color --red --bold "❌\040" $@
+		-e )
+			shift
+			color --red --bold -- "❌\040" $@
+		;;
+		-h )
+			shift
+      printf "\e[1;36m♦︎ precho ➡ a shortcut to some common colors\n\
+  only first short option is seen:\n\
+  \e[1;32m-k\t OK. print in green. \t\t\$1 is not passed to color.\e[0m\n\
+  \e[1;33m-w\t WARN. print in yellow. \t\$1 is not passed to color.\e[0m\n\
+  \e[1;31m-e\t ERR. print in red. \t\t\$1 is not passed to color.\e[0m\n\
+  \e[1;36m-*\t PRETTY. print in teal. \t\$1 is passed to color.\n\
+  -h\t see this help\e[0m\n"
 		;;
 		*)
-			color --teal --bold "♦︎ " $@
+			color --teal --bold -- "♦︎ " $@
 		;;
 	esac
 }
@@ -220,8 +265,8 @@ fi
 }
 qmon-parser () {
 	if [ $(($# % 2)) != 0 ];then
-		precho -c "Error: Got a non even number of arguments"
-		precho -c "$@"
+		precho -e "Error: Got a non even number of arguments"
+		precho -e "$@"
 		return
 	fi
 	while [ "$2" != "" ]; do
@@ -238,25 +283,7 @@ qmon-parser () {
 }
 #- - - - - - - - - - -
 runc () { #run n check
-if  [ "$#" == 0 ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
-	precho "Runc runs a command and checks its exit status"
-	precho "Use -c to cause an exit 1 on error"
-	precho "Warning: -c, if not running from a script, will exit your shell"
-	return
-fi
-if [ "$1" == "-c" ]; then
-	critical="true"
-	shift
-fi
-"$@"
-if [ "$?" != 0 ];then
-	if [ "$critical" == "true" ]; then
-		precho -c "Aborting on critical error: $@"
-		exit 1
-	fi
-	precho -c "Error: $@"
-	return
-fi
+	bailout "runc is no longer"
 }
 #- - - - - - - - - - -
 start-commands() {
@@ -291,7 +318,7 @@ bailout() {
 	if [[ "$#" == "0" ]]; then
 		message="error"
 	fi
-	color --bold --red "❌  $message"
+	color --bold --red "❌\040 $message"
 	if [[ ! "$-" =~ i ]]; then
 		#shell is not interactive, so kill it.
 		exit 1
@@ -346,8 +373,8 @@ tra () {
 #- - - - - - - - - - -
 gr() { #grep recursive
 	if [ "$#" == "0" -o "$1" == "-h" -o "$1" == "--help" ]; then
-		echo gnu grep, recursive, case-insensitive, extended regex, files with matches
-		echo -e ggrep -ri -E '\e[4;32margs\e[0m' -l
+		precho "grep -l recursive, case-insensitive\n\
+      ggrep -ri -E '\e[4;32margs\e[0m' -l"
 		return
 	fi
 	# shopt -u nullglob #unset this shopt. It messes up regexes
@@ -355,30 +382,40 @@ gr() { #grep recursive
 	# shopt -s nullglob #because it removes strings with *. Set it back.
 }
 #- - - - - - - - - - -
-gf() { #grep file
-	if [ "$#" -lt 1 -o "$1" == "-h" -o "$1" == "--help" ]; then
-		echo "gnu grep, case-insensitive, extended regex"
-    echo "with 3 args: (pattern, context lines, file)"
-    echo "with 2 args: (pattern, file)"
+gl() { #grep -l simply
+	if [ "$#" == "0" -o "$1" == "-h" -o "$1" == "--help" ]; then
+		precho "grep -l case-insensitive, /$(basename $PWD)/\\052\n\
+      ggrep --color=auto -iE '\e[4;32margs\e[0m' -l"
 		return
 	fi
-	shopt -u nullglob
+	# shopt -u nullglob #unset this shopt. It messes up regexes
+	ggrep --color=auto -iE "$@" -l *
+	# shopt -s nullglob #because it removes strings with *. Set it back.
+}
+#- - - - - - - - - - -
+gf() { #grep file
+	if [ "$#" -lt 2 -o "$1" == "-h" -o "$1" == "--help" ]; then
+		precho "grep case-insensitive\n\
+      with 3 args: (pattern, context lines, file)\n\
+      with 2 args: (pattern, file)"
+		return
+	fi
+	# shopt -u nullglob
 	if [[ "$#" == 3 ]]; then
-		ggrep --color=auto -i -"$2" -E "$1" "$3"
+		if [[ "$2" =~ - ]]; then
+			dash=""
+		else
+			dash="-"
+		fi
+		ggrep --color=auto -i $dash"$2" -E "$1" "$3"
 	else
 		ggrep --color=auto -i -E "$1" "$2"
 	fi
-	shopt -s nullglob
+	# shopt -s nullglob
 }
 #- - - - - - - - - - -
 spaceString() {
-	local string=$@ #all arguments
-	local length=${#string}
-	local index=0
-	while [[ $index -lt $length ]]; do
-		echo -n ${string:index:1}" " #give us a substring with length 1 starting at index $index
-		index=$((index+1))
-	done
+	bailout "function removed"
 }
 alias eatString='spaceString'
 #- - - - - - - - - - -
@@ -474,9 +511,22 @@ sed-rm-term-color-escapes() {
 	gsed -Ee 's/\[[0-9][0-9]?m/ /gm' || echo error. Please cat terminal output into this function. TIP: caniuse-cli output
 }
 maybeDebug() {
+	if [ "$x" ]; then
+		bailout "use --debug not -x"
+	fi
 	if [ "$debug" ]; then
 		local name=$(if [ "${FUNCNAME[1]}" == "main" ]; then printf "$0"; else printf "${FUNCNAME[1]}"; fi)
 		printf "\n\e[4;33m$(printf %${COLUMNS}s) $(center DEBUGGING $name!)$(printf %${COLUMNS}s)\e[0m\n"
 		set -x
 	fi
+}
+isOptarSourced() {
+	type parse-options 1>/dev/null 2>&1
+}
+tar7z () {
+  if [ "$#" == 0 -o "$1" == "-h" ]; then
+    precho "Provide a file. ./foo -> ./foo.tar.7z"
+    bailout
+  fi
+  tar cf - "$1" 2>/dev/null | 7za a -si -mx=7 "$1.tar.7z" 1>/dev/null
 }
