@@ -152,10 +152,18 @@ unicode () {
 		precho "Warning: beware of invisible/control chars"
 		return
 	fi
-	echo -en '\e[1;97m'
-	local spaceNumberPair=''
+
+	local spaceNumberPair
+	local args
 	local e='s/([0-9][0-9])/\1 /gm'
-	for arg in "$@"; do
+
+	args="$@"
+	if [[ "$args" =~ , ]]; then
+		args=${args//,/ }
+	fi
+
+	echo -en '\e[1;97m'
+	for arg in "$args"; do
 		if [[ "$((${#arg} % 2))" == 0 ]] && [ "${#arg}" != 2 ]; then
 			spaceNumberPair=$(gsed --regexp-extended --expression="$e" <<< $arg)
 			for number in $spaceNumberPair; do
@@ -204,16 +212,16 @@ precho(){
 		-k )
 			shift
 			# just a checkmark
-			color --green --bold -- "✔" $@
+			color --green --bold -- "✔ $@"
 		;;
 		-w )
 			shift
 			#\\040 - octal for space (0x20)
-			color --yellow --bold -- "⚠️\040" $@
+			color --yellow --bold -- "⚠️\040 $@"
 		;;
 		-e )
 			shift
-			color --red --bold -- "❌\040" $@
+			color --red --bold -- "❌\040 $@"
 		;;
 		-h )
 			shift
@@ -226,7 +234,7 @@ precho(){
   -h\t see this help\e[0m\n"
 		;;
 		*)
-			color --teal --bold -- "♦︎ " $@
+			echo -e "\e[1m♦︎ $@\e[0m"
 		;;
 	esac
 }
@@ -318,44 +326,10 @@ bailout() {
 	if [[ "$#" == "0" ]]; then
 		message="error"
 	fi
-	color --bold --red "❌\040 $message"
+	echo -ne "\e[1;31m❌\040 $message\e[0m"
 	if [[ ! "$-" =~ i ]]; then
 		#shell is not interactive, so kill it.
 		exit 1
-	fi
-}
-#- - - - - - - - - - -
-publish-rsync(){
-	if [[ "$@" =~ -h ]]; then
-		precho "uploads ./public via ssh to web server"
-		precho "-y\t auto confirm"
-		precho "-v\t verbose rsync"
-		precho "-h\t see this help"
-		return
-	elif [[ "$@" =~ -y ]]; then
-		REPLY="yes"
-	else
-		color --bold --purple "♦︎ Upload to server via rsync? (y/n)"
-		echo -e "\e[1;49;34m...defaulting to yes in 6s\e[0m"
-		read -t 6
-		if [ "$?" != 0 ]; then
-			REPLY=''
-		fi
-	fi
-	if [ "$REPLY" == "y" ] || [ "$REPLY" == "yes" ] || [ "$REPLY" == "Y" ] || [ "$REPLY" == "YES" ] || [ "$REPLY" == "" ]; then
-		echo -ne "\e[1;49;33m♦︎ Uploading all files with rsync...\e[0m"
-		local options="--recursive --update --inplace --no-relative --checksum --compress"
-		if [[ "$@" =~ -v ]]; then
-			options=$options" -v"
-		fi
-		local SSH="ssh -p 21098"
-		local host="tazemuad@server179.web-hosting.com:/home/tazemuad"
-		local remote_dir=$host/sites/$(basename $PWD)/
-		local local_dir=$PWD/public/
-		rsync $options -e "$SSH" $local_dir $remote_dir
-		if [[ "$?" == 0 ]]; then
-			echo -e "\r\e[1;49;32m✔ Done $(date +%H:%M)                                         \e[0m"
-		fi
 	fi
 }
 #- - - - - - - - - - -
@@ -482,26 +456,27 @@ spaced-and-together() {
 }
 post-css() {
 	if [[ "$1" == '-h' ]] || [[ "$1" == '--help' ]]; then
-		precho 'npx postcss css/*.css --use autoprefixer --dir ./public/css'
-		precho '-w,--watch:\tnpx postcss css/*.css --use autoprefixer --dir ./public/css --watch 2>/dev/null 1>&2 &'
+		precho "npx postcss css/*.css --use autoprefixer --dir ./build/css\
+    \n -w,--watch:  npx postcss css/*.css --use autoprefixer --dir ./build/css --watch 2>/dev/null 1>&2 &"
 		return
 	fi
 	if [[ $1 == '-w' ]] || [ "$1" == "--watch" ]; then
-		npx postcss css/*.css --use autoprefixer --dir ./public/css --watch 2>/dev/null 1>&2 &
+		npx postcss css/*.css --use autoprefixer --dir ./build/css --watch 2>/dev/null 1>&2 &
 	else
-		npx postcss css/*.css --use autoprefixer --dir ./public/css
+		npx postcss css/*.css --use autoprefixer --dir ./build/css
 	fi
 }
 do-sass() {
 	if [[ "$1" == '-h' ]] || [[ "$1" == '--help' ]]; then
-		precho 'sass --watch css/:css/   2>/dev/null 1>&2 &'
-		precho '-v,--verbose:\tsass --watch css/:css/'
+		precho "sass --watch css/:css/   2>/dev/null 1>&2 &\
+    \n -v,--verbose:\tsass --watch css/:css/"
 		return
 	fi
 	if [[ $1 == '-v' ]] || [ "$1" == "--verbose" ]; then
 		sass --watch css/:css/
 	else
 		sass --watch css/:css/   2>/dev/null 1>&2 &
+		export sassPID=$!
 	fi
 }
 sed-rm-html-tags() {
@@ -520,13 +495,29 @@ maybeDebug() {
 		set -x
 	fi
 }
-isOptarSourced() {
-	type parse-options 1>/dev/null 2>&1
-}
 tar7z () {
   if [ "$#" == 0 -o "$1" == "-h" ]; then
     precho "Provide a file. ./foo -> ./foo.tar.7z"
     bailout
   fi
   tar cf - "$1" 2>/dev/null | 7za a -si -mx=7 "$1.tar.7z" 1>/dev/null
+}
+parse-shorts() {
+  while getopts ":abcdefghijklmnopqrstuvwxyz" opt; do
+    case $opt in
+      \?)
+        # ignore invalid opts
+      ;;
+      *)
+        allOptions+=$opt" "
+        eval $opt="true"
+      ;;
+    esac
+  done
+}
+debug(){
+  if [[ "$x" ]]; then
+    set -x
+    echo -e "\e[1;33m\n\nDEBUGGING STARTED ON: $(if [ "${FUNCNAME[1]}" == "main" ]; then printf "$0"; else printf "${FUNCNAME[1]}"; fi)\n\n\e[0m"
+  fi
 }
