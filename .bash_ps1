@@ -2,15 +2,16 @@
 main () {
   local purple="\[\e[34m\]"
   local pink="\[\e[35m\]"
+  local green="\[\e[32m\]"
+  local yellow="\[\e[33m\]"
   local light_black="\[\e[90m\]"
   local black="\[\e[30m\]"
+
   local end="\[\e[0m\]"
   local underline="\[\e[4m\]"
   local bold="\[\e[1m\]"
   local decorations colorMain colorMeh colorText
 
-  #unsetting avoids glitches
-  # unset decorations
   if [ "$(whoami)" != "root" ]; then
     case $(($RANDOM % 7)) in
       0)
@@ -36,10 +37,10 @@ main () {
       decorations="🍇 🥓"'  '
       ;;
     esac
-    colorMain=$purple
+    colorMain=$pink
     colorMeh=$light_black
   else
-    colorMain=$pink
+    colorMain=$purple
     colorMeh=$black
     colorText=$pink
     decorations="💠 💠"'  '
@@ -51,6 +52,7 @@ main () {
   local clock="$colorMeh\@ $end"
   local S="$colorMain\\$ $end$colorText"
 
-  printf "${horizontalSeparator}${histoty}${workdir}${clock}\n${decorations}"
+  printf "${horizontalSeparator}${clock}${workdir}\n${decorations}"
+  # printf "${horizontalSeparator}${histoty}${workdir}${clock}\n${decorations}"
 }
 export PS1=$(main)

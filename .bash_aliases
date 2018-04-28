@@ -27,6 +27,7 @@ alias goo='google'
 alias webs='google webster'
 alias sed='gsed'
 alias e='echo'
+alias less="$PAGER"
 #------------------
 #-------saved paths
 #------------------
@@ -38,6 +39,7 @@ alias abletondir='cd /Volumes/Izi/Ableton/_projects/time-killer\ Project'
 alias ls='ls -Gph'
 alias la='ls -A'
 alias ll='ls -lSAi'
+alias lt='ls -ltAi'
 #------------------
 #-----internet guys
 #------------------
@@ -104,7 +106,14 @@ alias watchsass="sass --watch css/index.sass:css/index.css 2>/dev/null 1>&2 &"
 alias twoSpacesOnly="gsed -n -e '/^  [^ ]/p'"
 alias webb="webbot.sh"
 alias sshhost="ssh -p 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com"
+alias sshh="sshhost"
 alias sftphost="sftp -P 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com"
 alias gpglist="gpg --list-secret-keys --keyid-format LONG"
 alias gpgexport="gpg --armor --export"
 alias gpgkeygen="gpg --full-generate-key"
+alias simplePrompt="PS1='\n\[\e[1;90m\w \e[0m\]\n$ '"
+alias npml="npm list --depth=0"
+alias npmgl="npm list --global --depth=0"
+alias npms="npm search"
+alias npmh="npm repo"
+alias npmI="npm install"
