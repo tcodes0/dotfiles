@@ -4,7 +4,7 @@ main () {
   local pink="\[\e[35m\]"
   local green="\[\e[32m\]"
   local yellow="\[\e[33m\]"
-  local light_black="\[\e[90m\]"
+  l="\[\e[90m\]"
   local black="\[\e[30m\]"
 
   local end="\[\e[0m\]"
@@ -38,7 +38,7 @@ main () {
       ;;
     esac
     colorMain=$pink
-    colorMeh=$light_black
+    colorMeh=$black
   else
     colorMain=$purple
     colorMeh=$black

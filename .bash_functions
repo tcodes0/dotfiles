@@ -2,7 +2,7 @@
 cl () {
 	\cd "$1"
 	if [[ $? == 0 ]]; then
-		\ls -Gph ./
+		gls -ph --color=always
 	fi
 }
 #- - - - - - - - - - -
@@ -520,4 +520,10 @@ debug(){
     set -x
     echo -e "\e[1;33m\n\nDEBUGGING STARTED ON: $(if [ "${FUNCNAME[1]}" == "main" ]; then printf "$0"; else printf "${FUNCNAME[1]}"; fi)\n\n\e[0m"
   fi
+}
+rawgithub(){
+	args="$@"
+	args=${args/github/raw.githubusercontent}
+	args=${args/\/raw\//\/}
+	curl --silent $args
 }

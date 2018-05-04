@@ -5,6 +5,7 @@ if [[ "$(uname -s)" =~ Darwin ]]; then
   export CDPATH=$HOME:/Volumes:$HOME/Desktop
   export EDITOR='/usr/local/bin/atom'
   export GOPATH="$HOME/.go"
+  export LS_COLORS=$(cat $HOME/Code/LS_COLORS/LS_COLORS_RAW)
 
   if [ -f ~/.bash_ps1 ]; then
     source ~/.bash_ps1

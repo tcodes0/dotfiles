@@ -28,6 +28,7 @@ alias webs='google webster'
 alias sed='gsed'
 alias e='echo'
 alias less="$PAGER"
+alias dircolors="gdircolors"
 #------------------
 #-------saved paths
 #------------------
@@ -36,7 +37,12 @@ alias abletondir='cd /Volumes/Izi/Ableton/_projects/time-killer\ Project'
 #------------------
 #--------ls aliases
 #------------------
-alias ls='ls -Gph'
+if [[ "$(uname -s)" =~ Darwin ]]; then
+  #on mac use gnu ls. BSD ls: ls -Gph
+  alias ls='gls -ph --color=always'
+else
+  alias ls='ls -ph --color=always'
+fi
 alias la='ls -A'
 alias ll='ls -lSAi'
 alias lt='ls -ltAi'
@@ -85,10 +91,10 @@ alias gamend='git commit --amend'
 #------------------
 #--------bash files
 #------------------
-alias bashrc='atom ~/.bashrc'
-alias bashaliases='atom ~/.bash_aliases'
-alias bashfunctions='atom ~/.bash_functions'
-alias bashps1='atom ~/.bash_ps1'
+alias bashrc='code        ~/.bashrc'
+alias bashaliases='code   ~/.bash_aliases'
+alias bashfunctions='code ~/.bash_functions'
+alias bashps1='code       ~/.bash_ps1'
 #------------------
 #----------mistakes
 #------------------
@@ -105,6 +111,7 @@ alias mdn='google mdn'
 alias watchsass="sass --watch css/index.sass:css/index.css 2>/dev/null 1>&2 &"
 alias twoSpacesOnly="gsed -n -e '/^  [^ ]/p'"
 alias webb="webbot.sh"
+alias publi="publish.sh"
 alias sshhost="ssh -p 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com"
 alias sshh="sshhost"
 alias sftphost="sftp -P 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com"
