@@ -1,11 +1,25 @@
 #! /usr/bin/env bash
+get_color(){
+  echo -n $((RANDOM % 231))
+}
+random_256color(){
+  local c=$(get_color)
+  # bad constrast colors, get another one
+  if [ "$c" -le 17 -o "$c" -ge 232 ]; then
+    random_256color
+  else
+    echo -n $c
+  fi
+}
 main () {
   local purple="\[\e[34m\]"
   local pink="\[\e[35m\]"
   local green="\[\e[32m\]"
   local yellow="\[\e[33m\]"
-  l="\[\e[90m\]"
+  local light_black="\[\e[90m\]"
   local black="\[\e[30m\]"
+  local _256_1="\[\e[38;05;$(random_256color)m\]"
+  local _256_2="\[\e[38;05;$(random_256color)m\]"
 
   local end="\[\e[0m\]"
   local underline="\[\e[4m\]"
@@ -37,8 +51,10 @@ main () {
       decorations="🍇 🥓"'  '
       ;;
     esac
-    colorMain=$pink
-    colorMeh=$black
+    colorMain=$_256_1
+    colorMeh=$_256_2
+    # colorMain=$pink
+    # colorMeh=$black
   else
     colorMain=$purple
     colorMeh=$black
