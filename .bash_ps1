@@ -1,65 +1,60 @@
 #! /usr/bin/env bash
-get_color(){
+get_number(){
   echo -n $((RANDOM % 231))
 }
+
 random_256color(){
-  local c=$(get_color)
+  local c=$(get_number)
   # bad constrast colors, get another one
   if [ "$c" -le 17 -o "$c" -ge 232 ]; then
     random_256color
   else
-    echo -n $c
+    echo -n "\e[38;05;${c}m"
   fi
 }
+
+#get a random color, for use outside ps1
+r256=$(random_256color)
+
 main () {
+  # colors
   local purple="\[\e[34m\]"
   local pink="\[\e[35m\]"
   local green="\[\e[32m\]"
   local yellow="\[\e[33m\]"
   local light_black="\[\e[90m\]"
   local black="\[\e[30m\]"
-  local _256_1="\[\e[38;05;$(random_256color)m\]"
-  local _256_2="\[\e[38;05;$(random_256color)m\]"
-
+  local _256_1="\[$r256\]"
+  local _256_2="\[$(random_256color)\]"
+  # other formatting
   local end="\[\e[0m\]"
   local underline="\[\e[4m\]"
   local bold="\[\e[1m\]"
   local decorations colorMain colorMeh colorText
+  if [[ "$(uname -s)" =~ Darwin ]]; then
+    #The spaces below avoids emoji collapsing on themselves. MacOS Sierra glitch.
+    local spacer='  '
+  else
+    local spacer=''
+  fi
 
   if [ "$(whoami)" != "root" ]; then
     case $(($RANDOM % 7)) in
-      0)
-      #The spaces avoids emoji collapsing on themselves. MacOS glitch.
-      decorations="🐺 🌋"'  '
-      ;;
-      1)
-      decorations="🌸 🌿"'  '
-      ;;
-      2)
-      decorations="🚀 💫"'  '
-      ;;
-      3)
-      decorations="🍁 🍷"'  '
-      ;;
-      4)
-      decorations="🔮 🦋"'  '
-      ;;
-      5)
-      decorations="🌄 🎆"'  '
-      ;;
-      6)
-      decorations="🍇 🥓"'  '
-      ;;
+      0)  decorations="🐺 🌋"$spacer  ;;
+      1)  decorations="🌸 🌿"$spacer  ;;
+      2)  decorations="🚀 💫"$spacer  ;;
+      3)  decorations="🍁 🍷"$spacer  ;;
+      4)  decorations="🔮 🦋"$spacer  ;;
+      5)  decorations="🌄 🎆"$spacer  ;;
+      6)  decorations="🍇 🥓"$spacer  ;;
     esac
     colorMain=$_256_1
     colorMeh=$_256_2
-    # colorMain=$pink
-    # colorMeh=$black
   else
     colorMain=$purple
     colorMeh=$black
     colorText=$pink
-    decorations="💠 💠"'  '
+    decorations="💠 💠"$spacer
   fi
 
   local horizontalSeparator="$colorMeh$underline$(printf %${COLUMNS}s)$end\n"

@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
+#sets COLUMNS env var that iterm2 doesn't set, even tho Terminal does
+tput init
+
 #========== Mac only
 if [[ "$(uname -s)" =~ Darwin ]]; then
   export PATH="/bin:/usr/local/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/bin:/usr/local/opt/go/libexec/bin"
   export CDPATH=$HOME:/Volumes:$HOME/Desktop
-  export EDITOR='/usr/local/bin/atom'
+  export EDITOR='code'
   export GOPATH="$HOME/.go"
   export LS_COLORS=$(cat $HOME/Code/LS_COLORS/LS_COLORS_RAW)
-  tput init #sets COLUMNS env var that iterm2 doesnt, even tho terminal does
 
   if [ -f ~/.bash_ps1 ]; then
     source ~/.bash_ps1
