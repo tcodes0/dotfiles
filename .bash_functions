@@ -1,16 +1,16 @@
 #!/usr/bin/bash
-cl () {
+cl() {
 	\cd "$1"
 	if [[ $? == 0 ]]; then
-		gls -ph --color=always
+		ls
 	fi
 }
 #- - - - - - - - - - -
-clp () {
+clp() {
 	cl "$(pbpaste)"
 }
 #- - - - - - - - - - -
-cdp () {
+cdp() {
 	local path="$(pbpaste)"
 	if ! [[ -d "$path" ]]; then
 		path=$(dirname "$path")
@@ -18,7 +18,7 @@ cdp () {
 	\cd "$path"
 }
 #- - - - - - - - - - -
-tml () {                   #too many lines
+tml() { #too many lines
 lines=$("$@" | wc -l)
 if [ $lines -gt '100' ]; then
 	precho "number of lines is $lines. Pipe into less? (y/n)"
@@ -31,7 +31,7 @@ else
 fi
 }
 #- - - - - - - - - - -
-xdec () {
+xdec() {
 	# from base x to decimal
 	# input - $1 base of input
 	local base=$1
@@ -46,7 +46,7 @@ xdec () {
 	printf '\n'
 }
 #- - - - - - - - - - -
-decx () {
+decx() {
 	# from decimal to base x
 	# input - $1 base of output
 	local base=$1
@@ -61,7 +61,7 @@ decx () {
 	printf \\n
 }
 #- - - - - - - - - - -
-bindec () {
+bindec() {
 	if [ $# == 0 ];then
 		precho "usage: bindec 1101\n\
       finds 1101 in decimal"
@@ -70,7 +70,7 @@ bindec () {
 	xdec 2 "$@"
 }
 #- - - - - - - - - - -
-hexdec () {
+hexdec() {
 	if [ $# == 0 ];then
 		precho "usage: hexdec ff\n\
       finds ff in decimal"
@@ -79,7 +79,7 @@ hexdec () {
 	xdec 16 "$@"
 }
 #- - - - - - - - - - -
-octdec () {
+octdec() {
 	if [ $# == 0 ];then
 		precho "usage: octdec 040\n\
       finds 40 in decimal"
@@ -88,7 +88,7 @@ octdec () {
 	xdec 8 "$@"
 }
 #- - - - - - - - - - -
-decbin () {
+decbin() {
 	if [ $# == 0 ]; then
 		precho "usage: decbin 73\n\
       finds 73 in binary"
@@ -97,7 +97,7 @@ decbin () {
 	decx 2 "$@"
 }
 #- - - - - - - - - - -
-decoct () {
+decoct() {
 	if [ $# == 0 ]; then
 		precho "usage: decoct 20\n\
       finds 20 in octal"
@@ -106,7 +106,7 @@ decoct () {
 	decx 8 "$@"
 }
 #- - - - - - - - - - -
-dechex () {
+dechex() {
 	if [ $# == 0 ]; then
 		precho "usage: decoct 20\n\
       finds 20 in octal"
@@ -126,7 +126,7 @@ hexbin() {
 binhex() {
 	dechex $(bindec "$@")
 }
-treeless () {
+treeless() {
 	case $# in
 		0)
 		tree . | less
@@ -145,7 +145,7 @@ treeless () {
 }
 alias tree='treeless'
 #- - - - - - - - - - -
-unicode () {
+unicode() {
 	if [ "$#" == "0" ] || [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
 		precho "usage: unicode f0 9f 8c b8"
 		precho "...echoes $(echo -e \\xf0\\x9f\\x8c\\xb8)"
@@ -176,7 +176,7 @@ unicode () {
 	echo -e '\e[0m'
 }
 #- - - - - - - - - - -
-hexdumb () {
+hexdumb() {
 	if [ $# == "0" ]; then
 		precho "usage: hexdumb $(echo -ne \\U1f319)" #crescent moon unicode symbol
 		precho "...dumps hex for the crescent moon"
@@ -191,7 +191,7 @@ hexdumb () {
 	spaced-and-together $hex
 }
 #- - - - - - - - - - -
-findname () {
+findname() {
 	if [ $# == "0" ]; then
 		precho 'run find here ./ case-insensitive and glob around args'
 		return
@@ -199,7 +199,7 @@ findname () {
 	find -Hx . -iname "*$1*"
 }
 #- - - - - - - - - - -
-findexec () {
+findexec() {
 	if [ $# == "0" ]; then
 		precho 'gfind . -name "*$1*" -execdir $2 {} \;'
 		return
@@ -225,21 +225,25 @@ precho(){
 		;;
 		-h )
 			shift
-      printf "\e[1;36m♦︎ precho ➡ a shortcut to some common colors\n\
-  only first short option is seen:\n\
-  \e[1;32m-k\t OK. print in green. \t\t\$1 is not passed to color.\e[0m\n\
-  \e[1;33m-w\t WARN. print in yellow. \t\$1 is not passed to color.\e[0m\n\
-  \e[1;31m-e\t ERR. print in red. \t\t\$1 is not passed to color.\e[0m\n\
-  \e[1;36m-*\t PRETTY. print in teal. \t\$1 is passed to color.\n\
-  -h\t see this help\e[0m\n"
+      printf "${r256}♦︎ precho ➡ a shortcut to some common colors. Uses color.sh underneath.
+      Only first short option is seen:
+      \e[1;32m-k\t OK. print in green.                 \$1 is not passed to color.\e[0m
+      \e[1;33m-w\t WARN. print in yellow.              \$1 is not passed to color.\e[0m
+      \e[1;31m-e\t ERR. print in red.                  \$1 is not passed to color.\e[0m
+      ${r256}-*\t PRETTY. print in a random or teal.   \$1 is passed to color.
+      -h\t see this help\e[0m\n"
 		;;
 		*)
-			echo -e "\e[1m♦︎ $@\e[0m"
+			if [ "$r256" ]; then
+				echo -e "${r256}♦︎ $@\e[0m"
+			else
+				echo -e "\e[1m♦︎ $@\e[0m"
+			fi
 		;;
 	esac
 }
 #- - - - - - - - - - -
-qmon () { #quick mount
+qmon() { #quick mount
 if [ $# == "0" ];then
 	args="EFI-MAC"
 else
@@ -271,7 +275,7 @@ if ! [ -z "$saved" ];then
 	return
 fi
 }
-qmon-parser () {
+qmon-parser() {
 	if [ $(($# % 2)) != 0 ];then
 		precho -e "Error: Got a non even number of arguments"
 		precho -e "$@"
@@ -290,7 +294,7 @@ qmon-parser () {
 	return
 }
 #- - - - - - - - - - -
-runc () { #run n check
+runc() { #run n check
 	bailout "runc is no longer"
 }
 #- - - - - - - - - - -
@@ -313,7 +317,7 @@ sritgo() {
 	fi
 }
 #- - - - - - - - - - -
-pbp () {
+pbp() {
 	echo "$(pbpaste)"
 }
 #- - - - - - - - - - -
@@ -333,7 +337,7 @@ bailout() {
 	fi
 }
 #- - - - - - - - - - -
-tra () {
+tra() {
 	if [[ $# == 0 ]]; then
 		return
 	fi
@@ -341,40 +345,34 @@ tra () {
 	if [[ $? != 0 ]]; then
 		return
 	else
-		\ls -Gph ./
+		ls
 	fi
 }
 #- - - - - - - - - - -
 gr() { #grep recursive
 	if [ "$#" == "0" -o "$1" == "-h" -o "$1" == "--help" ]; then
-		precho "grep -l recursive, case-insensitive\n\
-      ggrep -ri -E '\e[4;32margs\e[0m' -l"
+		gl
+		precho "Also recursive. I.e. grep -r"
 		return
 	fi
-	# shopt -u nullglob #unset this shopt. It messes up regexes
-	ggrep --color=auto -ri -E $@ -l
-	# shopt -s nullglob #because it removes strings with *. Set it back.
+	ggrep --color=auto -ri -E "$@" -l 2>/dev/null
 }
 #- - - - - - - - - - -
 gl() { #grep -l simply
 	if [ "$#" == "0" -o "$1" == "-h" -o "$1" == "--help" ]; then
-		precho "grep -l case-insensitive, /$(basename $PWD)/\\052\n\
-      ggrep --color=auto -iE '\e[4;32margs\e[0m' -l"
+		precho "grep -l case-insensitive, extended regex, on \$PWD, no error messages."
 		return
 	fi
-	# shopt -u nullglob #unset this shopt. It messes up regexes
-	ggrep --color=auto -iE "$@" -l *
-	# shopt -s nullglob #because it removes strings with *. Set it back.
+	ggrep --color=auto -iE "$@" -l * .* 2>/dev/null
 }
 #- - - - - - - - - - -
 gf() { #grep file
 	if [ "$#" -lt 2 -o "$1" == "-h" -o "$1" == "--help" ]; then
-		precho "grep case-insensitive\n\
-      with 3 args: (pattern, context lines, file)\n\
-      with 2 args: (pattern, file)"
+		precho "grep case-insensitive
+    with 3 args: (pattern, context lines, file)
+    with 2 args: (pattern, file)"
 		return
 	fi
-	# shopt -u nullglob
 	if [[ "$#" == 3 ]]; then
 		if [[ "$2" =~ - ]]; then
 			dash=""
@@ -385,7 +383,6 @@ gf() { #grep file
 	else
 		ggrep --color=auto -i -E "$1" "$2"
 	fi
-	# shopt -s nullglob
 }
 #- - - - - - - - - - -
 spaceString() {
@@ -495,7 +492,7 @@ maybeDebug() {
 		set -x
 	fi
 }
-tar7z () {
+tar7z() {
   if [ "$#" == 0 -o "$1" == "-h" ]; then
     precho "Provide a file. ./foo -> ./foo.tar.7z"
     bailout

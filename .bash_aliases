@@ -26,17 +26,18 @@ alias em='emacs'
 alias goo='google'
 alias webs='google webster'
 alias sed='gsed'
-alias e='echo'
+alias e='echo -e'
 alias less="$PAGER"
 alias dircolors="gdircolors"
-#------------------
+alias python="python3"
+###################
 #-------saved paths
-#------------------
+###################
 alias mackupdir='cd $(dirname $(readlink $HOME/.bashrc))'
 alias abletondir='cd /Volumes/Izi/Ableton/_projects/time-killer\ Project'
-#------------------
+###################
 #--------ls aliases
-#------------------
+###################
 if [[ "$(uname -s)" =~ Darwin ]]; then
   #on mac use gnu ls. BSD ls: ls -Gph
   alias ls='gls -ph --color=always'
@@ -46,15 +47,15 @@ fi
 alias la='ls -A'
 alias ll='ls -lSAi'
 alias lt='ls -ltAi'
-#------------------
+###################
 #-----internet guys
-#------------------
+###################
 alias wget='wget -c'
 alias histg="history | grep"
 alias myip='curl http://ipecho.net/plain; echo'
-#------------------
+###################
 #-----brew and cask
-#------------------
+###################
 alias cask='brew cask'
 alias brewi='brew info'
 alias caski='brew cask info'
@@ -66,9 +67,9 @@ alias brewh='brew home'
 alias caskh='brew cask home'
 alias brewI='brew install'
 alias caskI='brew cask install'
-#------------------
+###################
 #---------------git
-#------------------
+###################
 alias gits='git status'
 alias gs='git status'
 alias gitca='git commit -a'
@@ -88,23 +89,23 @@ alias gp='git push'
 alias gitm='git merge'
 alias gitr='git reset'
 alias gamend='git commit --amend'
-#------------------
+###################
 #--------bash files
-#------------------
+###################
 alias bashrc='code        ~/.bashrc'
 alias bashaliases='code   ~/.bash_aliases'
 alias bashfunctions='code ~/.bash_functions'
 alias bashps1='code       ~/.bash_ps1'
-#------------------
+###################
 #----------mistakes
-#------------------
+###################
 alias loca='local'
 alias emcas='emacs'
 alias emasc='emcas'
 alias me='emacs'
-#------------------
+###################
 #------------webdev
-#------------------
+###################
 alias caniuse='caniuse --mobile'
 alias cani='caniuse'
 alias mdn='google mdn'
