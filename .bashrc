@@ -3,6 +3,11 @@
 #sets COLUMNS env var that iterm2 doesn't set, even tho Terminal does
 tput init
 
+#========== Completions, external scripts
+if [ -f /usr/local/share/bash-completion/bash_completion ]; then source /usr/local/share/bash-completion/bash_completion; fi
+if [ -f $HOME/.git-completion.bash ]; then source $HOME/.git-completion.bash; fi
+if [ -f $HOME/.git-prompt.bash ]; then source $HOME/.git-prompt.bash; fi
+
 #========== Mac only
 if [[ "$(uname -s)" =~ Darwin ]]; then
   export PATH="/bin:/usr/local/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/bin:/usr/local/opt/go/libexec/bin"
@@ -35,6 +40,3 @@ if [ -f ~/.bash_aliases ]; then source ~/.bash_aliases; fi
 
 #========== Functions
 if [ -f ~/.bash_functions ]; then source ~/.bash_functions; fi
-
-#========== Software + Misc
-if [ -f /usr/local/share/bash-completion/bash_completion ]; then source /usr/local/share/bash-completion/bash_completion; fi

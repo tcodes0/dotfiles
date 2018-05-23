@@ -74,6 +74,7 @@ cask "phew"
 cask "plistedit-pro"
 cask "processing"
 cask "qbittorrent"
+cask "slack"
 cask "steam"
 cask "sublime-text"
 cask "torbrowser"
@@ -93,4 +94,5 @@ cask "caskroom/fonts/font-inconsolata-nerd-font"
 cask "caskroom/fonts/font-monoid-nerd-font"
 cask "caskroom/fonts/font-mononoki-nerd-font"
 cask "caskroom/fonts/font-robotomono-nerd-font"
+mas "Negative", id: 1378123825
 mas "Xcode", id: 497799835

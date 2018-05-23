@@ -5,11 +5,17 @@ cl() {
 		ls
 	fi
 }
+
+
 #- - - - - - - - - - -
+
+
 clp() {
 	cl "$(pbpaste)"
 }
+
 #- - - - - - - - - - -
+
 cdp() {
 	local path="$(pbpaste)"
 	if ! [[ -d "$path" ]]; then
@@ -17,7 +23,9 @@ cdp() {
 	fi
 	\cd "$path"
 }
+
 #- - - - - - - - - - -
+
 tml() { #too many lines
 lines=$("$@" | wc -l)
 if [ $lines -gt '100' ]; then
@@ -30,7 +38,9 @@ else
 	"$@"
 fi
 }
+
 #- - - - - - - - - - -
+
 xdec() {
 	# from base x to decimal
 	# input - $1 base of input
@@ -45,7 +55,9 @@ xdec() {
 	done
 	printf '\n'
 }
+
 #- - - - - - - - - - -
+
 decx() {
 	# from decimal to base x
 	# input - $1 base of output
@@ -60,7 +72,9 @@ decx() {
 	done
 	printf \\n
 }
+
 #- - - - - - - - - - -
+
 bindec() {
 	if [ $# == 0 ];then
 		precho "usage: bindec 1101\n\
@@ -69,7 +83,9 @@ bindec() {
 	fi
 	xdec 2 "$@"
 }
+
 #- - - - - - - - - - -
+
 hexdec() {
 	if [ $# == 0 ];then
 		precho "usage: hexdec ff\n\
@@ -78,7 +94,9 @@ hexdec() {
 	fi
 	xdec 16 "$@"
 }
+
 #- - - - - - - - - - -
+
 octdec() {
 	if [ $# == 0 ];then
 		precho "usage: octdec 040\n\
@@ -87,7 +105,9 @@ octdec() {
 	fi
 	xdec 8 "$@"
 }
+
 #- - - - - - - - - - -
+
 decbin() {
 	if [ $# == 0 ]; then
 		precho "usage: decbin 73\n\
@@ -96,7 +116,9 @@ decbin() {
 	fi
 	decx 2 "$@"
 }
+
 #- - - - - - - - - - -
+
 decoct() {
 	if [ $# == 0 ]; then
 		precho "usage: decoct 20\n\
@@ -105,7 +127,9 @@ decoct() {
 	fi
 	decx 8 "$@"
 }
+
 #- - - - - - - - - - -
+
 dechex() {
 	if [ $# == 0 ]; then
 		precho "usage: decoct 20\n\
@@ -144,7 +168,9 @@ treeless() {
 	return
 }
 alias tree='treeless'
+
 #- - - - - - - - - - -
+
 unicode() {
 	if [ "$#" == "0" ] || [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
 		precho "usage: unicode f0 9f 8c b8"
@@ -175,7 +201,9 @@ unicode() {
 	done
 	echo -e '\e[0m'
 }
+
 #- - - - - - - - - - -
+
 hexdumb() {
 	if [ $# == "0" ]; then
 		precho "usage: hexdumb $(echo -ne \\U1f319)" #crescent moon unicode symbol
@@ -190,7 +218,9 @@ hexdumb() {
 	local hex=$(gsed --regexp-extended --expression="$e1" --expression="$e2" <<< $string)
 	spaced-and-together $hex
 }
+
 #- - - - - - - - - - -
+
 findname() {
 	if [ $# == "0" ]; then
 		precho 'run find here ./ case-insensitive and glob around args'
@@ -198,7 +228,9 @@ findname() {
 	fi
 	find -Hx . -iname "*$1*"
 }
+
 #- - - - - - - - - - -
+
 findexec() {
 	if [ $# == "0" ]; then
 		precho 'gfind . -name "*$1*" -execdir $2 {} \;'
@@ -206,7 +238,9 @@ findexec() {
 	fi
 	gfind . -name "*$1*" -execdir "$2" {} \;
 }
+
 #- - - - - - - - - - -
+
 precho(){
 	case "$1" in
 		-k )
@@ -242,7 +276,9 @@ precho(){
 		;;
 	esac
 }
+
 #- - - - - - - - - - -
+
 qmon() { #quick mount
 if [ $# == "0" ];then
 	args="EFI-MAC"
@@ -293,11 +329,15 @@ qmon-parser() {
 	done
 	return
 }
+
 #- - - - - - - - - - -
+
 runc() { #run n check
 	bailout "runc is no longer"
 }
+
 #- - - - - - - - - - -
+
 start-commands() {
 	scheduler.sh --check
 	if [ "$(pwd)" == "$HOME" ]; then
@@ -305,7 +345,9 @@ start-commands() {
 	fi
 	return
 }
+
 #- - - - - - - - - - -
+
 sritgo() {
 	if [ "$1" == "-x" ];then
 		shift
@@ -316,15 +358,21 @@ sritgo() {
 		"$@"
 	fi
 }
+
 #- - - - - - - - - - -
+
 pbp() {
 	echo "$(pbpaste)"
 }
+
 #- - - - - - - - - - -
+
 color() {
 	color.sh "$@"
 }
+
 #- - - - - - - - - - -
+
 bailout() {
 	local message=$@
 	if [[ "$#" == "0" ]]; then
@@ -336,7 +384,9 @@ bailout() {
 		exit 1
 	fi
 }
+
 #- - - - - - - - - - -
+
 tra() {
 	if [[ $# == 0 ]]; then
 		return
@@ -348,7 +398,9 @@ tra() {
 		ls
 	fi
 }
+
 #- - - - - - - - - - -
+
 gr() { #grep recursive
 	if [ "$#" == "0" -o "$1" == "-h" -o "$1" == "--help" ]; then
 		gl
@@ -357,7 +409,9 @@ gr() { #grep recursive
 	fi
 	ggrep --color=auto -ri -E "$@" -l 2>/dev/null
 }
+
 #- - - - - - - - - - -
+
 gl() { #grep -l simply
 	if [ "$#" == "0" -o "$1" == "-h" -o "$1" == "--help" ]; then
 		precho "grep -l case-insensitive, extended regex, on \$PWD, no error messages."
@@ -365,7 +419,9 @@ gl() { #grep -l simply
 	fi
 	ggrep --color=auto -iE "$@" -l * .* 2>/dev/null
 }
+
 #- - - - - - - - - - -
+
 gf() { #grep file
 	if [ "$#" -lt 2 -o "$1" == "-h" -o "$1" == "--help" ]; then
 		precho "grep case-insensitive
@@ -384,18 +440,24 @@ gf() { #grep file
 		ggrep --color=auto -i -E "$1" "$2"
 	fi
 }
+
 #- - - - - - - - - - -
+
 spaceString() {
 	bailout "function removed"
 }
 alias eatString='spaceString'
+
 #- - - - - - - - - - -
+
 bug() {
 	set -x
 	"$@"
 	set +x
 }
+
 #- - - - - - - - - - -
+
 center() {
 	if [ $# == "0" -o "$1" == "-h" -o "$1" == "--help" ]; then
 		echo center\(\) prints a message on the center of the screen
@@ -434,7 +496,9 @@ center() {
 	if [ "$((message_length % 2))" == 0 ]; then printf " "; fi #compensate for rounding down of odd nums
 	printf "\n"
 }
+
 #- - - - - - - - - - -
+
 spaced-and-together() {
 	if [[ "$#" == 0 ]] || [[ "$1" == '-h' ]] || [[ "$1" == '--help' ]]; then
 		echo "give numbers separated by spaces to receive them back spaced and together"
