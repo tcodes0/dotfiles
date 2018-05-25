@@ -119,7 +119,7 @@ alias sftphost="sftp -P 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.co
 alias gpglist="gpg --list-secret-keys --keyid-format LONG"
 alias gpgexport="gpg --armor --export"
 alias gpgkeygen="gpg --full-generate-key"
-alias simplePrompt="PS1='\n\[\e[1;90m\w \e[0m\]\n$ '"
+alias simplePrompt="PS1='\n\[\e[1;90m\w \e[0m\]\n$ ' && PROMPT_COMMAND=''"
 alias npml="npm list --depth=0"
 alias npmgl="npm list --global --depth=0"
 alias npms="npm search"
