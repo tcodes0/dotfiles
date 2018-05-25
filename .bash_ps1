@@ -35,14 +35,8 @@ makePS1 () {
   local yellow="\[\e[33m\]"
   local light_black="\[\e[90m\]"
   local black="\[\e[30m\]"
-
-
-  if [[ "$(uname -s)" =~ Darwin ]]; then
-    #The spaces below avoids emoji collapsing on themselves. MacOS Sierra glitch.
-    local spacer='  '
-  else
-    local spacer=''
-  fi
+  #The spaces below avoids emoji collapsing on themselves. MacOS Sierra glitch.
+  local spacer='  '
 
   if [ "$(whoami)" != "root" ]; then
     case $(($RANDOM % 7)) in
