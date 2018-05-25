@@ -13,8 +13,10 @@ random_256color(){
   fi
 }
 
-#get a random color, for use outside ps1
-r256=$(random_256color)
+#get a random color, for use outside ps1, scripts (no i on $-) don't set this var
+if [[ "$-" =~ i ]]; then
+  export r256=$(random_256color)
+fi
 
 # other formatting
 _256_1="\[$r256\]"
