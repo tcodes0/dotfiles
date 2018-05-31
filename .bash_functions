@@ -399,7 +399,7 @@ tra() {
 
 #- - - - - - - - - - -
 
-gr() { #grep recursive
+grepr() { #grep recursive
 	if [ "$#" == "0" -o "$1" == "-h" -o "$1" == "--help" ]; then
 		gl
 		precho "Also recursive. I.e. grep -r"
@@ -410,7 +410,7 @@ gr() { #grep recursive
 
 #- - - - - - - - - - -
 
-gl() { #grep -l simply
+grepl() { #grep -l simply
 	if [ "$#" == "0" -o "$1" == "-h" -o "$1" == "--help" ]; then
 		precho "grep -l case-insensitive, extended regex, on \$PWD, no error messages."
 		return
@@ -420,7 +420,7 @@ gl() { #grep -l simply
 
 #- - - - - - - - - - -
 
-gf() { #grep file
+grepf() { #grep file
 	if [ "$#" -lt 2 -o "$1" == "-h" -o "$1" == "--help" ]; then
 		precho "grep case-insensitive
     with 3 args: (pattern, context lines, file)

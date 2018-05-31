@@ -28,6 +28,8 @@ colorMain=$_256_1
 colorMeh=$_256_2
 
 makePS1 () {
+  # use "preGit" or "postGit" as arg 1 to integrate with gitprompt script
+
   # colors
   local purple="\[\e[34m\]"
   local pink="\[\e[35m\]"
