@@ -513,6 +513,10 @@ spaced-and-together() {
 	echo -e "  spaced: $spaced"
 	echo -e "together: $together"
 }
+
+#- - - - - - - - - - -
+
+
 post-css() {
 	if [[ "$1" == '-h' ]] || [[ "$1" == '--help' ]]; then
 		precho "npx postcss css/*.css --use autoprefixer --dir ./build/css\
@@ -525,6 +529,9 @@ post-css() {
 		npx postcss css/*.css --use autoprefixer --dir ./build/css
 	fi
 }
+
+#- - - - - - - - - - -
+
 do-sass() {
 	if [[ "$1" == '-h' ]] || [[ "$1" == '--help' ]]; then
 		precho "sass --watch css/:css/   2>/dev/null 1>&2 &\
@@ -538,12 +545,21 @@ do-sass() {
 		export sassPID=$!
 	fi
 }
+
+#- - - - - - - - - - -
+
 sed-rm-html-tags() {
 	gsed -Ee 's/<[^>]+>|<\/[^>]+>//gm' || echo error. Please cat an html file into this function.
 }
+
+#- - - - - - - - - - -
+
 sed-rm-term-color-escapes() {
 	gsed -Ee 's/\[[0-9][0-9]?m/ /gm' || echo error. Please cat terminal output into this function. TIP: caniuse-cli output
 }
+
+#- - - - - - - - - - -
+
 maybeDebug() {
 	if [ "$x" ]; then
 		bailout "use --debug not -x"
@@ -554,6 +570,9 @@ maybeDebug() {
 		set -x
 	fi
 }
+
+#- - - - - - - - - - -
+
 tar7z() {
   if [ "$#" == 0 -o "$1" == "-h" ]; then
     precho "Provide a file. ./foo -> ./foo.tar.7z"
@@ -561,6 +580,9 @@ tar7z() {
   fi
   tar cf - "$1" 2>/dev/null | 7za a -si -mx=7 "$1.tar.7z" 1>/dev/null
 }
+
+#- - - - - - - - - - -
+
 parse-shorts() {
   while getopts ":abcdefghijklmnopqrstuvwxyz" opt; do
     case $opt in
@@ -574,15 +596,30 @@ parse-shorts() {
     esac
   done
 }
+
+#- - - - - - - - - - -
+
 debug(){
   if [[ "$x" ]]; then
     set -x
     echo -e "\e[1;33m\n\nDEBUGGING STARTED ON: $(if [ "${FUNCNAME[1]}" == "main" ]; then printf "$0"; else printf "${FUNCNAME[1]}"; fi)\n\n\e[0m"
   fi
 }
+
+#- - - - - - - - - - -
+
 rawgithub(){
 	args="$@"
 	args=${args/github/raw.githubusercontent}
 	args=${args/\/raw\//\/}
 	curl --silent $args
+}
+
+#- - - - - - - - - - -
+
+uni4(){
+	if [ "$#" == 0 ]; then
+		precho "please provide a 4 char hex unicode value, e.g. e702"
+	fi
+	echo -ne \\u$1
 }

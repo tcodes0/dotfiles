@@ -13,6 +13,18 @@ random_256color(){
   fi
 }
 
+glyph_git_dev(){
+  echo -ne \\uf7a1
+}
+
+glyph_git_branch(){
+  echo -ne \\ue725
+}
+
+glyph_git_cat(){
+  echo -ne \\uf61a
+}
+
 #get a random color, for use outside ps1, scripts (no i on $-) don't set this var
 if [[ "$-" =~ i ]]; then
   export r256=$(random_256color)
@@ -73,4 +85,4 @@ makePS1 () {
   # printf "${horizontalSeparator}${histoty}${workdir}${clock}\n${decorations}"
 }
 export PS1=$(makePS1)
-export PROMPT_COMMAND="__git_ps1 '$(makePS1 preGit)' '$(makePS1 postGit)' '$colorMeh=> $end$colorMain$underline%s$end'"
+export PROMPT_COMMAND="__git_ps1 '$(makePS1 preGit)' '$(makePS1 postGit)' '$colorMeh$(glyph_git_branch)  $end$colorMain$underline%s$end'"
