@@ -70,25 +70,25 @@ alias caskI='brew cask install'
 ###################
 #---------------git
 ###################
-alias gits='git status'
-alias gs='git status'
-alias gitca='git commit -a'
-alias gca='git commit -a'
-alias gitc='git commit'
-alias gitl='git log'
+# alias gits='git status'
+# alias gs='git status'
+# alias gitca='git commit -a'
+# alias gca='git commit -a'
+# alias gitc='git commit'
+# alias gitl='git log'
 # alias gl='git log' #conflicts with "grep -l" gl func()
-alias gith='git checkout'
-alias gh='git checkout'
-alias gita='git add'
-alias gitaa='git add --all'
-alias gitb='git branch'
-alias gb='git branch'
-alias gitd='git diff'
-alias gitp='git push'
-alias gp='git push'
-alias gitm='git merge'
-alias gitr='git reset'
-alias gamend='git commit --amend'
+# alias gith='git checkout'
+# alias gh='git checkout'
+# alias gita='git add'
+# alias gitaa='git add --all'
+# alias gitb='git branch'
+# alias gb='git branch'
+# alias gitd='git diff'
+# alias gitp='git push'
+# alias gp='git push'
+# alias gitm='git merge'
+# alias gitr='git reset'
+# alias gamend='git commit --amend'
 ###################
 #--------bash files
 ###################
@@ -133,11 +133,11 @@ alias yarnI="yarn add"
 ###################
 #------------Zsh
 ###################
-alias ...=../.....
-alias ....=../../..
-alias .....=../../../..
-alias ......=../../../../..
-alias g=git
+alias ...="cl ../.."
+alias ....="cl ../../.."
+alias .....="cl ../../../.."
+alias ......="cl ../../../../.."
+# alias g=git
 alias ga='git add'
 alias gaa='git add --all'
 alias gap='git apply'
@@ -183,10 +183,10 @@ alias gfa='git fetch --all --prune'
 alias gfo='git fetch origin'
 alias gg='git gui citool'
 alias gga='git gui citool --amend'
-alias ggpull='git pull origin $(git_current_branch)'
+alias ggpull="git pull origin $__git_ps1_branch_name"
 alias ggpur=ggu
-alias ggpush='git push origin $(git_current_branch)'
-alias ggsup='git branch --set-upstream-to=origin/$(git_current_branch)'
+alias ggpush="git push origin $__git_ps1_branch_name"
+alias ggsup="git branch --set-upstream-to=origin/$__git_ps1_branch_name"
 alias ghh='git help'
 alias gignore='git update-index --assume-unchanged'
 alias gignored='git ls-files -v | grep "^[[:lower:]]"'
@@ -217,7 +217,7 @@ alias gp='git push'
 alias gpd='git push --dry-run'
 alias gpoat='git push origin --all && git push origin --tags'
 alias gpristine='git reset --hard && git clean -dfx'
-alias gpsup='git push --set-upstream origin $(git_current_branch)'
+alias gpsup="git push --set-upstream origin $__git_ps1_branch_name"
 alias gpu='git push upstream'
 alias gpv='git push -v'
 alias gr='git remote'
