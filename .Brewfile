@@ -11,7 +11,7 @@ brew "bchunk"
 brew "cabextract"
 brew "cdrdao"
 brew "checkbashisms"
-brew "node", link: false
+brew "node"
 brew "coffeescript"
 brew "coreutils"
 brew "python"

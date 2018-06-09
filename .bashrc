@@ -18,6 +18,7 @@ GIT_PS1_DESCRIBE_STYLE="branch"
 if [ -f /usr/local/share/bash-completion/bash_completion ]; then source /usr/local/share/bash-completion/bash_completion; fi
 if [ -f $HOME/.git-completion.bash ]; then source $HOME/.git-completion.bash; fi
 if [ -f $HOME/.git-prompt.bash ]; then source $HOME/.git-prompt.bash; fi
+if [ -f $HOME/.yarn-completion.bash ]; then source $HOME/.yarn-completion.bash; fi
 
 #========== Mac only
 if [[ "$(uname -s)" =~ Darwin ]]; then
@@ -51,3 +52,6 @@ if [ -f ~/.bash_aliases ]; then source ~/.bash_aliases; fi
 
 #========== Functions
 if [ -f ~/.bash_functions ]; then source ~/.bash_functions; fi
+
+#========== Vscode
+if [ $VSCODE_OVERRIDES ]; then source $VSCODE_OVERRIDES; fi
