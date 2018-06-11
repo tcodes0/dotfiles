@@ -64,7 +64,7 @@ makePS1 () {
     esac
   else
     colorMain=$purple
-    colorMeh=$black
+    colorMeh=$pink
     colorText=$pink
     decorations="💠 💠"$spacer
   fi

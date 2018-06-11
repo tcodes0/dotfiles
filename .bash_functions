@@ -577,12 +577,19 @@ tar7z() {
   if [ "$#" == 0 -o "$1" == "-h" ]; then
     precho "Provide a file. foo -> foo.tar.7z"
     bailout
+		printf "\n"
   fi
 	local safeArg=$1
 	if [[ "$safeArg" =~ [/]$ ]]; then
 		safeArg=${safeArg:0:-1}
 	fi
   tar cf - "$safeArg" 2>/dev/null | 7za a -si -mx=7 "${safeArg}.tar.7z" 1>/dev/null
+}
+
+#- - - - - - - - - - -
+
+pipeTar7z() {
+  tar cf - @- 2>/dev/null | 7za a -si -mx=7 "file.tar.7z" 1>/dev/null
 }
 
 #- - - - - - - - - - -
