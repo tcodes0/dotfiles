@@ -71,7 +71,7 @@ makePS1 () {
 
   local horizontalSeparator="$colorMeh$underline$(printf %${COLUMNS}s)$end\n"
   local workdir="$colorMain\w $end"
-  local histoty="$colorMeh!\! $end"
+  local history="$colorMeh!\! $end"
   local clock="$colorMeh\@ $end"
   local S="$colorMain\\$ $end$colorText"
 

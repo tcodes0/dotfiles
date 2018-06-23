@@ -53,20 +53,25 @@ alias lt='ls -ltAi'
 alias wget='wget -c'
 alias histg="history | grep"
 alias myip='curl http://ipecho.net/plain; echo'
-###################
-#-----brew and cask
-###################
-alias cask='brew cask'
+###########
+#-----brew
+###########
 alias brewi='brew info'
-alias caski='brew cask info'
 alias brewl='brew list'
-alias caskl='brew cask list'
 alias brews='brew search'
-alias casks='brew cask search'
 alias brewh='brew home'
-alias caskh='brew cask home'
 alias brewI='brew install'
+alias brewR='brew uninstall'
+###########
+#-----cask
+###########
+alias cask='brew cask'
+alias caski='brew cask info'
+alias caskl='brew cask list'
+alias casks='brew cask search'
+alias caskh='brew cask home'
 alias caskI='brew cask install'
+alias caskR='brew cask uninstall'
 ###################
 #---------------git
 ###################
@@ -125,6 +130,7 @@ alias npmgl="npm list --global --depth=0"
 alias npms="npm search"
 alias npmh="npm repo"
 alias npmI="npm install"
+alias y="yarn"
 alias yarnl="yarn list --depth=0"
 alias yarngl="yarn global list --depth=0"
 alias yarns="npm search"
@@ -133,10 +139,11 @@ alias yarnI="yarn add"
 ###################
 #------------Zsh
 ###################
-alias ...="cl ../.."
-alias ....="cl ../../.."
-alias .....="cl ../../../.."
-alias ......="cl ../../../../.."
+alias ...="cl ../../"
+alias ....="cl ../../../"
+alias .....="cl ../../../../"
+alias ......="cl ../../../../../"
+alias git="hub"
 # alias g=git
 alias ga='git add'
 alias gaa='git add --all'

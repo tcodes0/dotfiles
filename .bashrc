@@ -22,7 +22,7 @@ if [ -f $HOME/.yarn-completion.bash ]; then source $HOME/.yarn-completion.bash; 
 
 #========== Mac only
 if [[ "$(uname -s)" =~ Darwin ]]; then
-  export PATH="/bin:/usr/local/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/bin:/usr/local/opt/go/libexec/bin"
+  export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/bin:/usr/local/opt/go/libexec/bin"
   export CDPATH=$HOME:/Volumes:$HOME/Desktop
   export EDITOR='code'
   export GOPATH="$HOME/.go"
