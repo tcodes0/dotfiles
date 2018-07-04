@@ -30,6 +30,8 @@ alias e='echo -e'
 alias less="$PAGER"
 alias dircolors="gdircolors"
 alias python="python3"
+alias ncdu="ncdu -x --si"
+alias visudo="EDITOR=emacs && visudo"
 ###################
 #-------saved paths
 ###################
@@ -73,28 +75,6 @@ alias caskh='brew cask home'
 alias caskI='brew cask install'
 alias caskR='brew cask uninstall'
 ###################
-#---------------git
-###################
-# alias gits='git status'
-# alias gs='git status'
-# alias gitca='git commit -a'
-# alias gca='git commit -a'
-# alias gitc='git commit'
-# alias gitl='git log'
-# alias gl='git log' #conflicts with "grep -l" gl func()
-# alias gith='git checkout'
-# alias gh='git checkout'
-# alias gita='git add'
-# alias gitaa='git add --all'
-# alias gitb='git branch'
-# alias gb='git branch'
-# alias gitd='git diff'
-# alias gitp='git push'
-# alias gp='git push'
-# alias gitm='git merge'
-# alias gitr='git reset'
-# alias gamend='git commit --amend'
-###################
 #--------bash files
 ###################
 alias bashrc='code        ~/.bashrc'
@@ -137,7 +117,7 @@ alias yarns="npm search"
 alias yarnh="npm repo"
 alias yarnI="yarn add"
 ###################
-#------------Zsh
+#---------Zsh & Git
 ###################
 alias ...="cl ../../"
 alias ....="cl ../../../"
