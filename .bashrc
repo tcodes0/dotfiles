@@ -15,18 +15,20 @@ GIT_PS1_STATESEPARATOR=""
 GIT_PS1_DESCRIBE_STYLE="branch"
 # GIT_PS1_SHOWCOLORHINTS="true"
 
+VHOME=/Users/vamac
+
 if [ -f /usr/local/share/bash-completion/bash_completion ]; then source /usr/local/share/bash-completion/bash_completion; fi
-if [ -f $HOME/.git-completion.bash ]; then source $HOME/.git-completion.bash; fi
-if [ -f $HOME/.git-prompt.bash ]; then source $HOME/.git-prompt.bash; fi
-if [ -f $HOME/.yarn-completion.bash ]; then source $HOME/.yarn-completion.bash; fi
+if [ -f $VHOME/.git-completion.bash ]; then source $VHOME/.git-completion.bash; fi
+if [ -f $VHOME/.git-prompt.bash ]; then source $VHOME/.git-prompt.bash; fi
+if [ -f $VHOME/.yarn-completion.bash ]; then source $VHOME/.yarn-completion.bash; fi
 
 #========== Mac only
 if [[ "$(uname -s)" =~ Darwin ]]; then
-  export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/bin:/usr/local/opt/go/libexec/bin"
-  export CDPATH=$HOME:/Volumes:$HOME/Desktop
+  export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$VHOME/bin:/usr/local/opt/go/libexec/bin"
+  export CDPATH=$VHOME:/Volumes:$VHOME/Desktop
   export EDITOR='code'
-  export GOPATH="$HOME/.go"
-  export LS_COLORS=$(cat $HOME/Code/LS_COLORS/LS_COLORS_RAW)
+  export GOPATH="$VHOME/.go"
+  export LS_COLORS=$(cat $VHOME/Code/LS_COLORS/LS_COLORS_RAW)
 
   if [ -f ~/.bash_ps1 ]; then
     source ~/.bash_ps1
@@ -44,7 +46,7 @@ export TIMEFORMAT=$'\n-time elapsed-\nreal\t%3Rs\nuser\t%3Us\nsystem\t%3Ss'
 export BLOCKSIZE=1000000 #1 Megabyte
 export LESS="--LINE-NUMBERS --prompt=?eEND:%pb\%. ?f%F:Stdin.\: page %d of %D, line %lb of %L"
 export PAGER="/usr/bin/less --RAW-CONTROL-CHARS --HILITE-UNREAD --window=-5 --quiet +3uGg"
-export BASH_ENV="$HOME/.bashrc"
+export BASH_ENV="$VHOME/.bashrc"
 shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend #nullglob
 
 #========== Aliases
