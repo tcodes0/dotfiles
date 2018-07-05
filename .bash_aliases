@@ -31,7 +31,7 @@ alias less="$PAGER"
 alias dircolors="gdircolors"
 alias python="python3"
 alias ncdu="ncdu -x --si"
-alias visudo="EDITOR=emacs && visudo"
+alias visudo="EDITOR=emacs && sudo visudo"
 ###################
 #-------saved paths
 ###################
