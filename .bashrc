@@ -15,6 +15,7 @@ GIT_PS1_STATESEPARATOR=""
 GIT_PS1_DESCRIBE_STYLE="branch"
 # GIT_PS1_SHOWCOLORHINTS="true"
 
+# Mac home dir
 VHOME=/Users/vamac
 
 if [ -f /usr/local/share/bash-completion/bash_completion ]; then source /usr/local/share/bash-completion/bash_completion; fi
@@ -47,6 +48,7 @@ export BLOCKSIZE=1000000 #1 Megabyte
 export LESS="--LINE-NUMBERS --prompt=?eEND:%pb\%. ?f%F:Stdin.\: page %d of %D, line %lb of %L"
 export PAGER="/usr/bin/less --RAW-CONTROL-CHARS --HILITE-UNREAD --window=-5 --quiet +3uGg"
 export BASH_ENV="$VHOME/.bashrc"
+export GPG_TTY=$(tty)
 shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend #nullglob
 
 #========== Aliases
