@@ -18,6 +18,7 @@ GIT_PS1_DESCRIBE_STYLE="branch"
 # Mac home dir
 VHOME=/Users/vamac
 
+#========== Early sourcing
 if [ -f /usr/local/share/bash-completion/bash_completion ]; then source /usr/local/share/bash-completion/bash_completion; fi
 if [ -f $VHOME/.git-completion.bash ]; then source $VHOME/.git-completion.bash; fi
 if [ -f $VHOME/.git-prompt.bash ]; then source $VHOME/.git-prompt.bash; fi
@@ -51,11 +52,7 @@ export BASH_ENV="$VHOME/.bashrc"
 export GPG_TTY=$(tty)
 shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend #nullglob
 
-#========== Aliases
+#========== Late sourcing
 if [ -f ~/.bash_aliases ]; then source ~/.bash_aliases; fi
-
-#========== Functions
 if [ -f ~/.bash_functions ]; then source ~/.bash_functions; fi
-
-#========== Vscode
 if [ $VSCODE_OVERRIDES ]; then source $VSCODE_OVERRIDES; fi
