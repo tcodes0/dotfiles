@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 
-#sets COLUMNS env var that iterm2 doesn't set, even tho Terminal does
+#========== Most important helper for init files
+dosource() {
+  [ "$#" == 0 ] && return 1
+  [ -f "$1" ] || return 1
+  source "$1"
+}
+
+#it's recommended by a man page to set this here for better compatibility I guess
 tput init
 
 #========== Completions, external scripts, git prompt
@@ -19,10 +26,10 @@ GIT_PS1_DESCRIBE_STYLE="branch"
 VHOME=/Users/vamac
 
 #========== Early sourcing
-if [ -f /usr/local/share/bash-completion/bash_completion ]; then source /usr/local/share/bash-completion/bash_completion; fi
-if [ -f $VHOME/.git-completion.bash ]; then source $VHOME/.git-completion.bash; fi
-if [ -f $VHOME/.git-prompt.bash ]; then source $VHOME/.git-prompt.bash; fi
-if [ -f $VHOME/.yarn-completion.bash ]; then source $VHOME/.yarn-completion.bash; fi
+dosource /usr/local/share/bash-completion/bash_completion
+dosource $VHOME/.git-completion.bash
+dosource $VHOME/.git-prompt.bash
+dosource $VHOME/.yarn-completion.bash
 
 #========== Mac only
 if [[ "$(uname -s)" =~ Darwin ]]; then
@@ -53,6 +60,7 @@ export GPG_TTY=$(tty)
 shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend #nullglob
 
 #========== Late sourcing
-if [ -f ~/.bash_aliases ]; then source ~/.bash_aliases; fi
-if [ -f ~/.bash_functions ]; then source ~/.bash_functions; fi
-if [ $VSCODE_OVERRIDES ]; then source $VSCODE_OVERRIDES; fi
+dosource ~/Code/functional-bash/main.bash
+dosource ~/.bash_aliases
+dosource ~/.bash_functions
+dosource $VSCODE_OVERRIDES
