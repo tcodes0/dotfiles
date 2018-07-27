@@ -1,43 +1,49 @@
 #! /usr/bin/env bash
-get_number(){
+getNumber(){
   echo -n $((RANDOM % 231))
 }
 
-random_256color(){
-  local c=$(get_number)
+random256Color(){
+  local c=$(getNumber)
   # bad constrast colors, get another one
   if [ "$c" -le 17 -o "$c" -ge 232 ]; then
-    random_256color
+    random256Color
   else
     echo -n "\e[38;05;${c}m"
   fi
 }
 
-glyph_git_dev(){
+glyphGitDev(){
   echo -ne \\uf7a1
 }
 
-glyph_git_branch(){
+glyphGitBranch(){
   echo -ne \\ue725
 }
 
-glyph_git_cat(){
+glyphGitCat(){
   echo -ne \\uf61a
+}
+
+getTermColumns(){
+  if [ "$COLUMNS" ]; then
+    echo $COLUMNS
+  else
+    which tput 1>/dev/null 2>&1 && echo $(tput cols)
+  fi
 }
 
 #get a random color, for use outside ps1, scripts (no i on $-) don't set this var
 if [[ "$-" =~ i ]]; then
-  export r256=$(random_256color)
+  export r256=$(random256Color)
 fi
 
 # other formatting
-_256_1="\[$r256\]"
-_256_2="\[$(random_256color)\]"
 end="\[\e[0m\]"
 underline="\[\e[4m\]"
 bold="\[\e[1m\]"
-colorMain=$_256_1
-colorMeh=$_256_2
+mainColor="\[$r256\]"
+auxiliarColor="\[$(random256Color)\]"
 
 makePS1 () {
   # use "preGit" or "postGit" as arg 1 to integrate with gitprompt script
@@ -51,6 +57,7 @@ makePS1 () {
   local black="\[\e[30m\]"
   #The spaces below avoids emoji collapsing on themselves. MacOS Sierra glitch.
   local spacer='  '
+  local cols=$(getTermColumns)
 
   if [ "$(whoami)" != "root" ]; then
     case $(($RANDOM % 7)) in
@@ -63,26 +70,26 @@ makePS1 () {
       6)  decorations="🍇 🥓"$spacer  ;;
     esac
   else
-    colorMain=$purple
-    colorMeh=$pink
+    mainColor=$purple
+    auxiliarColor=$pink
     colorText=$pink
     decorations="💠 💠"$spacer
   fi
 
-  local horizontalSeparator="$colorMeh$underline$(printf %${COLUMNS}s)$end\n"
-  local workdir="$colorMain\w $end"
-  local history="$colorMeh!\! $end"
-  local clock="$colorMeh\@ $end"
-  local S="$colorMain\\$ $end$colorText"
+  local horizontalLine="$auxiliarColor$underline$(printf %${cols}s)$end\n"
+  local workdir="$mainColor\w $end"
+  local history="$auxiliarColor!\! $end"
+  local clock="$auxiliarColor\@ $end"
+  local S="$mainColor\\$ $end$colorText"
 
   case "$1" in
-    "preGit") printf "${horizontalSeparator}${clock}${workdir}";;
+    "preGit") printf "${horizontalLine}${clock}${workdir}";;
     "postGit") printf "\n${decorations}";;
-    *) printf "${horizontalSeparator}${clock}${workdir}\n${decorations}";;
+    *) printf "${horizontalLine}${clock}${workdir}\n${decorations}";;
   esac
 
-  # printf "${horizontalSeparator}${clock}${workdir}\n${decorations}"
-  # printf "${horizontalSeparator}${histoty}${workdir}${clock}\n${decorations}"
+  # printf "${horizontalLine}${clock}${workdir}\n${decorations}"
+  # printf "${horizontalLine}${histoty}${workdir}${clock}\n${decorations}"
 }
 export PS1=$(makePS1)
-export PROMPT_COMMAND="__git_ps1 '$(makePS1 preGit)' '$(makePS1 postGit)' '$colorMeh$(glyph_git_branch)  $end$colorMain$underline%s$end'"
+export PROMPT_COMMAND="__git_ps1 '$(makePS1 preGit)' '$(makePS1 postGit)' '$auxiliarColor$(glyphGitBranch)  $end$mainColor$underline%s$end'"
