@@ -78,9 +78,9 @@ alias caskR='brew cask uninstall'
 #--------bash files
 ###################
 alias bashrc='code        ~/.bashrc'
-alias bashaliases='code   ~/.bash_aliases'
-alias bashfunctions='code ~/.bash_functions'
-alias bashps1='code       ~/.bash_ps1'
+alias bashaliases='code   ~/.aliases.bash'
+alias bashfunctions='code ~/.functions.bash'
+alias bashps1='code       ~/.prompt.bash'
 ###################
 #----------mistakes
 ###################
