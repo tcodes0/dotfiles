@@ -549,7 +549,8 @@ sed-rm-term-color-escapes() {
 
 maybeDebug() {
 	if [ "$x" ]; then
-		bailout "use --debug not -x"
+		bailout "use --debug not -x \n"
+		return 1
 	fi
 	if [ "$debug" ]; then
 		local name=$(if [ "${FUNCNAME[1]}" == "main" ]; then printf "$0"; else printf "${FUNCNAME[1]}"; fi)
@@ -562,9 +563,8 @@ maybeDebug() {
 
 tar7z() {
   if [ "$#" == 0 -o "$1" == "-h" ]; then
-    precho "Provide a file. foo -> foo.tar.7z"
-    bailout
-		printf "\n"
+    bailout "Provide a file. foo -> foo.tar.7z \n"
+		return 1
   fi
 	local safeArg=$1
 	if [[ "$safeArg" =~ [/]$ ]]; then
@@ -616,6 +616,6 @@ rawgithub() {
 #- - - - - - - - - - -
 
 uni4() {
-	[ "$#" == 0 ] && bailout "please provide a 4 char hex unicode value, e.g. e702"
+	[ "$#" == 0 -o "$1" == -h ] && bailout "please provide a 4 char hex unicode value, e.g. e702 \n" && return 1
 	echo -ne \\u$1
 }
