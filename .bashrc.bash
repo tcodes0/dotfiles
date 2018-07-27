@@ -56,7 +56,7 @@ export TIMEFORMAT=$'\n-time elapsed-\nreal\t%3Rs\nuser\t%3Us\nsystem\t%3Ss'
 export BLOCKSIZE=1000000 #1 Megabyte
 export LESS="--LINE-NUMBERS --prompt=?eEND:%pb\%. ?f%F:Stdin.\: page %d of %D, line %lb of %L"
 export PAGER="/usr/bin/less --RAW-CONTROL-CHARS --HILITE-UNREAD --window=-5 --quiet +3uGg"
-export BASH_ENV="$VHOME/.bashrc"
+export BASH_ENV="$VHOME/.bashrc.bash"
 export GPG_TTY=$(tty)
 shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend #nullglob
 
