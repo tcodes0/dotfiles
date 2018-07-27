@@ -7,10 +7,14 @@ dosource() {
   source "$1"
 }
 
-#it's recommended by a man page to set this here for better compatibility I guess
-tput init
-
 #========== Completions, external scripts, git prompt
+# Early sourcing
+dosource /usr/local/share/bash-completion/bash_completion
+dosource $VHOME/.git-completion.bash
+dosource $VHOME/.git-prompt.bash
+dosource $VHOME/.yarn-completion.bash
+dosource ~/Code/functional-bash/main.bash
+
 GIT_PS1_SHOWDIRTYSTATE="true"
 GIT_PS1_SHOWSTASHSTATE="true"
 GIT_PS1_SHOWUNTRACKEDFILES="true"
@@ -24,12 +28,9 @@ GIT_PS1_DESCRIBE_STYLE="branch"
 
 # Mac home dir
 VHOME=/Users/vamac
+#it's recommended by a man page to set this here for better compatibility I guess
+tput init
 
-#========== Early sourcing
-dosource /usr/local/share/bash-completion/bash_completion
-dosource $VHOME/.git-completion.bash
-dosource $VHOME/.git-prompt.bash
-dosource $VHOME/.yarn-completion.bash
 
 #========== Mac only
 if [[ "$(uname -s)" =~ Darwin ]]; then
@@ -60,7 +61,6 @@ export GPG_TTY=$(tty)
 shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend #nullglob
 
 #========== Late sourcing
-dosource ~/Code/functional-bash/main.bash
 dosource ~/.aliases.bash
 dosource ~/.functions.bash
 dosource $VSCODE_OVERRIDES
