@@ -39,8 +39,8 @@ if [[ "$(uname -s)" =~ Darwin ]]; then
   export GOPATH="$VHOME/.go"
   export LS_COLORS=$(cat $VHOME/Code/LS_COLORS/LS_COLORS_RAW)
 
-  if [ -f ~/.bash_ps1 ]; then
-    source ~/.bash_ps1
+  if [ -f ~/.prompt.bash ]; then
+    source ~/.prompt.bash
   else
     export PS1="\n\w\n\$ "
   fi
@@ -61,6 +61,6 @@ shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend 
 
 #========== Late sourcing
 dosource ~/Code/functional-bash/main.bash
-dosource ~/.bash_aliases
-dosource ~/.bash_functions
+dosource ~/.aliases.bash
+dosource ~/.functions.bash
 dosource $VSCODE_OVERRIDES
