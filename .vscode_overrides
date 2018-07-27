@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# source $HOME/.bashrc
+alias yarn="clear && yarn"
+alias code="clear && code"
+alias srit="clear && source $HOME/.bashrc"
+
+source $HOME/.prompt.bash

@@ -1,0 +1,16 @@
+*
+!.*.bash
+!.bash*
+!.emacs*
+!.input*
+!.git-pr*
+!LICENSE
+!.vscode*
+!.git*
+!.mackup*
+!.npm*
+!.zsh*
+!.inputrc
+!.hyper*
+*~
+.git-completion.bash
