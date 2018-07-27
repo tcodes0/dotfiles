@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 alias cd='cd -P'
 alias cd='cl'
 alias rm='rm -ri'
@@ -70,7 +70,7 @@ alias brewR='brew uninstall'
 alias cask='brew cask'
 alias caski='brew cask info'
 alias caskl='brew cask list'
-alias casks='brew cask search'
+alias casks='brew search'
 alias caskh='brew cask home'
 alias caskI='brew cask install'
 alias caskR='brew cask uninstall'

@@ -1,22 +1,15 @@
-#!/usr/bin/bash
-cl() {
-	\cd "$1"
-	if [[ $? == 0 ]]; then
-		ls
-	fi
-}
-
 #- - - - - - - - - - -
 
-clp() {
-	cl "$(pbpaste)"
+cl() {
+	\cd -P "$1" 1>/dev/null
+	ifCommandSuceeded ls
 }
 
 #- - - - - - - - - - -
 
 cdp() {
 	local path="$(pbpaste)"
-	if ! [[ -d "$path" ]]; then
+	if [ ! -d "$path" ]; then
 		path=$(dirname "$path")
 	fi
 	\cd "$path"
@@ -239,7 +232,7 @@ findexec() {
 
 #- - - - - - - - - - -
 
-precho(){
+precho() {
 	case "$1" in
 		-k )
 			shift
@@ -319,9 +312,7 @@ qmon-parser() {
 		disk="$1"
 		part="$2"
 		diskutil mount disk${disk}s${part}
-		if [ $? == 0 ];then
-			echo "$disk $part" > ~/.qmon-last
-		fi
+		ifCommandSuceeded echo "$disk $part" > ~/.qmon-last
 		shift
 		shift
 	done
@@ -386,15 +377,9 @@ bailout() {
 #- - - - - - - - - - -
 
 tra() {
-	if [[ $# == 0 ]]; then
-		return
-	fi
+	[ $# == 0 ] && return 1
 	trash "$@"
-	if [[ $? != 0 ]]; then
-		return
-	else
-		ls
-	fi
+	ifCommandSuceeded ls
 }
 
 #- - - - - - - - - - -
@@ -451,7 +436,9 @@ alias eatString='spaceString'
 bug() {
 	set -x
 	"$@"
+	local functionExitStatus=$?
 	set +x
+	return $functionExitStatus
 }
 
 #- - - - - - - - - - -
@@ -610,7 +597,7 @@ parse-shorts() {
 
 #- - - - - - - - - - -
 
-debug(){
+debug() {
   if [[ "$x" ]]; then
     set -x
     echo -e "\e[1;33m\n\nDEBUGGING STARTED ON: $(if [ "${FUNCNAME[1]}" == "main" ]; then printf "$0"; else printf "${FUNCNAME[1]}"; fi)\n\n\e[0m"
@@ -619,7 +606,7 @@ debug(){
 
 #- - - - - - - - - - -
 
-rawgithub(){
+rawgithub() {
 	args="$@"
 	args=${args/github/raw.githubusercontent}
 	args=${args/\/raw\//\/}
@@ -628,9 +615,7 @@ rawgithub(){
 
 #- - - - - - - - - - -
 
-uni4(){
-	if [ "$#" == 0 ]; then
-		precho "please provide a 4 char hex unicode value, e.g. e702"
-	fi
+uni4() {
+	[ "$#" == 0 ] && bailout "please provide a 4 char hex unicode value, e.g. e702"
 	echo -ne \\u$1
 }
