@@ -26,11 +26,11 @@ glyphGitCat(){
 }
 
 getTermColumns(){
-  if [ "$COLUMNS" ]; then
-    echo $COLUMNS
-  else
-    which tput 1>/dev/null 2>&1 && echo $(tput cols)
+  if not truthy "$COLUMNS"; then
+      mute which tput
+      ifCommandSuceeded export COLUMNS=$(tput cols | tr -d \n)
   fi
+  echo -ne $COLUMNS
 }
 
 #get a random color, for use outside ps1, scripts (no i on $-) don't set this var
