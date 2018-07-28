@@ -386,7 +386,7 @@ tra() {
 
 grepr() { #grep recursive
 	if [ "$#" == "0" -o "$1" == "-h" -o "$1" == "--help" ]; then
-		gl
+		grepl -h
 		precho "Also recursive. I.e. grep -r"
 		return
 	fi
