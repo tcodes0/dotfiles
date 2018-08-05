@@ -1,9 +1,9 @@
 #! /usr/bin/env bash
-getNumber(){
+getNumber() {
   echo -n $((RANDOM % 231))
 }
 
-random256Color(){
+random256Color() {
   local c=$(getNumber)
   # bad constrast colors, get another one
   if [ "$c" -le 17 -o "$c" -ge 232 ]; then
@@ -13,22 +13,22 @@ random256Color(){
   fi
 }
 
-glyphGitDev(){
+glyphGitDev() {
   echo -ne \\uf7a1
 }
 
-glyphGitBranch(){
+glyphGitBranch() {
   echo -ne \\ue725
 }
 
-glyphGitCat(){
+glyphGitCat() {
   echo -ne \\uf61a
 }
 
-getTermColumns(){
+getTermColumns() {
   if not truthy "$COLUMNS"; then
-      mute which tput
-      ifCommandSuceeded export COLUMNS=$(tput cols | tr -d \n)
+    mute which tput
+    ifprevious export COLUMNS=$(tput cols | tr -d \n)
   fi
   echo -ne $COLUMNS
 }
@@ -45,7 +45,7 @@ bold="\[\e[1m\]"
 mainColor="\[$r256\]"
 auxiliarColor="\[$(random256Color)\]"
 
-makePS1 () {
+makePS1() {
   # use "preGit" or "postGit" as arg 1 to integrate with gitprompt script
 
   # colors
@@ -61,13 +61,13 @@ makePS1 () {
 
   if [ "$(whoami)" != "root" ]; then
     case $(($RANDOM % 7)) in
-      0)  decorations="🐺 🌋"$spacer  ;;
-      1)  decorations="🌸 🌿"$spacer  ;;
-      2)  decorations="🚀 💫"$spacer  ;;
-      3)  decorations="🍁 🍷"$spacer  ;;
-      4)  decorations="🔮 🦋"$spacer  ;;
-      5)  decorations="🌄 🎆"$spacer  ;;
-      6)  decorations="🍇 🥓"$spacer  ;;
+    0) decorations="🐺 🌋"$spacer ;;
+    1) decorations="🌸 🌿"$spacer ;;
+    2) decorations="🚀 💫"$spacer ;;
+    3) decorations="🍁 🍷"$spacer ;;
+    4) decorations="🔮 🦋"$spacer ;;
+    5) decorations="🌄 🎆"$spacer ;;
+    6) decorations="🍇 🥓"$spacer ;;
     esac
   else
     mainColor=$purple
@@ -83,9 +83,9 @@ makePS1 () {
   local S="$mainColor\\$ $end$colorText"
 
   case "$1" in
-    "preGit") printf "${horizontalLine}${clock}${workdir}";;
-    "postGit") printf "\n${decorations}";;
-    *) printf "${horizontalLine}${clock}${workdir}\n${decorations}";;
+  "preGit") printf "${horizontalLine}${clock}${workdir}" ;;
+  "postGit") printf "\n${decorations}" ;;
+  *) printf "${horizontalLine}${clock}${workdir}\n${decorations}" ;;
   esac
 
   # printf "${horizontalLine}${clock}${workdir}\n${decorations}"
