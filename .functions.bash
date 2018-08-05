@@ -378,8 +378,11 @@ bailout() {
 
 tra() {
 	[ $# == 0 ] && return 1
-	trash "$@"
-	ifCommandSuceeded ls
+	local pathToTrash="$@"
+	[[ $pathToTrash =~ ^(.+)[/][^/]+$ ]]
+	[ -n ${BASH_REMATCH[1]} ] && local dirname=${BASH_REMATCH[1]}
+	trash $pathToTrash
+	ifCommandSuceeded ls $dirname
 }
 
 #- - - - - - - - - - -
