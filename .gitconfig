@@ -5,5 +5,8 @@
 [core]
 	editor = emacs
 	compression = 2
+	excludesfile = /Users/vamac/.gitignore_global
 [commit]
 	gpgSign = true
+[fetch]
+	prune = true

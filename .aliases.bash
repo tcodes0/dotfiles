@@ -13,6 +13,7 @@ alias part='partutil'
 alias dd='gdd status=progress bs=4M'
 alias srit='source $HOME/.bashrc && clear'
 alias pbc='pbcopy'
+alias pbc='pbpaste'
 alias grep='ggrep --color=auto'
 alias dirs='dirs -v'
 alias history='history | less'
@@ -27,7 +28,7 @@ alias goo='google'
 alias webs='google webster'
 alias sed='gsed'
 alias e='echo -e'
-alias less="$PAGER"
+alias less="\$PAGER"
 alias dircolors="gdircolors"
 alias python="python3"
 alias ncdu="ncdu -x --si"
@@ -79,7 +80,7 @@ alias caskR='brew cask uninstall'
 ###################
 #--------bash files
 ###################
-alias bashrc='code        ~/.bashrc'
+alias bashrc='code        ~/.bashrc.bash'
 alias bashaliases='code   ~/.aliases.bash'
 alias bashfunctions='code ~/.functions.bash'
 alias bashps1='code       ~/.prompt.bash'
@@ -106,7 +107,7 @@ alias sftphost="sftp -P 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.co
 alias gpglist="gpg --list-secret-keys --keyid-format LONG"
 alias gpgexport="gpg --armor --export"
 alias gpgkeygen="gpg --full-generate-key"
-alias simplePrompt="PS1='\n\[\e[1;90m\w \e[0m\]\n$ ' && PROMPT_COMMAND=''"
+alias simplePrompt="PS1='\\n\\[\\e[1;90m\\w \\e[0m\\]\\n$ ' && PROMPT_COMMAND=''"
 alias npml="npm list --depth=0"
 alias npmgl="npm list --global --depth=0"
 alias npms="npm search"
@@ -172,10 +173,10 @@ alias gfa='git fetch --all --prune'
 alias gfo='git fetch origin'
 alias gg='git gui citool'
 alias gga='git gui citool --amend'
-alias ggpull="git pull origin $__git_ps1_branch_name"
+alias ggpull="git pull origin \$__git_ps1_branch_name"
 alias ggpur=ggu
-alias ggpush="git push origin $__git_ps1_branch_name"
-alias ggsup="git branch --set-upstream-to=origin/$__git_ps1_branch_name"
+alias ggpush="git push origin \$__git_ps1_branch_name"
+alias ggsup="git branch --set-upstream-to=origin/\$__git_ps1_branch_name"
 alias ghh='git help'
 alias gignore='git update-index --assume-unchanged'
 alias gignored='git ls-files -v | grep "^[[:lower:]]"'
@@ -194,7 +195,7 @@ alias glog='git log --oneline --decorate --graph'
 alias gloga='git log --oneline --decorate --graph --all'
 alias glol='git log --graph --pretty='\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'
 alias glola='git log --graph --pretty='\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --all'
-alias glp=$_git_log_prettily
+alias glp='_git_log_prettily'
 alias glum='git pull upstream master'
 alias gm='git merge'
 alias gma='git merge --abort'
@@ -206,7 +207,7 @@ alias gp='git push'
 alias gpd='git push --dry-run'
 alias gpoat='git push origin --all && git push origin --tags'
 alias gpristine='git reset --hard && git clean -dfx'
-alias gpsup="git push --set-upstream origin $__git_ps1_branch_name"
+alias gpsup="git push --set-upstream origin \$__git_ps1_branch_name"
 alias gpu='git push upstream'
 alias gpv='git push -v'
 alias gr='git remote'

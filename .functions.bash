@@ -2,33 +2,20 @@
 #- - - - - - - - - - -
 
 cl() {
+  # shellcheck disable=SC2164
   \cd -P "$1" 1>/dev/null
-  ifprevious ls
+  iflast ls
 }
 
 #- - - - - - - - - - -
 
 cdp() {
-  local path="$(pbpaste)"
+  local path && path="$(pbpaste)"
   if [ ! -d "$path" ]; then
     path=$(dirname "$path")
   fi
+  # shellcheck disable=SC2164
   \cd "$path"
-}
-
-#- - - - - - - - - - -
-
-tml() { #too many lines
-  lines=$("$@" | wc -l)
-  if [ $lines -gt '100' ]; then
-    precho "number of lines is $lines. Pipe into less? (y/n)"
-    read
-    if [ "$REPLY" == "y" -o "$REPLY" == "yes" ]; then
-      "$@" | less
-    fi
-  else
-    "$@"
-  fi
 }
 
 #- - - - - - - - - - -
@@ -71,8 +58,8 @@ decx() {
 
 bindec() {
   if [ $# == 0 ]; then
-    precho "usage: bindec 1101\n\
-      finds 1101 in decimal"
+    precho "usage: bindec 1101
+    finds 1101 in decimal"
     return
   fi
   xdec 2 "$@"
@@ -82,7 +69,7 @@ bindec() {
 
 hexdec() {
   if [ $# == 0 ]; then
-    precho "usage: hexdec ff\n\
+    precho "usage: hexdec ff
       finds ff in decimal"
     return
   fi
@@ -93,7 +80,7 @@ hexdec() {
 
 octdec() {
   if [ $# == 0 ]; then
-    precho "usage: octdec 040\n\
+    precho "usage: octdec 04
       finds 40 in decimal"
     return
   fi
@@ -104,7 +91,7 @@ octdec() {
 
 decbin() {
   if [ $# == 0 ]; then
-    precho "usage: decbin 73\n\
+    precho "usage: decbin 7
       finds 73 in binary"
     return
   fi
@@ -115,7 +102,7 @@ decbin() {
 
 decoct() {
   if [ $# == 0 ]; then
-    precho "usage: decoct 20\n\
+    precho "usage: decoct 2
       finds 20 in octal"
     return
   fi
@@ -126,23 +113,23 @@ decoct() {
 
 dechex() {
   if [ $# == 0 ]; then
-    precho "usage: decoct 20\n\
+    precho "usage: decoct 20
       finds 20 in octal"
     return
   fi
   decx 16 "$@"
 }
 hexoct() {
-  decoct $(hexdec "$@")
+  decoct "$(hexdec "$@")"
 }
 octhex() {
-  dechex $(octdec "$@")
+  dechex "$(octdec "$@")"
 }
 hexbin() {
-  decbin $(hexdec "$@")
+  decbin "$(hexdec "$@")"
 }
 binhex() {
-  dechex $(bindec "$@")
+  dechex "$(bindec "$@")"
 }
 treeless() {
   case $# in
@@ -151,7 +138,7 @@ treeless() {
     ;;
   1)
     if [ -d "$1" ]; then
-      tree $1 | less
+      tree "$1" | less
     fi
     ;;
   *)
@@ -173,24 +160,22 @@ unicode() {
     return
   fi
 
-  local spaceNumberPair
-  local args
-  local e='s/([0-9][0-9])/\1 /gm'
+  local spaceNumberPair args e='s/([0-9][0-9])/\1 /gm'
 
-  args="$@"
+  args="$*"
   if [[ "$args" =~ , ]]; then
     args=${args//,/ }
   fi
 
   echo -en '\e[1;97m'
-  for arg in "$args"; do
+  for arg in $args; do
     if [[ "$((${#arg} % 2))" == 0 ]] && [ "${#arg}" != 2 ]; then
-      spaceNumberPair=$(gsed --regexp-extended --expression="$e" <<<$arg)
+      spaceNumberPair=$(gsed --regexp-extended --expression="$e" <<<"$arg")
       for number in $spaceNumberPair; do
-        echo -ne \\x${number}
+        echo -ne \\x"${number}"
       done
     else
-      echo -ne \\x$arg
+      echo -ne \\x"$arg"
     fi
   done
   echo -e '\e[0m'
@@ -204,13 +189,14 @@ hexdumb() {
     precho "...dumps hex for the crescent moon"
     return
   fi
-  local string="$(hexdump <<<$1)"
+  local string e1 e2 hex
+  string="$(hexdump <<<"$1")"
   #deletes sequences of numbers and 0a, in each line
-  local e1="s/^[0-9]{7} |^[0-9]{7}| 0a[[:space:]]*$//g"
+  e1="s/^[0-9]{7} |^[0-9]{7}| 0a[[:space:]]*$//g"
   #zaps empty lines
-  local e2=/^$/d
-  local hex=$(gsed --regexp-extended --expression="$e1" --expression="$e2" <<<$string)
-  spaced-and-together $hex
+  e2=/^$/d
+  hex=$(gsed --regexp-extended --expression="$e1" --expression="$e2" <<<"$string")
+  spaced-and-together "$hex"
 }
 
 #- - - - - - - - - - -
@@ -220,6 +206,7 @@ findname() {
     precho 'run find here ./ case-insensitive and glob around args'
     return
   fi
+  # shellcheck disable=SC2185
   find -Hx . -iname "*$1*"
 }
 
@@ -227,7 +214,7 @@ findname() {
 
 findexec() {
   if [ $# == "0" ]; then
-    precho 'gfind . -name "*$1*" -execdir $2 {} \;'
+    precho "gfind . -name "*\$1*" -execdir $2 {} \\;"
     return
   fi
   gfind . -name "*$1*" -execdir "$2" {} \;
@@ -240,32 +227,33 @@ precho() {
   -k)
     shift
     # just a checkmark
-    color --green --bold -- "✔ $@"
+    color --green --bold -- "✔ $*"
     ;;
   -w)
     shift
     #\\040 - octal for space (0x20)
-    color --yellow --bold -- "⚠️\040 $@"
+    color --yellow --bold -- "⚠️\\040 $*"
     ;;
   -e)
     shift
-    color --red --bold -- "❌\040 $@"
+    color --red --bold -- "❌\\040 $*"
     ;;
   -h)
     shift
-    printf "${r256}♦︎ precho ➡ a shortcut to some common colors. Uses color.sh underneath.
+    # shellcheck disable=SC2154
+    echo -en "${r256}♦︎ precho ➡ a shortcut to some common colors. Uses color.sh underneath.
       Only first short option is seen:
-      \e[1;32m-k\t OK. print in green.                 \$1 is not passed to color.\e[0m
-      \e[1;33m-w\t WARN. print in yellow.              \$1 is not passed to color.\e[0m
-      \e[1;31m-e\t ERR. print in red.                  \$1 is not passed to color.\e[0m
-      ${r256}-*\t PRETTY. print in a random or teal.   \$1 is passed to color.
-      -h\t see this help\e[0m\n"
+      \\e[1;32m-k\\t OK. print in green.                 \\$1 is not passed to color.\\e[0m
+      \\e[1;33m-w\\t WARN. print in yellow.              \\$1 is not passed to color.\\e[0m
+      \\e[1;31m-e\\t ERR. print in red.                  \\$1 is not passed to color.\\e[0m
+      ${r256}-*\\t PRETTY. print in a random or teal.   \\$1 is passed to color.
+      -h\\t see this help\\e[0m\\n"
     ;;
   *)
     if [ "$r256" ]; then
-      echo -e "${r256}♦︎ $@\e[0m"
+      echo -e "${r256}♦︎ $*\\e[0m"
     else
-      echo -e "\e[1m♦︎ $@\e[0m"
+      echo -e "\\e[1m♦︎ $*\\e[0m"
     fi
     ;;
   esac
@@ -273,66 +261,10 @@ precho() {
 
 #- - - - - - - - - - -
 
-qmon() { #quick mount
-  if [ $# == "0" ]; then
-    args="EFI-MAC"
-  else
-    args="$@"
-  fi
-  if [ "$1" == "-h" -o "$1" == "--help" ]; then
-    precho "Please give disk(s) and part(s) number(s) to mount."
-    precho "Example: Disk4s1 -> 4 1 or Disk4s1 and Disk0s3 -> 4 1 0 3"
-    precho "Arguments to qmon are grepped for in diskutil list, and last valid value is offered as default."
-    return
-  fi
-  diskutil list | grep --ignore-case $args
-  if [ -f ~/.qmon-last ]; then
-    file=~/.qmon-last
-    while read last_value; do
-      precho -n "Press return to defaults to "
-      echo "$last_value"
-      saved=$last_value
-    done <"$file"
-  fi
-  read
-  if ! [ -z "$REPLY" ]; then
-    #the echo call allows the spliting on whitespace to work.
-    qmon-parser $(echo $REPLY)
-    return
-  fi
-  if ! [ -z "$saved" ]; then
-    qmon-parser $(echo $saved)
-    return
-  fi
-}
-qmon-parser() {
-  if [ $(($# % 2)) != 0 ]; then
-    precho -e "Error: Got a non even number of arguments"
-    precho -e "$@"
-    return
-  fi
-  while [ "$2" != "" ]; do
-    disk="$1"
-    part="$2"
-    diskutil mount disk${disk}s${part}
-    ifprevious echo "$disk $part" >~/.qmon-last
-    shift
-    shift
-  done
-  return
-}
-
-#- - - - - - - - - - -
-
-runc() { #run n check
-  bailout "runc is no longer"
-}
-
-#- - - - - - - - - - -
-
 start-commands() {
   scheduler.sh --check
   if [ "$(pwd)" == "$HOME" ]; then
+    # shellcheck disable=SC2164
     \cd ~/Desktop
   fi
   return
@@ -343,18 +275,14 @@ start-commands() {
 sritgo() {
   if [ "$1" == "-x" ]; then
     shift
-    source $HOME/.bashrc
+    # shellcheck source=/Users/vamac/.bashrc.bash
+    source "$HOME/.bashrc.bash"
     bug "$@"
   else
-    source $HOME/.bashrc
+    # shellcheck source=/Users/vamac/.bashrc.bash
+    source "$HOME/.bashrc.bash"
     "$@"
   fi
-}
-
-#- - - - - - - - - - -
-
-pbp() {
-  echo "$(pbpaste)"
 }
 
 #- - - - - - - - - - -
@@ -366,11 +294,11 @@ color() {
 #- - - - - - - - - - -
 
 bailout() {
-  local message=$@
+  local message=$*
   if [[ "$#" == "0" ]]; then
     message="error"
   fi
-  echo -ne "\e[1;31m❌\040 $message\e[0m"
+  echo -ne "\\e[1;31m❌\\040 $message\\e[0m"
   if [[ ! "$-" =~ i ]]; then
     #shell is not interactive, so kill it.
     exit 1
@@ -381,17 +309,17 @@ bailout() {
 
 tra() {
   [ $# == 0 ] && return 1
-  local pathToTrash="$@"
+  local pathToTrash="$*"
   [[ $pathToTrash =~ ^(.+)[/][^/]+$ ]]
-  [ -n ${BASH_REMATCH[1]} ] && local dirname=${BASH_REMATCH[1]}
-  trash $pathToTrash
-  ifprevious ls $dirname
+  [ -n "${BASH_REMATCH[1]}" ] && local dirname=${BASH_REMATCH[1]}
+  trash "$pathToTrash"
+  iflast ls "$dirname"
 }
 
 #- - - - - - - - - - -
 
 grepr() { #grep recursive
-  if [ "$#" == "0" -o "$1" == "-h" -o "$1" == "--help" ]; then
+  if [ "$#" == "0" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
     grepl -h
     precho "Also recursive. I.e. grep -r"
     return
@@ -402,17 +330,17 @@ grepr() { #grep recursive
 #- - - - - - - - - - -
 
 grepl() { #grep -l simply
-  if [ "$#" == "0" -o "$1" == "-h" -o "$1" == "--help" ]; then
+  if [ "$#" == "0" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
     precho "grep -l case-insensitive, extended regex, on \$PWD, no error messages."
     return
   fi
-  ggrep --color=auto -iE "$@" -l * .* 2>/dev/null
+  ggrep --color=auto -iE "$@" -l ./* .* 2>/dev/null
 }
 
 #- - - - - - - - - - -
 
 grepf() { #grep file
-  if [ "$#" -lt 2 -o "$1" == "-h" -o "$1" == "--help" ]; then
+  if [ "$#" -lt 2 ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
     precho "grep case-insensitive
     with 3 args: (pattern, context lines, file)
     with 2 args: (pattern, file)"
@@ -450,14 +378,15 @@ bug() {
 #- - - - - - - - - - -
 
 center() {
-  if [ $# == "0" -o "$1" == "-h" -o "$1" == "--help" ]; then
+  if [ $# == "0" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
     echo center\(\) prints a message on the center of the screen
     center ~~ your message here ~~
     echo "--padding=N   push the message N chars right (positive) or left (negative)"
     return
   fi
-  local padding=0
-  local temp
+  local padding temp message message_length cols pad_left pad_right
+  padding=0
+  temp
   while [[ "${1:0:2}" == "--" ]]; do #while first arg begins with --
     case ${1%%=*} in
     "--padding")
@@ -471,23 +400,23 @@ center() {
     esac
     shift
   done
-  local message="$@"
-  local message_length=${#message}
-  local cols=$(tput cols) # tput cols gives how many chars fit in a terminal line
-  let empty_space=$cols-$message_length
+  message="$*"
+  message_length=${#message}
+  cols=$(tput cols) # tput cols gives how many chars fit in a terminal line
+  ((empty_space = cols - message_length))
   if [[ "$padding" -gt "$((empty_space / 2))" ]]; then
     padding=$((empty_space / 2))
   elif [[ "$padding" -lt "$((empty_space / -2))" ]]; then
-		# handles $padding being out of bounds
+    # handles $padding being out of bounds
     padding=$((empty_space / -2))
   fi
-  local pad_left=$(((empty_space / 2)+ padding))
+  pad_left=$(((empty_space / 2) + padding))
   # echo $pad_left is left padding!
-  local pad_right=$pad_right
+  pad_right=$pad_right
   # echo $pad_right is right padding!
   printf "%${pad_left}s%s%${pad_right}s" '' "$message" ''
   if [ "$((message_length % 2))" == 0 ]; then printf " "; fi #compensate for rounding down of odd nums
-  printf "\n"
+  printf \\n
 }
 
 #- - - - - - - - - - -
@@ -511,37 +440,6 @@ spaced-and-together() {
 
 #- - - - - - - - - - -
 
-post-css() {
-  if [[ "$1" == '-h' ]] || [[ "$1" == '--help' ]]; then
-    precho "npx postcss css/*.css --use autoprefixer --dir ./build/css\
-    \n -w,--watch:  npx postcss css/*.css --use autoprefixer --dir ./build/css --watch 2>/dev/null 1>&2 &"
-    return
-  fi
-  if [[ $1 == '-w' ]] || [ "$1" == "--watch" ]; then
-    npx postcss css/*.css --use autoprefixer --dir ./build/css --watch 2>/dev/null 1>&2 &
-  else
-    npx postcss css/*.css --use autoprefixer --dir ./build/css
-  fi
-}
-
-#- - - - - - - - - - -
-
-do-sass() {
-  if [[ "$1" == '-h' ]] || [[ "$1" == '--help' ]]; then
-    precho "sass --watch css/:css/   2>/dev/null 1>&2 &\
-    \n -v,--verbose:\tsass --watch css/:css/"
-    return
-  fi
-  if [[ $1 == '-v' ]] || [ "$1" == "--verbose" ]; then
-    sass --watch css/:css/
-  else
-    sass --watch css/:css/ 2>/dev/null 1>&2 &
-    export sassPID=$!
-  fi
-}
-
-#- - - - - - - - - - -
-
 sed-rm-html-tags() {
   gsed -Ee 's/<[^>]+>|<\/[^>]+>//gm' || echo error. Please cat an html file into this function.
 }
@@ -555,13 +453,11 @@ sed-rm-term-color-escapes() {
 #- - - - - - - - - - -
 
 maybeDebug() {
-  if [ "$x" ]; then
-    bailout "use --debug not -x \n"
-    return 1
-  fi
+  # shellcheck disable=SC2154
   if [ "$debug" ]; then
-    local name=$(if [ "${FUNCNAME[1]}" == "main" ]; then printf "$0"; else printf "${FUNCNAME[1]}"; fi)
-    printf "\n\e[4;33m$(printf %${COLUMNS}s) $(center DEBUGGING $name!)$(printf %${COLUMNS}s)\e[0m\n"
+    local name
+    name=$(if [ "${FUNCNAME[1]}" == "main" ]; then echo -en "$0"; else echo -en "${FUNCNAME[1]}"; fi)
+    echo -en "\\n\\e[4;33m$(printf %${COLUMNS}s) $(center DEBUGGING "$name"!)$(printf %${COLUMNS}s)\\e[0m\\n"
     set -x
   fi
 }
@@ -569,8 +465,8 @@ maybeDebug() {
 #- - - - - - - - - - -
 
 tar7z() {
-  if [ "$#" == 0 -o "$1" == "-h" ]; then
-    bailout "Provide a file. foo -> foo.tar.7z \n"
+  if [ "$#" == 0 ] || [ "$1" == "-h" ]; then
+    bailout "Provide a file. foo -> foo.tar.7z \\n"
     return 1
   fi
   local safeArg=$1
@@ -596,7 +492,7 @@ parse-shorts() {
       ;;
     *)
       allOptions+=$opt" "
-      eval $opt="true"
+      eval "$opt=true"
       ;;
     esac
   done
@@ -604,25 +500,22 @@ parse-shorts() {
 
 #- - - - - - - - - - -
 
-debug() {
-  if [[ "$x" ]]; then
-    set -x
-    echo -e "\e[1;33m\n\nDEBUGGING STARTED ON: $(if [ "${FUNCNAME[1]}" == "main" ]; then printf "$0"; else printf "${FUNCNAME[1]}"; fi)\n\n\e[0m"
-  fi
-}
-
-#- - - - - - - - - - -
-
 rawgithub() {
-  args="$@"
+  local args="$*"
   args=${args/github/raw.githubusercontent}
   args=${args/\/raw\//\/}
-  curl --silent $args
+  curl --silent "$args"
 }
 
 #- - - - - - - - - - -
 
 uni4() {
-  [ "$#" == 0 -o "$1" == -h ] && bailout "please provide a 4 char hex unicode value, e.g. e702 \n" && return 1
-  echo -ne \\u$1
+  [ "$#" == 0 ] || [ "$1" == -h ] && bailout "please provide a 4 char hex unicode value, e.g. e702 \\n" && return 1
+  echo -ne \\u"$1"
+}
+
+#- - - - - - - - - - -
+# part of git prompt!
+_git_log_prettily() {
+  [ "$1" ] && git log --pretty="$1"
 }
