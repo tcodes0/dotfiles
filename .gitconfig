@@ -4,9 +4,13 @@
 	signingkey = D600E88A0C5FE062
 [core]
 	editor = emacs
-	compression = 2
+	compression = -1
 	excludesfile = /Users/vamac/.gitignore_global
 [commit]
 	gpgSign = true
 [fetch]
 	prune = true
+[rebase]
+	missingCommitsCheck = error
+[pull]
+	rebase = true

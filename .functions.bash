@@ -309,11 +309,17 @@ bailout() {
 
 tra() {
   [ $# == 0 ] && return 1
-  local pathToTrash="$*"
-  [[ $pathToTrash =~ ^(.+)[/][^/]+$ ]]
-  [ -n "${BASH_REMATCH[1]}" ] && local dirname=${BASH_REMATCH[1]}
-  trash "$pathToTrash"
-  iflast ls "$dirname"
+
+  local last
+
+  for pathToTrash in "$@"; do
+    trash "$pathToTrash" || return
+    last="$pathToTrash"
+  done
+
+    [[ $last =~ (.+)[/][^/]+$ ]]
+    # shellcheck disable=SC2035
+    ternary -n "${BASH_REMATCH[1]}" ? ls "${BASH_REMATCH[1]}" : ls
 }
 
 #- - - - - - - - - - -
@@ -452,18 +458,6 @@ sed-rm-term-color-escapes() {
 
 #- - - - - - - - - - -
 
-maybeDebug() {
-  # shellcheck disable=SC2154
-  if [ "$debug" ]; then
-    local name
-    name=$(if [ "${FUNCNAME[1]}" == "main" ]; then echo -en "$0"; else echo -en "${FUNCNAME[1]}"; fi)
-    echo -en "\\n\\e[4;33m$(printf %${COLUMNS}s) $(center DEBUGGING "$name"!)$(printf %${COLUMNS}s)\\e[0m\\n"
-    set -x
-  fi
-}
-
-#- - - - - - - - - - -
-
 tar7z() {
   if [ "$#" == 0 ] || [ "$1" == "-h" ]; then
     bailout "Provide a file. foo -> foo.tar.7z \\n"
@@ -501,6 +495,10 @@ parse-shorts() {
 #- - - - - - - - - - -
 
 rawgithub() {
+  if [ "$#" == 0 ]; then
+    precho "Provide url to clone from GitHub. Output is stdout."
+    return 1
+  fi
   local args="$*"
   args=${args/github/raw.githubusercontent}
   args=${args/\/raw\//\/}
@@ -515,7 +513,22 @@ uni4() {
 }
 
 #- - - - - - - - - - -
+
 # part of git prompt!
 _git_log_prettily() {
   [ "$1" ] && git log --pretty="$1"
+}
+
+#- - - - - - - - - - -
+
+shwut() {
+  [ ! "$1" ] && return
+  Open "https://github.com/koalaman/shellcheck/wiki/SC$1"
+}
+
+#- - - - - - - - - - -
+
+aliasg() {
+  [ ! "$1" ] && return
+  alias | grep "$@"
 }

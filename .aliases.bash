@@ -107,6 +107,7 @@ alias sftphost="sftp -P 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.co
 alias gpglist="gpg --list-secret-keys --keyid-format LONG"
 alias gpgexport="gpg --armor --export"
 alias gpgkeygen="gpg --full-generate-key"
+alias gpgremove="gpg --delete-secret-key"
 alias simplePrompt="PS1='\\n\\[\\e[1;90m\\w \\e[0m\\]\\n$ ' && PROMPT_COMMAND=''"
 alias npml="npm list --depth=0"
 alias npmgl="npm list --global --depth=0"
@@ -119,6 +120,9 @@ alias yarngl="yarn global list --depth=0"
 alias yarns="npm search"
 alias yarnh="npm repo"
 alias yarnI="yarn add"
+alias grh1="git reset HEAD~1"
+alias grh2="git reset HEAD~2"
+alias grh3="git reset HEAD~3"
 ###################
 #---------Zsh & Git
 ###################
@@ -126,7 +130,7 @@ alias ...="cl ../../"
 alias ....="cl ../../../"
 alias .....="cl ../../../../"
 alias ......="cl ../../../../../"
-alias git="hub"
+# alias git="hub"
 # alias g=git
 alias ga='git add'
 alias gaa='git add --all'

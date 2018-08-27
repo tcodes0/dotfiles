@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-# source $HOME/.bashrc
-alias yarn="clear && yarn"
-alias code="clear && code"
-alias srit="clear && source $HOME/.bashrc"
 
-source $HOME/.prompt.bash
+alias code="clear && code"
+alias srit="clear && source \$HOME/.bashrc"
+unalias gl && alias gl="git pull && yarn"
+alias yarn="clear && yarn"
+
+# shellcheck source=/Users/vamac/.prompt.bash
+source "$HOME/.prompt.bash"
