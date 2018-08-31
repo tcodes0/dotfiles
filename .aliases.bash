@@ -13,7 +13,7 @@ alias part='partutil'
 alias dd='gdd status=progress bs=4M'
 alias srit='source $HOME/.bashrc && clear'
 alias pbc='pbcopy'
-alias pbc='pbpaste'
+alias pbp='pbpaste'
 alias grep='ggrep --color=auto'
 alias dirs='dirs -v'
 alias history='history | less'
@@ -130,7 +130,7 @@ alias ...="cl ../../"
 alias ....="cl ../../../"
 alias .....="cl ../../../../"
 alias ......="cl ../../../../../"
-# alias git="hub"
+alias git="hub"
 # alias g=git
 alias ga='git add'
 alias gaa='git add --all'
