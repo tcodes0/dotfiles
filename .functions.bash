@@ -131,24 +131,6 @@ hexbin() {
 binhex() {
   dechex "$(bindec "$@")"
 }
-treeless() {
-  case $# in
-  0)
-    tree . | less
-    ;;
-  1)
-    if [ -d "$1" ]; then
-      tree "$1" | less
-    fi
-    ;;
-  *)
-    precho "treeless: too many arguments"
-    precho "provide no args to treeless the current dir, or one arg to treeless"
-    ;;
-  esac
-  return
-}
-alias tree='treeless'
 
 #- - - - - - - - - - -
 
@@ -531,4 +513,13 @@ shwut() {
 aliasg() {
   [ ! "$1" ] && return
   alias | grep "$@"
+}
+
+#- - - - - - - - - - -
+
+#lazy push
+lp(){
+  git add --all
+  iflast git commit -v
+  iflast git push
 }

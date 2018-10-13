@@ -2,8 +2,10 @@
 
 alias code="clear && code"
 alias srit="clear && source \$HOME/.bashrc"
-unalias gl && alias gl="git pull && yarn"
 alias yarn="clear && yarn"
+unalias gcam && alias gcam='clear && git commit -a -m'
+unalias gcmsg && alias gcmsg='clear && git commit -m'
+unalias gp && alias gp='clear && git push'
 
-# shellcheck source=/Users/vamac/.prompt.bash
-source "$HOME/.prompt.bash"
+## shellcheck source=/Users/vamac/.prompt.bash
+# source "$HOME/.prompt.bash"

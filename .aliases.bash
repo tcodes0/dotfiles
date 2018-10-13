@@ -35,17 +35,19 @@ alias ncdu="ncdu -x --si"
 alias visudo="EDITOR=emacs && sudo visudo"
 alias shfmt="shfmt -i 2 -ln bash"
 alias shellcheck="shellcheck --color=auto -s bash"
+alias cat='bat --theme Monokai\ Extended\ Origin'
 ###################
 #-------saved paths
 ###################
 alias mackupdir='cd $(dirname $(readlink $HOME/.bashrc))'
 alias abletondir='cd /Volumes/Izi/Ableton/_projects/time-killer\ Project'
-###################
-#--------ls aliases
-###################
+####################
+#--------mac aliases
+####################
 if [[ "$(uname -s)" =~ Darwin ]]; then
   #on mac use gnu ls. BSD ls: ls -Gph
   alias ls='gls -ph --color=always'
+  alias rn='react-native'
 else
   alias ls='ls -ph --color=always'
 fi
@@ -117,9 +119,8 @@ alias npmI="npm install"
 alias y="yarn"
 alias yarnl="yarn list --depth=0"
 alias yarngl="yarn global list --depth=0"
-alias yarns="npm search"
-alias yarnh="npm repo"
-alias yarnI="yarn add"
+alias ya="yarn add"
+alias yad="yarn add -D"
 alias grh1="git reset HEAD~1"
 alias grh2="git reset HEAD~2"
 alias grh3="git reset HEAD~3"
@@ -176,7 +177,8 @@ alias gf='git fetch'
 alias gfa='git fetch --all --prune'
 alias gfo='git fetch origin'
 alias gg='git gui citool'
-alias gga='git gui citool --amend'
+alias gga='git commit --amend --no-edit'
+alias ggae='git commit --amend'
 alias ggpull="git pull origin \$__git_ps1_branch_name"
 alias ggpur=ggu
 alias ggpush="git push origin \$__git_ps1_branch_name"
