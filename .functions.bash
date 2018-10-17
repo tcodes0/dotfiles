@@ -299,9 +299,9 @@ tra() {
     last="$pathToTrash"
   done
 
-    [[ $last =~ (.+)[/][^/]+$ ]]
-    # shellcheck disable=SC2035
-    ternary -n "${BASH_REMATCH[1]}" ? ls "${BASH_REMATCH[1]}" : ls
+  [[ $last =~ (.+)[/][^/]+$ ]]
+  # shellcheck disable=SC2035
+  ternary -n "${BASH_REMATCH[1]}" ? ls "${BASH_REMATCH[1]}" : ls
 }
 
 #- - - - - - - - - - -
@@ -517,9 +517,25 @@ aliasg() {
 
 #- - - - - - - - - - -
 
+#lazy commit
+lg() {
+  local args="$*"
+
+  if ! git add --all; then
+    return 1
+  fi
+
+  if [ "$args" ]; then
+    git commit -m "$args"
+  else
+    git commit -v
+  fi
+}
+
+#- - - - - - - - - - -
+
 #lazy push
-lp(){
-  git add --all
-  iflast git commit -v
+lp() {
+  lg "$@"
   iflast git push
 }
