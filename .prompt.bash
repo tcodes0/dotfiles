@@ -57,7 +57,7 @@ makePS1() {
   cols=$(getTermColumns)
 
   if [ "$(whoami)" != "root" ]; then
-    case $((RANDOM % 8)) in
+    case $((RANDOM % 7)) in
     0) decorations="🐺 🌋"$spacer ;;
     1) decorations="🌸 🌿"$spacer ;;
     2) decorations="🚀 💫"$spacer ;;
@@ -65,7 +65,6 @@ makePS1() {
     4) decorations="🔮 🦋"$spacer ;;
     5) decorations="🌄 🎆"$spacer ;;
     6) decorations="🍇 🥓"$spacer ;;
-    7) decorations="⚡️️ ️️⚡️"$spacer ;;
     esac
   else
     mainColor=$purple

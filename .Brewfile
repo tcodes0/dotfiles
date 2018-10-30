@@ -108,5 +108,4 @@ cask "vlc"
 cask "vox"
 cask "vuze"
 cask "waterfox"
-mas "Install macOS Mojave", id: 0
 mas "Xcode", id: 497799835
