@@ -42,6 +42,11 @@ if [[ "$(uname -s)" =~ Darwin ]]; then
   export GOPATH="$VHOME/.go"
   LS_COLORS=$(cat $VHOME/Code/LS_COLORS/LS_COLORS_RAW) && export LS_COLORS
 
+  # NVM
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+
   if [ -f ~/.prompt.bash ]; then
     source ~/.prompt.bash
   else
