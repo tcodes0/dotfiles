@@ -76,13 +76,13 @@ makePS1() {
   horizontalLine="$auxiliarColor$underline$(printf %"${cols}"s)$end\\n"
   workdir="$mainColor\\w $end"
   # historia="$auxiliarColor!\! $end"
-  clock="$auxiliarColor\\@ $end"
+  # clock="$auxiliarColor\\@ $end"
   # S="$mainColor\\$ $end$colorText"
 
   case "$1" in
-  "preGit") printf %s "${horizontalLine}${clock}${workdir}" ;;
+  "preGit") printf %s "${horizontalLine}${workdir}" ;;
   "postGit") printf %s "\\n${decorations}" ;;
-  *) printf %s "${horizontalLine}${clock}${workdir}\\n${decorations}" ;;
+  *) printf %s "${horizontalLine}${workdir}\\n${decorations}" ;;
   esac
 
   # printf "${horizontalLine}${clock}${workdir}\n${decorations}"

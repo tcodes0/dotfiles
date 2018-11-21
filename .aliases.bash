@@ -36,6 +36,7 @@ alias visudo="EDITOR=emacs && sudo visudo"
 alias shfmt="shfmt -i 2 -ln bash"
 alias shellcheck="shellcheck --color=auto -s bash"
 alias cat='bat --theme Monokai\ Extended\ Origin'
+alias gppr='gpsup && hub pull-request'
 ###################
 #-------saved paths
 ###################

@@ -28,7 +28,7 @@ brew "elinks"
 brew "elm"
 brew "elm-format"
 brew "emacs"
-brew "ffmpeg", args: ["with-fdk-aac", "with-libsoxr", "with-libvorbis", "with-opus", "with-tools", "with-wavpack", "without-qtkit"]
+brew "ffmpeg", args: ["with-fdk-aac", "with-libsoxr", "with-wavpack"]
 brew "findutils"
 brew "flac"
 brew "gist"
@@ -47,7 +47,7 @@ brew "lua"
 brew "mackup"
 brew "make"
 brew "mas"
-brew "mongodb", restart_service: true
+brew "mongodb"
 brew "moreutils"
 brew "ncdu"
 brew "osxutils"
