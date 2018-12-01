@@ -12,5 +12,6 @@
 !.zsh*
 !.inputrc
 !.hyper*
+!.gem*
 *~
 .git-completion.bash
