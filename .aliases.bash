@@ -49,6 +49,7 @@ if [[ "$(uname -s)" =~ Darwin ]]; then
   #on mac use gnu ls. BSD ls: ls -Gph
   alias ls='gls -ph --color=always'
   alias rn='react-native'
+  alias rnsr='react-native start --reset-cache'
 else
   alias ls='ls -ph --color=always'
 fi
@@ -250,8 +251,8 @@ alias gstl='git stash list'
 alias gstp='git stash pop'
 alias gsts='git stash show --text'
 alias gsu='git submodule update'
-alias gts='git tag -s'
-alias gtv='git tag | sort -V'
+alias gtl='git tag -l'
+alias gtd='git tag -d'
 alias gunignore='git update-index --no-assume-unchanged'
 alias gunwip='git log -n 1 | grep -q -c "\-\-wip\-\-" && git reset HEAD~1'
 alias gup='git pull --rebase'
