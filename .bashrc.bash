@@ -2,14 +2,15 @@
 # shellcheck disable=SC2034 disable=SC1090
 
 # Most important helper for init files
+# Paths are sourced relative to HOMES array
 dosource() {
   [ "$#" == 0 ] && return 1
-  [ ! -f "$1" ] && return 1
-  source "$1"
+
+  [ -f "${HOMES[0]}/$1" ] && source "${HOMES[0]}/$1"
+  [ -f "${HOMES[1]}/$1" ] && source "${HOMES[1]}/$1"
 }
 
-# Mac home dir
-VHOME=/Users/vamac
+HOMES=( /Users/vamac "\\$HOME")
 
 #it's recommended by a man page to set this here for better compatibility I guess
 tput init
@@ -17,11 +18,11 @@ tput init
 #========== Completions, external scripts, git prompt
 # Early sourcing
 dosource /usr/local/share/bash-completion/bash_completion
-dosource "$VHOME/Code/dBash/main.bash"
-dosource "$VHOME/Code/hue/main.bash"
-dosource "$VHOME/.git-completion.bash"
-dosource "$VHOME/.git-prompt.bash"
-dosource "$VHOME/.yarn-completion.bash"
+dosource "Code/dBash/main.bash"
+dosource "Code/hue/main.bash"
+dosource ".git-completion.bash"
+dosource ".git-prompt.bash"
+dosource ".yarn-completion.bash"
 
 GIT_PS1_SHOWDIRTYSTATE="true"
 GIT_PS1_SHOWSTASHSTATE="true"
@@ -36,14 +37,14 @@ GIT_PS1_SHOWCOLORHINTS="true"
 
 #========== Mac only
 if [[ "$(uname -s)" =~ Darwin ]]; then
-  export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$VHOME/bin:/usr/local/opt/go/libexec/bin"
-  export CDPATH=$VHOME:/Volumes:$VHOME/Desktop
+  export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:${HOMES[0]}/bin:/usr/local/opt/go/libexec/bin"
+  export CDPATH=${HOMES[0]}:/Volumes:${HOMES[0]}/Desktop
   export EDITOR='code'
-  export GOPATH="$VHOME/.go"
-  LS_COLORS=$(cat $VHOME/Code/LS_COLORS/LS_COLORS_RAW) && export LS_COLORS
+  export GOPATH="${HOMES[0]}/.go"
+  LS_COLORS=$(cat "${HOMES[0]}/Code/LS_COLORS/LS_COLORS_RAW") && export LS_COLORS
 
   # NVM
-  export NVM_DIR="$HOME/.nvm"
+  export NVM_DIR="${HOMES[0]}/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
@@ -63,11 +64,11 @@ export TIMEFORMAT=$'\n-time elapsed-\nreal\t%3Rs\nuser\t%3Us\nsystem\t%3Ss'
 export BLOCKSIZE=1000000 #1 Megabyte
 export LESS="--LINE-NUMBERS --buffers=32768 --quit-if-one-screen --prompt=?eEND:%pb\\%. ?f%F:Stdin.\\: page %d of %D, line %lb of %L"
 export PAGER="less --RAW-CONTROL-CHARS --HILITE-UNREAD --window=-5 --quiet"
-export BASH_ENV="$VHOME/.bashrc.bash"
+export BASH_ENV="${HOMES[0]}/.bashrc.bash"
 GPG_TTY=$(tty) && export GPG_TTY
 shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend #nullglob
 
 #========== Late sourcing
-dosource "$VHOME/.aliases.bash"
-dosource "$VHOME/.functions.bash"
+dosource ".aliases.bash"
+dosource ".functions.bash"
 dosource "$VSCODE_OVERRIDES"
