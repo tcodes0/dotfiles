@@ -37,6 +37,7 @@ alias shfmt="shfmt -i 2 -ln bash"
 alias shellcheck="shellcheck --color=auto -s bash"
 alias cat='bat --theme Monokai\ Extended\ Origin'
 alias gppr='gpsup && hub pull-request'
+alias hpr='hub pull-request'
 ###################
 #-------saved paths
 ###################
@@ -211,7 +212,9 @@ alias gmom='git merge origin/master'
 alias gmt='git mergetool --no-prompt'
 alias gmtvim='git mergetool --no-prompt --tool=vimdiff'
 alias gmum='git merge upstream/master'
+alias gmsq='git merge --squash'
 alias gp='git push'
+alias gpo='git push origin'
 alias gpd='git push --dry-run'
 alias gpoat='git push origin --all && git push origin --tags'
 alias gpristine='git reset --hard && git clean -dfx'

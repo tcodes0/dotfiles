@@ -4,10 +4,10 @@
 # Most important helper for init files
 # Paths are sourced relative to HOMES array
 dosource() {
-  [ "$#" == 0 ] && return 1
-
-  [ -f "${HOMES[0]}/$1" ] && source "${HOMES[0]}/$1"
-  [ -f "${HOMES[1]}/$1" ] && source "${HOMES[1]}/$1"
+    [ "$#" == 0 ] && return 1
+    
+    [ -f "${HOMES[0]}/$1" ] && source "${HOMES[0]}/$1"
+    [ -f "${HOMES[1]}/$1" ] && source "${HOMES[1]}/$1"
 }
 
 HOMES=( /Users/vamac "\\$HOME")
@@ -17,11 +17,11 @@ tput init
 
 #========== Completions, external scripts, git prompt
 # Early sourcing
-dosource /usr/local/share/bash-completion/bash_completion
+for file in /usr/local/etc/bash_completion.d/*; do
+    source "$file"
+done
 dosource "Code/dBash/main.bash"
 dosource "Code/hue/main.bash"
-dosource ".git-completion.bash"
-dosource ".git-prompt.bash"
 dosource ".yarn-completion.bash"
 
 GIT_PS1_SHOWDIRTYSTATE="true"
@@ -37,22 +37,26 @@ GIT_PS1_SHOWCOLORHINTS="true"
 
 #========== Mac only
 if [[ "$(uname -s)" =~ Darwin ]]; then
-  export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:${HOMES[0]}/bin:/usr/local/opt/go/libexec/bin"
-  export CDPATH=${HOMES[0]}:/Volumes:${HOMES[0]}/Desktop
-  export EDITOR='code'
-  export GOPATH="${HOMES[0]}/.go"
-  LS_COLORS=$(cat "${HOMES[0]}/Code/LS_COLORS/LS_COLORS_RAW") && export LS_COLORS
-
-  # NVM
-  export NVM_DIR="${HOMES[0]}/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-
-  if [ -f ~/.prompt.bash ]; then
-    source ~/.prompt.bash
-  else
-    export PS1="\\n\\w\\n\$ "
-  fi
+    export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:${HOMES[0]}/bin:/usr/local/opt/go/libexec/bin"
+    export CDPATH=${HOMES[0]}:/Volumes:${HOMES[0]}/Desktop
+    export EDITOR='code'
+    export GOPATH="${HOMES[0]}/.go"
+    LS_COLORS=$(cat "${HOMES[0]}/Code/LS_COLORS/LS_COLORS_RAW") && export LS_COLORS
+    
+    #android SDK
+    export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
+    export ANDROID_HOME="/usr/local/share/android-sdk"
+    
+    # NVM
+    export NVM_DIR="${HOMES[0]}/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+    
+    if [ -f ~/.prompt.bash ]; then
+        source ~/.prompt.bash
+    else
+        export PS1="\\n\\w\\n\$ "
+    fi
 fi
 
 #========== Environment
