@@ -26,7 +26,6 @@ getTermColumns() {
     mute command -v tput
     iflast export COLUMNS="$(tput cols | tr -d \\n)"
   fi
-  echo -ne $COLUMNS
 }
 
 #get a random color, for use outside ps1, scripts (no i on $-) don't set this var
@@ -45,7 +44,7 @@ makePS1() {
   # use "preGit" or "postGit" as arg 1 to integrate with gitprompt script
 
   # colors
-  local purple pink clock spacer cols horizontalLine workdir # historia S green yellow light_black black
+  local purple pink spacer horizontalLine workdir # historia S green yellow light_black black
   purple="\\[\\e[34m\\]"
   pink="\\[\\e[35m\\]"
   # green="\\[\\e[32m\\]"
@@ -54,7 +53,7 @@ makePS1() {
   # black="\\[\\e[30m\\]"
   #The spaces below avoids emoji collapsing on themselves. MacOS Sierra glitch.
   spacer='  '
-  cols=$(getTermColumns)
+  getTermColumns
 
   if [ "$(whoami)" != "root" ]; then
     case $((RANDOM % 7)) in
@@ -73,7 +72,7 @@ makePS1() {
     decorations="💠 💠"$spacer
   fi
 
-  horizontalLine="$auxiliarColor$underline$(printf %"${cols}"s)$end\\n"
+  horizontalLine="$auxiliarColor$underline$(printf %"${COLUMNS}"s)$end\\n"
   workdir="$mainColor\\w $end"
   # historia="$auxiliarColor!\! $end"
   # clock="$auxiliarColor\\@ $end"

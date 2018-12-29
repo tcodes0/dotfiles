@@ -517,7 +517,7 @@ aliasg() {
 
 #- - - - - - - - - - -
 
-#lazy commit
+#lazy git
 lg() {
   local args="$*"
 
@@ -534,8 +534,16 @@ lg() {
 
 #- - - - - - - - - - -
 
-#lazy push
+#lazy git with push
 lp() {
   lg "$@"
   iflast git push
+}
+
+#- - - - - - - - - - -
+
+#git tag push
+gtp() {
+  git tag "$1"
+  iflast git push origin "$1"
 }

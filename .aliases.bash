@@ -50,7 +50,7 @@ if [[ "$(uname -s)" =~ Darwin ]]; then
   #on mac use gnu ls. BSD ls: ls -Gph
   alias ls='gls -ph --color=always'
   alias rn='react-native'
-  alias rnsr='react-native start --reset-cache'
+  alias rns='react-native start --reset-cache'
 else
   alias ls='ls -ph --color=always'
 fi
@@ -124,9 +124,6 @@ alias yarnl="yarn list --depth=0"
 alias yarngl="yarn global list --depth=0"
 alias ya="yarn add"
 alias yad="yarn add -D"
-alias grh1="git reset HEAD~1"
-alias grh2="git reset HEAD~2"
-alias grh3="git reset HEAD~3"
 ###################
 #---------Zsh & Git
 ###################
@@ -232,6 +229,9 @@ alias grbs='git rebase --skip'
 alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
 alias grh='git reset HEAD'
 alias grhh='git reset HEAD --hard'
+alias grh1="git reset HEAD~1"
+alias grh2="git reset HEAD~2"
+alias grh3="git reset HEAD~3"
 alias grmv='git remote rename'
 alias grrm='git remote remove'
 alias grset='git remote set-url'
@@ -256,6 +256,7 @@ alias gsts='git stash show --text'
 alias gsu='git submodule update'
 alias gtl='git tag -l'
 alias gtd='git tag -d'
+alias gta='git tag'
 alias gunignore='git update-index --no-assume-unchanged'
 alias gunwip='git log -n 1 | grep -q -c "\-\-wip\-\-" && git reset HEAD~1'
 alias gup='git pull --rebase'
