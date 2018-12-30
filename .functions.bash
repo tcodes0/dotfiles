@@ -526,9 +526,9 @@ lg() {
   fi
 
   if [ "$args" ]; then
-    git commit -m "$args"
+    git commit -q -m "$args"
   else
-    git commit -v
+    git commit -q -v
   fi
 }
 
@@ -537,7 +537,7 @@ lg() {
 #lazy git with push
 lp() {
   lg "$@"
-  iflast git push
+  iflast git push -q
 }
 
 #- - - - - - - - - - -
@@ -545,5 +545,5 @@ lp() {
 #git tag push
 gtp() {
   git tag "$1"
-  iflast git push origin "$1"
+  iflast git push -q origin "$1"
 }
