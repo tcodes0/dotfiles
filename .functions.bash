@@ -531,6 +531,18 @@ lg() {
     git commit -q -v
   fi
 }
+#- - - - - - - - - - -
+
+#lazy commit
+gcmsg() {
+  local args="$*"
+
+  if [ "$args" ]; then
+    git commit -q -m "$args"
+  else
+    git commit -q -v
+  fi
+}
 
 #- - - - - - - - - - -
 
@@ -546,4 +558,36 @@ lp() {
 gtp() {
   git tag "$1"
   iflast git push -q origin "$1"
+}
+
+#- - - - - - - - - - -
+
+#android emulator
+emu() {
+  if [ "$#" == 0 ]; then
+    echo provide emulator name to run
+    return
+  fi
+  eval "$HOME/Library/Android/sdk/emulator/emulator" "@$1"
+}
+
+adbm() {
+  PATHS=(app/build/outputs/apk/release/app-release.apk android/app/build/outputs/apk/release/app-release.apk)
+  DEST=$HOME/Desktop
+  for path in "${PATHS[@]}"; do
+    if [ -f "$path" ]; then
+      mv "$path" "$DEST"
+      echo moved to Desktop
+      return
+    fi
+  done
+}
+
+# gradlew assemble release
+gas() {
+  if [ -d "./android" ]; then
+    cd android || return
+  fi
+  ./gradlew assembleRelease
+  cd ..
 }

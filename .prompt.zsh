@@ -137,15 +137,15 @@ ZSH_THEME_GIT_PROMPT_SUFFIX=""
 ZSH_THEME_GIT_PROMPT_HASH_PREFIX=":"
 ZSH_THEME_GIT_PROMPT_SEPARATOR=" "
 ZSH_THEME_GIT_PROMPT_BRANCH="%{$r256%}"
-ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[red]%}%{●%G%}"
-ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$fg[red]%}%{✖%G%}"
-ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg[blue]%}%{✚%G%}"
-ZSH_THEME_GIT_PROMPT_BEHIND="%{↓·%2G%}"
-ZSH_THEME_GIT_PROMPT_AHEAD="%{↑·%2G%}"
-ZSH_THEME_GIT_PROMPT_STASHED="%{$fg_bold[blue]%}%{⚑%G%}"
+ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[red]%}%{ ●%2G%}"
+ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$fg[red]%}%{ ✖%2G%}"
+ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg[blue]%}%{ ✚%2G%}"
+ZSH_THEME_GIT_PROMPT_BEHIND="%{↓· %3G%}"
+ZSH_THEME_GIT_PROMPT_AHEAD="%{↑· %3G%}"
+ZSH_THEME_GIT_PROMPT_STASHED="%{$fg_bold[blue]%}%{⚑ %2G%}"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[cyan]%}%{…%G%}"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}%{✔%G%}"
-ZSH_THEME_GIT_PROMPT_LOCAL=" L"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}%{✔ %2G%}"
+ZSH_THEME_GIT_PROMPT_LOCAL=" local"
 # The remote branch will be shown between these two
 ZSH_THEME_GIT_PROMPT_UPSTREAM_FRONT=" {%{$fg[blue]%}"
 ZSH_THEME_GIT_PROMPT_UPSTREAM_END="%{${reset_color}%}}"
@@ -161,7 +161,7 @@ random256Color() {
   if [ "$c" -le 17 ] || [ "$c" -ge 232 ]; then
     random256Color
   else
-    echo -n "%{\e[38;05;${c}m%}"
+    echo -n "\e[38;05;${c}m"
   fi
 }
 
@@ -191,7 +191,7 @@ fi
 
 end=$'\e[0m'
 underline=$'\e\[4m'
-mainColor="${r256}"
+mainColor="%{${r256}%}"
 auxiliarColor="$(random256Color)"
 
 makePS1() {

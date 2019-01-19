@@ -124,6 +124,9 @@ alias yarnl="yarn list --depth=0"
 alias yarngl="yarn global list --depth=0"
 alias ya="yarn add"
 alias yad="yarn add -D"
+alias adbI="adb install app/build/outputs/apk/release/app-release.apk"
+alias adbl="adb devices"
+alias rnra="react-native run-android"
 ###################
 #---------Zsh & Git
 ###################
@@ -159,7 +162,7 @@ alias gcf='git config --list'
 alias gcl='git clone --recursive'
 alias gclean='git clean -fd'
 alias gcm='git checkout master'
-alias gcmsg='git commit -m'
+# alias gcmsg='git commit -m' using function
 alias gco='git checkout'
 alias gcount='git shortlog -sn'
 alias gcp='git cherry-pick'
@@ -179,10 +182,13 @@ alias gfo='git fetch origin'
 alias gg='git gui citool'
 alias gga='git commit --amend --no-edit'
 alias ggae='git commit --amend'
-alias ggpull="git pull origin \$__git_ps1_branch_name"
+alias ggpull="git pull origin \$GIT_BRANCH"
+# alias ggpull="git pull origin \$__git_ps1_branch_name"
 alias ggpur=ggu
-alias ggpush="git push origin \$__git_ps1_branch_name"
-alias ggsup="git branch --set-upstream-to=origin/\$__git_ps1_branch_name"
+alias ggpush="git push origin \$GIT_BRANCH"
+# alias ggpush="git push origin \$__git_ps1_branch_name"
+alias ggsup="git branch --set-upstream-to=origin/\$GIT_BRANCH"
+# alias ggsup="git branch --set-upstream-to=origin/\$__git_ps1_branch_name"
 alias ghh='git help'
 alias gignore='git update-index --assume-unchanged'
 alias gignored='git ls-files -v | grep "^[[:lower:]]"'
@@ -215,7 +221,8 @@ alias gpo='git push origin'
 alias gpd='git push --dry-run'
 alias gpoat='git push origin --all && git push origin --tags'
 alias gpristine='git reset --hard && git clean -dfx'
-alias gpsup="git push -q --set-upstream origin \$__git_ps1_branch_name"
+alias gpsup="git push -q --set-upstream origin \$GIT_BRANCH"
+# alias gpsup="git push -q --set-upstream origin \$__git_ps1_branch_name"
 alias gpu='git push upstream'
 alias gpv='git push -v'
 alias gr='git remote'
@@ -263,3 +270,4 @@ alias gup='git pull --rebase'
 alias gupv='git pull --rebase -v'
 alias gwch='git whatchanged -p --abbrev-commit --pretty=medium'
 alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify -m "--wip-- [skip ci]"'
+alias grev='git revert'

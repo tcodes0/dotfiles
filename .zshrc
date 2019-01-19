@@ -48,10 +48,13 @@ if [[ "$(uname -s)" =~ Darwin ]]; then
     export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
     export ANDROID_HOME="/usr/local/share/android-sdk"
 
+    # Mono for subnautica
+    export MONO_GAC_PREFIX="/usr/local"
+
     # NVM
     export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"                   # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
     # ZSH
     PROMPT_SUBST="true"
@@ -68,6 +71,7 @@ export TIMEFORMAT=$'\n-time elapsed-\nreal\t%3Rs\nuser\t%3Us\nsystem\t%3Ss'
 export BLOCKSIZE=1000000 #1 Megabyte
 export LESS="--LINE-NUMBERS --buffers=32768 --quit-if-one-screen --prompt=?eEND:%pb\\%. ?f%F:Stdin.\\: page %d of %D, line %lb of %L"
 export PAGER="less --RAW-CONTROL-CHARS --HILITE-UNREAD --window=-5 --quiet"
+export BASH_ENV="$HOME/.bashrc.bash"
 GPG_TTY=$(tty) && export GPG_TTY
 
 #========== Late sourcing
@@ -78,3 +82,4 @@ source $HOME/.functions.bash
 #========== Zsh overrides
 alias srit="source $HOME/.zshrc && clear"
 setopt interactivecomments
+bindkey '\e[3~' delete-char
