@@ -45,8 +45,14 @@ if [[ "$(uname -s)" =~ Darwin ]]; then
     LS_COLORS=$(cat "$HOME/Code/LS_COLORS/LS_COLORS_RAW") && export LS_COLORS
 
     # android SDK
-    export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
-    export ANDROID_HOME="/usr/local/share/android-sdk"
+    export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
+    export ANDROID_HOME="$HOME/Library/Android/sdk"
+    export ANDROID_NDK="$ANDROID_HOME/ndk-bundle"
+
+    # fix compinit path pointing to old version (auto pruned from brew on update)
+    # before nvm!
+    CURRENT=$(find /usr/local/Cellar/zsh -depth 1 -type d | sed --expression='s/.\///')
+    export FPATH=${FPATH/5.6.2_1/$CURRENT}
 
     # Mono for subnautica
     export MONO_GAC_PREFIX="/usr/local"
