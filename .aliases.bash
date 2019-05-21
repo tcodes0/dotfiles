@@ -24,8 +24,6 @@ alias f='fg'
 alias g='grep'
 alias ping='ping -c 1'
 alias em='emacs'
-alias goo='google'
-alias webs='google webster'
 alias sed='gsed'
 alias e='echo -e'
 alias less="\$PAGER"
@@ -35,12 +33,20 @@ alias ncdu="ncdu -x --si"
 alias visudo="EDITOR=emacs && sudo visudo"
 alias shfmt="shfmt -i 2 -ln bash"
 alias shellcheck="shellcheck --color=auto -s bash"
-alias cat='bat --theme Monokai\ Extended\ Origin'
+alias cat='bat --theme Monokai\ Extended\ Origin --show-all'
 alias gppr='gpsup && hub pull-request'
+alias gpprd='gpsup && hub pull-request --base develop'
 alias hpr='hub pull-request'
-###################
-#-------saved paths
-###################
+alias cleoskylin="cleos -u http://kylin.fn.eosbixin.com"
+################
+#-------cd stuff
+################
+alias .desk="cd \$HOME/Desktop"
+alias .desktop="cd \$HOME/Desktop"
+alias .d="cd \$HOME/Desktop"
+alias .co="cd \$HOME/Code"
+alias .code="cd \$HOME/Code"
+alias .c="cd \$HOME/Code"
 alias mackupdir='cd $(dirname $(readlink $HOME/.bashrc))'
 alias abletondir='cd /Volumes/Izi/Ableton/_projects/time-killer\ Project'
 ####################
@@ -50,7 +56,8 @@ if [[ "$(uname -s)" =~ Darwin ]]; then
   #on mac use gnu ls. BSD ls: ls -Gph
   alias ls='gls -ph --color=always'
   alias rn='react-native'
-  alias rns='react-native start --reset-cache'
+  alias rns='react-native start'
+  alias rnsr='react-native start --reset-cache'
 else
   alias ls='ls -ph --color=always'
 fi
@@ -85,7 +92,7 @@ alias caskR='brew cask uninstall'
 ###################
 #--------bash files
 ###################
-alias bashrc='code        ~/.bashrc.bash'
+alias bashrc='code        ~/.zshrc'
 alias bashaliases='code   ~/.aliases.bash'
 alias bashfunctions='code ~/.functions.bash'
 alias bashps1='code       ~/.prompt.bash'
@@ -96,37 +103,8 @@ alias loca='local'
 alias emcas='emacs'
 alias emasc='emcas'
 alias me='emacs'
-###################
-#------------webdev
-###################
-alias caniuse='caniuse --mobile'
-alias cani='caniuse'
-alias mdn='google mdn'
-alias watchsass="sass --watch css/index.sass:css/index.css 2>/dev/null 1>&2 &"
-alias twoSpacesOnly="gsed -n -e '/^  [^ ]/p'"
-alias webb="webbot.sh"
-alias publi="publish.sh"
-alias sshhost="ssh -p 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com"
-alias sshh="sshhost"
-alias sftphost="sftp -P 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com"
-alias gpglist="gpg --list-secret-keys --keyid-format LONG"
-alias gpgexport="gpg --armor --export"
-alias gpgkeygen="gpg --full-generate-key"
-alias gpgremove="gpg --delete-secret-key"
-alias simplePrompt="PS1='\\n\\[\\e[1;90m\\w \\e[0m\\]\\n$ ' && PROMPT_COMMAND=''"
-alias npml="npm list --depth=0"
-alias npmgl="npm list --global --depth=0"
-alias npms="npm search"
-alias npmh="npm repo"
-alias npmI="npm install"
-alias y="yarn"
-alias yarnl="yarn list --depth=0"
-alias yarngl="yarn global list --depth=0"
-alias ya="yarn add"
-alias yad="yarn add -D"
-alias adbI="adb install app/build/outputs/apk/release/app-release.apk"
-alias adbl="adb devices"
-alias rnra="react-native run-android"
+alias ndoe='node'
+alias yy='yarn'
 ###################
 #---------Zsh & Git
 ###################
@@ -161,9 +139,10 @@ alias gcd='git checkout develop'
 alias gcf='git config --list'
 alias gcl='git clone --recursive'
 alias gclean='git clean -fd'
-alias gcm='git checkout master'
 # alias gcmsg='git commit -m' using function
 alias gco='git checkout'
+alias gcom='git checkout master'
+alias gcod='git checkout develop'
 alias gcount='git shortlog -sn'
 alias gcp='git cherry-pick'
 alias gcpa='git cherry-pick --abort'
@@ -212,6 +191,7 @@ alias glum='git pull upstream master'
 alias gm='git merge'
 alias gma='git merge --abort'
 alias gmom='git merge origin/master'
+alias gmod='git merge origin/develop'
 alias gmt='git mergetool --no-prompt'
 alias gmtvim='git mergetool --no-prompt --tool=vimdiff'
 alias gmum='git merge upstream/master'
@@ -239,6 +219,9 @@ alias grhh='git reset HEAD --hard'
 alias grh1="git reset HEAD~1"
 alias grh2="git reset HEAD~2"
 alias grh3="git reset HEAD~3"
+alias gco1="git checkout HEAD~1"
+alias gco2="git checkout HEAD~2"
+alias gco3="git checkout HEAD~3"
 alias grmv='git remote rename'
 alias grrm='git remote remove'
 alias grset='git remote set-url'
@@ -271,3 +254,37 @@ alias gupv='git pull --rebase -v'
 alias gwch='git whatchanged -p --abbrev-commit --pretty=medium'
 alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify -m "--wip-- [skip ci]"'
 alias grev='git revert'
+###################
+#------------dev
+###################
+alias caniuse='caniuse --mobile'
+alias cani='caniuse'
+alias watchsass="sass --watch css/index.sass:css/index.css 2>/dev/null 1>&2 &"
+alias twoSpacesOnly="gsed -n -e '/^  [^ ]/p'"
+alias webb="webbot.sh"
+alias publi="publish.sh"
+alias sshhost="ssh -p 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com"
+alias sshh="sshhost"
+alias sftphost="sftp -P 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com"
+alias gpglist="gpg --list-secret-keys --keyid-format LONG"
+alias gpgexport="gpg --armor --export"
+alias gpgkeygen="gpg --full-generate-key"
+alias gpgremove="gpg --delete-secret-key"
+alias simplePrompt="PS1='\\n\\[\\e[1;90m\\w \\e[0m\\]\\n$ ' && PROMPT_COMMAND=''"
+alias npml="npm list --depth=0"
+alias npmgl="npm list --global --depth=0"
+alias npms="npm search"
+alias npmh="npm repo"
+alias npmI="npm install"
+alias y="yarn"
+alias yarnl="yarn list --depth=0"
+alias yarngl="yarn global list --depth=0"
+# alias ya="yarn add"
+# alias yad="yarn add -D"
+alias adbI="adb install"
+alias adbl="adb devices"
+alias adbd="adb shell input keyevent 82"
+alias rnra="react-native run-android"
+alias acceptAllLicenses="yes | \$HOME/Library/Android/sdk/tools/bin/sdkmanager --licenses"
+alias snoop='echo sudo opensnoop -ve 2>&1 | g idea.properties'
+alias clearIapCache="adb shell pm clear com.android.vending"

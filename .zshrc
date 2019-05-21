@@ -11,6 +11,8 @@ bindkey -e
 # The following lines were added by compinstall
 zstyle :compinstall filename '/Users/vamac/.zshrc'
 
+fpath=(/usr/local/share/zsh-completions $fpath)
+plugins=(… zsh-completions)
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
@@ -38,7 +40,8 @@ GIT_PS1_SHOWCOLORHINTS="true"
 
 #========== Mac only
 if [[ "$(uname -s)" =~ Darwin ]]; then
-    export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/bin:/usr/local/opt/go/libexec/bin"
+    export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/bin:/usr/local/opt/go/libexec/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/opt/util-linux/bin:$HOME/.rvm/bin"
+    export MANPATH="/usr/local/opt/erlang/lib/erlang/man:$MANPATH"
     export CDPATH=$HOME:/Volumes:$HOME/Desktop
     export EDITOR='code'
     export GOPATH="$HOME/.go"
@@ -50,13 +53,15 @@ if [[ "$(uname -s)" =~ Darwin ]]; then
 
     # fix compinit path pointing to old version (auto pruned from brew on update)
     # before nvm!
-    CURRENT=$(find /usr/local/Cellar/zsh -depth 1 -type d | sed --expression='s/.\///')
+    CURRENT=$(find /usr/local/Cellar/zsh -depth 1 -type d | sed -e 's/.\///')
     export FPATH=${FPATH/5.6.2_1/$CURRENT}
 
     # Mono for subnautica
     export MONO_GAC_PREFIX="/usr/local"
 
     # NVM
+    unset PREFIX            # NVM hates this
+    unset npm_config_prefix # NVM hates this
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"                   # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion" # This loads nvm bash_completion
@@ -74,8 +79,8 @@ fi
 #========== Environment
 export TIMEFORMAT=$'\n-time elapsed-\nreal\t%3Rs\nuser\t%3Us\nsystem\t%3Ss'
 export BLOCKSIZE=1000000 #1 Megabyte
-export LESS="--LINE-NUMBERS --buffers=32768 --quit-if-one-screen --prompt=?eEND:%pb\\%. ?f%F:Stdin.\\: page %d of %D, line %lb of %L"
-export PAGER="less --RAW-CONTROL-CHARS --HILITE-UNREAD --window=-5 --quiet"
+export LESS="--RAW-CONTROL-CHARS --HILITE-UNREAD --window=-5 --quiet --LINE-NUMBERS --buffers=32768 --quit-if-one-screen --prompt=?eEND:%pb\\%. ?f%F:Stdin.\\: page %d of %D, line %lb of %L"
+export PAGER="less"
 export BASH_ENV="$HOME/.bashrc.bash"
 GPG_TTY=$(tty) && export GPG_TTY
 

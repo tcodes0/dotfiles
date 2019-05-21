@@ -10,12 +10,18 @@ cl() {
 #- - - - - - - - - - -
 
 cdp() {
-  local path && path="$(pbpaste)"
+  local path && path="$(/usr/bin/pbpaste)"
   if [ ! -d "$path" ]; then
-    path=$(dirname "$path")
+    path=$(/usr/bin/dirname "$path")
   fi
   # shellcheck disable=SC2164
   \cd "$path"
+}
+
+#- - - - - - - - - - -
+
+cdc() {
+  \pwd | tr -d '\n' | pbcopy
 }
 
 #- - - - - - - - - - -
@@ -247,7 +253,7 @@ start-commands() {
   scheduler.sh --check
   if [ "$(pwd)" == "$HOME" ]; then
     # shellcheck disable=SC2164
-    \cd ~/Desktop
+    \cd "$HOME/Code"
   fi
   return
 }
@@ -590,4 +596,57 @@ gas() {
   fi
   ./gradlew assembleRelease
   cd ..
+}
+
+# gradlew clean
+gac() {
+  if [ -d "./android" ]; then
+    cd android || return
+  fi
+  ./gradlew clean
+  cd ..
+}
+
+goo() {
+  local QQ && QQ=$(echo "$@" | tr ' ' '+')
+  open "https://duckduckgo.com/?q=${QQ}&t=ffab&ia=web"
+}
+
+idea() {
+  echo "$@" >>"$HOME/Desktop/ideas.txt"
+}
+
+sysbkp() {
+  echo sudo rsync -a --exclude /Volumes --progress / /Volumes/TARGET
+}
+
+getver() {
+  echo ios
+  for plist in ios/*/Info.plist; do
+    echo -e "\t $plist"
+    grep --after-context=1 'BundleVersion</key>' <"$plist"
+    echo
+  done
+  echo android
+  grep --after-context=1 'versionCode ' <android/app/build.gradle
+}
+
+checkoutVersionFiles() {
+  for file in android/app/build.gradle \
+    ios/OneSignalNotificationServiceExtension/Info.plist \
+    ios/SenseChat/Info.plist; do
+    gco master -- $file
+  done
+}
+
+gbg() {
+  git branch | grep "$1"
+}
+
+ya() {
+  yarn add "$1" --exact
+}
+
+yad() {
+  yarn add -D "$1" --exact
 }

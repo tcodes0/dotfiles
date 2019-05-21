@@ -43,8 +43,7 @@ if [[ "$(uname -s)" =~ Darwin ]]; then
     export GOPATH="${HOMES[0]}/.go"
     LS_COLORS=$(cat "${HOMES[0]}/Code/LS_COLORS/LS_COLORS_RAW") && export LS_COLORS
 
-    #android SDK
-    # export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
+    # android SDK
     export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
     export ANDROID_SDK_HOME="$HOME/Library/Android/sdk"
     export ANDROID_HOME="$HOME/Library/Android/sdk"
