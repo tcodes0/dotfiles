@@ -253,7 +253,7 @@ start-commands() {
   scheduler.sh --check
   if [ "$(pwd)" == "$HOME" ]; then
     # shellcheck disable=SC2164
-    \cd "$HOME/Code"
+    \cd "$HOME/Desktop"
   fi
   return
 }
@@ -649,4 +649,25 @@ ya() {
 
 yad() {
   yarn add -D "$1" --exact
+}
+
+patchBash() {
+  if command -v /bin/bash.old >/dev/null; then
+    echo sudo rm /bin/bash.old
+  fi
+  echo sudo mv /bin/bash /bin/bash.old
+  echo sudo ln -si /usr/local/bin/bash /bin/bash
+}
+
+gco-() {
+  if [ -n "$local_lil_flag" ]; then
+    if git checkout "${GIT_BRANCH}-1"; then
+      local_lil_old_branch="$GIT_BRANCH"
+      unset local_lil_flag
+    fi
+    return
+  fi
+  if git checkout "$local_lil_old_branch"; then
+    local_lil_flag='sdf'
+  fi
 }

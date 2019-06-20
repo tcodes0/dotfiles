@@ -40,12 +40,16 @@ GIT_PS1_SHOWCOLORHINTS="true"
 
 #========== Mac only
 if [[ "$(uname -s)" =~ Darwin ]]; then
-    export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/bin:/usr/local/opt/go/libexec/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/opt/util-linux/bin:$HOME/.rvm/bin"
+    export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/bin:/usr/local/opt/go/libexec/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/opt/util-linux/bin:/usr/local/opt/ruby/bin:$HOME/.rvm/bin"
     export MANPATH="/usr/local/opt/erlang/lib/erlang/man:$MANPATH"
     export CDPATH=$HOME:/Volumes:$HOME/Desktop
     export EDITOR='code'
     export GOPATH="$HOME/.go"
     LS_COLORS=$(cat "$HOME/Code/LS_COLORS/LS_COLORS_RAW") && export LS_COLORS
+
+    #ruby flags
+    export LDFLAGS="-L/usr/local/opt/ruby/lib"
+    export CPPFLAGS="-I/usr/local/opt/ruby/include"
 
     # android SDK
     export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"

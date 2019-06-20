@@ -5,3 +5,4 @@ bash-on-windows/
 plain-text/
 .*/*
 !./.*
+.npmrc

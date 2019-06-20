@@ -49,6 +49,8 @@ if [[ "$(uname -s)" =~ Darwin ]]; then
     export ANDROID_HOME="$HOME/Library/Android/sdk"
 
     # NVM
+    unset PREFIX            # NVM hates this
+    unset npm_config_prefix # NVM hates this
     export NVM_DIR="${HOMES[0]}/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion

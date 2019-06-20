@@ -50,6 +50,7 @@ brew "p7zip"
 brew "pkg-config"
 brew "postgresql", restart_service: true
 brew "qemu"
+brew "rbenv"
 brew "redis", restart_service: true
 brew "rename"
 brew "rsync"
@@ -108,4 +109,4 @@ cask "visual-studio-code"
 cask "vlc"
 cask "vuze"
 cask "xquartz"
-mas "com.apple.dt.Xcode", id: 497799835
+mas "Xcode", id: 497799835

@@ -34,10 +34,11 @@ alias visudo="EDITOR=emacs && sudo visudo"
 alias shfmt="shfmt -i 2 -ln bash"
 alias shellcheck="shellcheck --color=auto -s bash"
 alias cat='bat --theme Monokai\ Extended\ Origin --show-all'
-alias gppr='gpsup && hub pull-request'
-alias gpprd='gpsup && hub pull-request --base develop'
-alias hpr='hub pull-request'
+alias gppr='gpsup && hub pull-request --browse'
+alias gpprd='gpsup && hub pull-request --base develop --browse'
+alias hpr='hub pull-request --browse'
 alias cleoskylin="cleos -u http://kylin.fn.eosbixin.com"
+alias emulator="\$HOME/Library/Android/sdk/emulator/emulator"
 ################
 #-------cd stuff
 ################
@@ -288,3 +289,4 @@ alias rnra="react-native run-android"
 alias acceptAllLicenses="yes | \$HOME/Library/Android/sdk/tools/bin/sdkmanager --licenses"
 alias snoop='echo sudo opensnoop -ve 2>&1 | g idea.properties'
 alias clearIapCache="adb shell pm clear com.android.vending"
+alias gradle="echo ./gradlew app:dependencies --stacktrace"
