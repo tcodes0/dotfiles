@@ -2,9 +2,12 @@
 #- - - - - - - - - - -
 
 cl() {
-  # shellcheck disable=SC2164
-  \cd -P "$1" 1>/dev/null
-  iflast ls
+  local _path="$1"
+  if [ ! "$1" ]; then
+    _path=$HOME
+  fi
+  \cd -P "$_path" 1>/dev/null || return
+  ls
 }
 
 #- - - - - - - - - - -
@@ -526,17 +529,30 @@ aliasg() {
 #lazy git
 lg() {
   local args="$*"
+  local commitTypes=(build ci chore docs feat fix perf refactor revert style test)
+  local defaultType="chore"
+  # local defaultScope="misc"
+  local msg=""
 
   if ! git add --all; then
     return 1
   fi
 
   if [ "$args" ]; then
-    git commit -q -m "$args"
+    if [[ "${commitTypes[*]}" =~ $1 ]]; then
+      msg="${args/$1/$1:}"
+      echo commit msg \> "$msg"
+      git commit -q -m "$msg"
+    else
+      msg="$defaultType: $args"
+      echo commit msg \> "$msg"
+      git commit -q -m "$msg"
+    fi
   else
     git commit -q -v
   fi
 }
+
 #- - - - - - - - - - -
 
 #lazy commit
@@ -570,11 +586,13 @@ gtp() {
 
 #android emulator
 emu() {
+  local default=nexux6
   if [ "$#" == 0 ]; then
     echo provide emulator name to run
+    emulator "@$default"
     return
   fi
-  eval "$HOME/Library/Android/sdk/emulator/emulator" "@$1"
+  emulator "@$1"
 }
 
 adbm() {
@@ -595,15 +613,6 @@ gas() {
     cd android || return
   fi
   ./gradlew assembleRelease
-  cd ..
-}
-
-# gradlew clean
-gac() {
-  if [ -d "./android" ]; then
-    cd android || return
-  fi
-  ./gradlew clean
   cd ..
 }
 
@@ -643,12 +652,14 @@ gbg() {
   git branch | grep "$1"
 }
 
+# yarn add
 ya() {
-  yarn add "$1" --exact
+  yarn add --exact "$@"
 }
 
+# yarn add dev
 yad() {
-  yarn add -D "$1" --exact
+  yarn add -D --exact "$@"
 }
 
 patchBash() {
@@ -669,5 +680,74 @@ gco-() {
   fi
   if git checkout "$local_lil_old_branch"; then
     local_lil_flag='sdf'
+  fi
+}
+
+insideAndroid() {
+  [[ "$PWD" =~ /android$ ]]
+}
+
+androidRmThirdParty() {
+  if [ -d ./third-party ]; then
+    command rm -fr ./third-party
+    return
+  elif [ -d ../third-party ] && [ -f ../package.json ]; then
+    command rm -fr ../third-party
+    return
+  fi
+  echo "Don't seem to be in a react-native directory"
+  return 1
+}
+
+gdeps() {
+  if insideAndroid; then
+    ./gradlew app:dependencies --stacktrace
+  else
+    cd android || return
+    gdeps
+    cd ..
+  fi
+}
+
+grelease() {
+  if insideAndroid; then
+    ./gradlew assembleRelease
+  else
+    cd android || return
+    androidRmThirdParty
+    grelease
+    cd ..
+  fi
+}
+
+gcheck() {
+  if insideAndroid; then
+    ./gradlew check
+  else
+    cd android || return
+    androidRmThirdParty
+    gcheck
+    cd ..
+  fi
+}
+
+gdebug() {
+  if insideAndroid; then
+    ./gradlew assembleDebug
+  else
+    cd android || return
+    androidRmThirdParty
+    gdebug
+    cd ..
+  fi
+}
+
+gac() {
+  if insideAndroid; then
+    ./gradlew clean
+  else
+    cd android || return
+    gac
+    cd ..
   fi
 }

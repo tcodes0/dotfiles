@@ -40,44 +40,45 @@ GIT_PS1_SHOWCOLORHINTS="true"
 
 #========== Mac only
 if [[ "$(uname -s)" =~ Darwin ]]; then
-    export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/bin:/usr/local/opt/go/libexec/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/opt/util-linux/bin:/usr/local/opt/ruby/bin:$HOME/.rvm/bin"
-    export MANPATH="/usr/local/opt/erlang/lib/erlang/man:$MANPATH"
-    export CDPATH=$HOME:/Volumes:$HOME/Desktop
-    export EDITOR='code'
-    export GOPATH="$HOME/.go"
-    LS_COLORS=$(cat "$HOME/Code/LS_COLORS/LS_COLORS_RAW") && export LS_COLORS
+  export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/bin:/usr/local/opt/go/libexec/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/opt/util-linux/bin:/usr/local/opt/ruby/bin:$HOME/.rvm/bin:$HOME/.cargo/bin:$HOME/Library/Android/sdk/tools:$HOME/Library/Android/sdk/tools/bin"
+  export MANPATH="/usr/local/opt/erlang/lib/erlang/man:$MANPATH"
+  export CDPATH=$HOME:/Volumes:$HOME/Desktop
+  export EDITOR='code'
+  export GOPATH="$HOME/.go"
+  LS_COLORS=$(cat "$HOME/Code/LS_COLORS/LS_COLORS_RAW") && export LS_COLORS
 
-    #ruby flags
-    export LDFLAGS="-L/usr/local/opt/ruby/lib"
-    export CPPFLAGS="-I/usr/local/opt/ruby/include"
+  #ruby flags
+  export LDFLAGS="-L/usr/local/opt/ruby/lib"
+  export CPPFLAGS="-I/usr/local/opt/ruby/include"
 
-    # android SDK
-    export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
-    export ANDROID_HOME="/usr/local/share/android-sdk"
+  # android SDK
+  # gradle needs this to find SDK. Opening android studio once fixes.
+  export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
+  # export ANDROID_HOME="/usr/local/share/android-sdk"
 
-    # fix compinit path pointing to old version (auto pruned from brew on update)
-    # before nvm!
-    CURRENT=$(find /usr/local/Cellar/zsh -depth 1 -type d | sed -e 's/.\///')
-    export FPATH=${FPATH/5.6.2_1/$CURRENT}
+  # fix compinit path pointing to old version (auto pruned from brew on update)
+  # before nvm!
+  CURRENT=$(find /usr/local/Cellar/zsh -depth 1 -type d | sed -e 's/.\///')
+  export FPATH=${FPATH/5.6.2_1/$CURRENT}
 
-    # Mono for subnautica
-    export MONO_GAC_PREFIX="/usr/local"
+  # Mono for subnautica
+  export MONO_GAC_PREFIX="/usr/local"
 
-    # NVM
-    unset PREFIX            # NVM hates this
-    unset npm_config_prefix # NVM hates this
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"                   # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+  # NVM
+  unset PREFIX            # NVM hates this
+  unset npm_config_prefix # NVM hates this
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"                   # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
-    # ZSH
-    PROMPT_SUBST="true"
+  # ZSH
+  PROMPT_SUBST="true"
 
-    if [ -f $HOME/.prompt.zsh ]; then
-        source $HOME/.prompt.zsh
-    else
-        export PS1=$'\n%~\n%# '
-    fi
+  if [ -f $HOME/.prompt.zsh ]; then
+    source $HOME/.prompt.zsh
+  else
+    export PS1=$'\n%~\n%# '
+  fi
 fi
 
 #========== Environment

@@ -37,16 +37,16 @@ GIT_PS1_SHOWCOLORHINTS="true"
 
 #========== Mac only
 if [[ "$(uname -s)" =~ Darwin ]]; then
-    export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:${HOMES[0]}/bin:/usr/local/opt/go/libexec/bin"
+    # export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/bin:/usr/local/opt/go/libexec/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/opt/util-linux/bin:/usr/local/opt/ruby/bin:$HOME/.rvm/bin:$HOME/.cargo/bin"
     export CDPATH=${HOMES[0]}:/Volumes:${HOMES[0]}/Desktop
     export EDITOR='code'
     export GOPATH="${HOMES[0]}/.go"
     LS_COLORS=$(cat "${HOMES[0]}/Code/LS_COLORS/LS_COLORS_RAW") && export LS_COLORS
 
     # android SDK
-    export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
-    export ANDROID_SDK_HOME="$HOME/Library/Android/sdk"
-    export ANDROID_HOME="$HOME/Library/Android/sdk"
+    # export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
+    # export ANDROID_SDK_HOME="$HOME/Library/Android/sdk"
+    # export ANDROID_HOME="$HOME/Library/Android/sdk"
 
     # NVM
     unset PREFIX            # NVM hates this
