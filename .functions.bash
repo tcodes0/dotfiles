@@ -526,28 +526,52 @@ aliasg() {
 
 #- - - - - - - - - - -
 
-#lazy git
+# LAZY GIT
+# with commitlint automation. Does git add --all and builds commit message:
+# lg foo bar -> chore(misc): foo bar
+# lg chore bar -> chore(misc): bar
+# lg chore app: fix stuff -> chore(app): fix stuff
 lg() {
   local args="$*"
   local commitTypes=(build ci chore docs feat fix perf refactor revert style test)
   local defaultType="chore"
-  # local defaultScope="misc"
+  local defaultScope="misc"
   local msg=""
+  local scope=""
+  local type=""
 
+  # git add --all, if fail exit
   if ! git add --all; then
     return 1
   fi
 
   if [ "$args" ]; then
+    # check if first arg is a commit type
     if [[ "${commitTypes[*]}" =~ $1 ]]; then
-      msg="${args/$1/$1:}"
-      echo commit msg \> "$msg"
-      git commit -q -m "$msg"
+      # add : to it (replace)
+      type="$1"
+      args=${args/"$1" /}
     else
-      msg="$defaultType: $args"
-      echo commit msg \> "$msg"
-      git commit -q -m "$msg"
+      # use default type
+      type="$defaultType"
     fi
+    #check if arg 1 or 2 is a scope (has :)
+    for arg in "$1" "$2"; do
+      # regex, does arg match ":" ?
+      # if yes, asign scope with no : (replace with nothing)
+      if [[ "$arg" =~ : ]]; then
+        scope="${arg/:/}"
+        args=${args/"$arg" /}
+      fi
+    done
+    # use default scope
+    if [ ! "$scope" ]; then
+      scope="$defaultScope"
+    fi
+    #build msg string
+    msg="${type}(${scope}): $args"
+    echo commit msg \> "$msg"
+    git commit -q -m "$msg"
   else
     git commit -q -v
   fi
