@@ -43,6 +43,9 @@ alias hpr='hub pull-request'
 alias hprl='hub pr list'
 alias hprc='hub pr checkout'
 alias hprs='hub pr show'
+alias hisl='hub issue -a thomazella'
+alias hisa='hub issue -l '
+alias his='hub issue'
 alias cleoskylin="cleos -u http://kylin.fn.eosbixin.com"
 alias emulator="\$HOME/Library/Android/sdk/emulator/emulator"
 ################
@@ -134,7 +137,7 @@ alias gbsb='git bisect bad'
 alias gbsg='git bisect good'
 alias gbsr='git bisect reset'
 alias gbss='git bisect start'
-alias gc='git commit -v'
+alias gc='git commit'
 alias gca='git commit -v -a'
 alias gcam='git commit -a -m'
 alias gcb='git checkout -b'
@@ -261,6 +264,8 @@ alias gwch='git whatchanged -p --abbrev-commit --pretty=medium'
 alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify -m "--wip-- [skip ci]"'
 alias grev='git revert'
 alias gnuke='git reset HEAD --hard && git clean -fd'
+alias wip="git add --all && git commit -nm wip"
+alias grl="git reflog"
 ###################
 #------------dev
 ###################
@@ -296,3 +301,6 @@ alias clearIapCache="adb shell pm clear com.android.vending"
 alias c.="code ."
 alias c="code"
 alias lgl="echo build ci chore docs feat fix perf refactor revert style test"
+alias macinstall="echo sudo /Applications/Install\ macOS\ Catalina\ Beta.app/Contents/Resources/createinstallmedia --volume /Volumes/USB /Applications/Install\ macOS\ Catalina\ Beta.app --nointeraction"
+alias ytw="yarn test --watch"
+alias yt="yarn test"

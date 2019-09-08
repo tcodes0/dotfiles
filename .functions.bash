@@ -654,14 +654,7 @@ sysbkp() {
 }
 
 getver() {
-  echo ios
-  for plist in ios/*/Info.plist; do
-    echo -e "\t $plist"
-    grep --after-context=1 'BundleVersion</key>' <"$plist"
-    echo
-  done
-  echo android
-  grep --after-context=1 'versionCode ' <android/app/build.gradle
+  grep --after-context=1 'versionCode ' <android/app/build.gradle | gsed --regexp-extended --expression="s/versionCode //i"
 }
 
 checkoutVersionFiles() {
@@ -774,4 +767,40 @@ gac() {
     gac
     cd ..
   fi
+}
+
+# hub issue show
+hiss() {
+  hub issue show "$1" | pandoc --from gfm | browser
+}
+
+# issue
+iss() {
+  local repo
+  local sense='makesense/sense-chat-mobile'
+  local confy="FotonTech/confy"
+  if [ ! "$1" ] || [ ! "$2" ]; then
+    echo "need 2 args chosen!"
+    return
+  fi
+
+  case "$1" in
+  sense) repo="$sense" ;;
+  s) repo="$sense" ;;
+  confy) repo="$confy" ;;
+  c) repo="$confy" ;;
+  *) echo "$1 doesn't match a known repo" ;;
+  esac
+
+  open "https://github.com/$repo/issues/$2"
+}
+
+# base64 decode
+bd() {
+  base64 -D <<<"$@"
+}
+
+# elixir doc
+edoc() {
+  open "https://hexdocs.pm/$*"
 }
