@@ -4,9 +4,10 @@
 
 # color vars
 unset ZSH_THEME_GIT_PROMPT_BRANCH r256 color1 color2
-color1=$(echo -n "%{\e[38;05;$(((RANDOM % 15) + 145))m%}")
-color2=$(echo -n "%{\e[38;05;$(((RANDOM % 15) + 105))m%}")
-colorBranch=$(echo -n "%{\e[38;05;$(((RANDOM % 15) + 203))m%}")
+c1=$(((RANDOM % 55) + 85))
+color1=$(echo -n "%{\e[38;05;${c1}m%}")
+color2=$(echo -n "%{\e[38;05;$(($c1 + 2))m%}")
+color3=$(echo -n "%{\e[38;05;$(($c1 + 4))m%}")
 export end=$'\e[0m'
 underline=$'\e\[4m'
 #echo $color1 ___ $end
@@ -146,7 +147,7 @@ ZSH_THEME_GIT_PROMPT_PREFIX=""
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
 ZSH_THEME_GIT_PROMPT_HASH_PREFIX=":"
 ZSH_THEME_GIT_PROMPT_SEPARATOR=" "
-ZSH_THEME_GIT_PROMPT_BRANCH="%{ $colorBranch%}"
+ZSH_THEME_GIT_PROMPT_BRANCH="%{ $color3%}"
 ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[red]%}%{ ●%2G%}"
 ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$fg[red]%}%{ ✖%2G%}"
 ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg[blue]%}%{ ✚%2G%}"
@@ -155,7 +156,7 @@ ZSH_THEME_GIT_PROMPT_AHEAD="%{↑· %3G%}"
 ZSH_THEME_GIT_PROMPT_STASHED="%{$fg_bold[blue]%}%{⚑ %2G%}"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[cyan]%}%{…%G%}"
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}%{✔ %2G%}"
-ZSH_THEME_GIT_PROMPT_LOCAL=" local"
+ZSH_THEME_GIT_PROMPT_LOCAL="%{$color1%} local%{$end%}"
 # The remote branch will be shown between these two
 ZSH_THEME_GIT_PROMPT_UPSTREAM_FRONT=" {%{$fg[blue]%}"
 ZSH_THEME_GIT_PROMPT_UPSTREAM_END="%{${reset_color}%}}"
@@ -227,9 +228,9 @@ makePS1() {
     # decorations="💠 💠"$spacer
   fi
 
-  horizontalLine="${underline}$(printf %"${COLUMNS}"s)${end}"
+  horizontalLine="${color3}${underline}$(printf %"${COLUMNS}"s)${end}"
   workdir="${color1}%~${end}"
-  decorations="%{${color1}%}${decorations} %{${end}%}"
+  decorations="%{${color2}%}${decorations} %{${end}%}"
 
   printf %s ${horizontalLine}$'\n'${workdir} $'$(git_super_status)\n'${decorations}
 }
