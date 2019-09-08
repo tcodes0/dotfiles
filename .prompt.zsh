@@ -2,6 +2,16 @@
 # ================================================================
 ## To install source this file from your .zshrc file
 
+# color vars
+unset ZSH_THEME_GIT_PROMPT_BRANCH r256 color1 color2
+color1=$(echo -n "%{\e[38;05;$(((RANDOM % 15) + 145))m%}")
+color2=$(echo -n "%{\e[38;05;$(((RANDOM % 15) + 105))m%}")
+colorBranch=$(echo -n "%{\e[38;05;$(((RANDOM % 15) + 203))m%}")
+export end=$'\e[0m'
+underline=$'\e\[4m'
+#echo $color1 ___ $end
+#echo $color2 ___ $end
+
 # see documentation at http://linux.die.net/man/1/zshexpn
 preexec_update_git_vars() {
     case "$2" in
@@ -136,7 +146,7 @@ ZSH_THEME_GIT_PROMPT_PREFIX=""
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
 ZSH_THEME_GIT_PROMPT_HASH_PREFIX=":"
 ZSH_THEME_GIT_PROMPT_SEPARATOR=" "
-ZSH_THEME_GIT_PROMPT_BRANCH="%{$r256%}"
+ZSH_THEME_GIT_PROMPT_BRANCH="%{ $colorBranch%}"
 ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[red]%}%{ ●%2G%}"
 ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$fg[red]%}%{ ✖%2G%}"
 ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg[blue]%}%{ ✚%2G%}"
@@ -189,11 +199,6 @@ if [[ "$-" =~ i ]]; then
   r256=$(random256Color) && export r256
 fi
 
-end=$'\e[0m'
-underline=$'\e\[4m'
-mainColor="%{${r256}%}"
-auxiliarColor="$(random256Color)"
-
 makePS1() {
   # use "preGit" or "postGit" as arg 1 to integrate with gitprompt script
 
@@ -201,30 +206,32 @@ makePS1() {
   purple=$'\e[34m'
   pink=$'\e[35m'
   #The spaces below avoids emoji collapsing on themselves. MacOS Sierra glitch.
-  spacer='  '
+  spacer=' '
   getTermColumns
 
   if [ "$(whoami)" != "root" ]; then
-    case $((RANDOM % 7)) in
-    0) decorations="🐺 🌋"$spacer ;;
-    1) decorations="🌸 🌿"$spacer ;;
-    2) decorations="🚀 💫"$spacer ;;
-    3) decorations="🍁 🍷"$spacer ;;
-    4) decorations="🔮 🦋"$spacer ;;
-    5) decorations="🌄 🎆"$spacer ;;
-    6) decorations="🍇 🥓"$spacer ;;
-    esac
+    decorations='~>'
+    # case $((RANDOM % 7)) in
+    # 0) decorations="🐺 🌋"$spacer ;;
+    # 1) decorations="🌸 🌿"$spacer ;;
+    # 2) decorations="🚀 💫"$spacer ;;
+    # 3) decorations="🍁 🍷"$spacer ;;
+    # 4) decorations="🔮 🦋"$spacer ;;
+    # 5) decorations="🌄 🎆"$spacer ;;
+    # 6) decorations="🍇 🥓"$spacer ;;
+    # esac
   else
-    mainColor=$purple
-    auxiliarColor=$pink
-    decorations="💠 💠"$spacer
+    decorations='##'$spacer
+    # color1=$purple
+    # color2=$pink
+    # decorations="💠 💠"$spacer
   fi
 
-  horizontalLine="${auxiliarColor}${underline}$(printf %"${COLUMNS}"s)$end"
-  # horizontalLine="%{$auxiliarColor%}%{$underline%}$(printf %"${COLUMNS}"s)%{$end%}"
-  workdir="$mainColor%~ $end"
+  horizontalLine="${underline}$(printf %"${COLUMNS}"s)${end}"
+  workdir="${color1}%~${end}"
+  decorations="%{${color1}%}${decorations} %{${end}%}"
 
-  printf %s ${horizontalLine}$'\n'${workdir}$' $(git_super_status)\n'${decorations}
+  printf %s ${horizontalLine}$'\n'${workdir} $'$(git_super_status)\n'${decorations}
 }
 
 PROMPT=$(makePS1) && export PROMPT
