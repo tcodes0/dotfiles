@@ -74,6 +74,9 @@ if [[ "$(uname -s)" =~ Darwin ]]; then
   # ZSH
   PROMPT_SUBST="true"
 
+  # elixir
+  export ERL_AFLAGS="-kernel shell_history enabled"
+
   if [ -f $HOME/.prompt.zsh ]; then
     source $HOME/.prompt.zsh
   else
@@ -93,6 +96,7 @@ GPG_TTY=$(tty) && export GPG_TTY
 source $HOME/.aliases.bash
 source $HOME/.functions.bash
 # dosource "$VSCODE_OVERRIDES"
+eval "$(direnv hook zsh)"
 
 #========== Zsh overrides
 alias srit="source $HOME/.zshrc && clear"

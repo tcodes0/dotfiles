@@ -8,6 +8,15 @@ cl() {
   fi
   \cd -P "$_path" 1>/dev/null || return
   ls
+  cd-hook
+}
+
+#- - - - - - - - - - -
+
+cd-hook() {
+  if [ "$PWD" == "/Users/vamac/Desktop/procure" ]; then
+    source ".env"
+  fi
 }
 
 #- - - - - - - - - - -

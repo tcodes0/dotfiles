@@ -196,14 +196,14 @@ alias glol='git log --graph --pretty='\''%Cred%h%Creset -%C(yellow)%d%Creset %s 
 alias glola='git log --graph --pretty='\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --all'
 alias glp='_git_log_prettily'
 alias glum='git pull upstream master'
-alias gm='git merge'
+alias gm='git merge -q'
 alias gma='git merge --abort'
-alias gmom='git fetch --all --prune && git merge origin/master'
-alias gmod='git fetch --all --prune && git merge origin/develop'
+alias gmom='git fetch --all --prune && git merge -q origin/master'
+alias gmod='git fetch --all --prune && git merge -q origin/develop'
 alias gmt='git mergetool --no-prompt'
 alias gmtvim='git mergetool --no-prompt --tool=vimdiff'
-alias gmum='git merge upstream/master'
-alias gmsq='git merge --squash'
+alias gmum='git merge -q upstream/master'
+alias gmsq='git merge -q --squash'
 alias gp='git push -q'
 alias gpo='git push origin'
 alias gpd='git push --dry-run'
@@ -304,3 +304,4 @@ alias lgl="echo build ci chore docs feat fix perf refactor revert style test"
 alias macinstall="echo sudo /Applications/Install\ macOS\ Catalina\ Beta.app/Contents/Resources/createinstallmedia --volume /Volumes/USB /Applications/Install\ macOS\ Catalina\ Beta.app --nointeraction"
 alias ytw="yarn test --watch"
 alias yt="yarn test"
+alias ism="iex -S mix"
