@@ -48,6 +48,7 @@ alias hisa='hub issue -l '
 alias his='hub issue'
 alias cleoskylin="cleos -u http://kylin.fn.eosbixin.com"
 alias emulator="\$HOME/Library/Android/sdk/emulator/emulator"
+alias find="gfind"
 ################
 #-------cd stuff
 ################
@@ -122,8 +123,8 @@ alias git="hub"
 # alias g=git
 alias ga='git add'
 alias gaa='git add --all'
-alias gap='git apply'
-alias gapa='git add --patch'
+alias gapp='git apply'
+alias gap='git add --patch'
 alias gau='git add --update'
 alias gb='git branch'
 alias gba='git branch -a'
