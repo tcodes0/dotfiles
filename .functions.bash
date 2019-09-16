@@ -17,6 +17,9 @@ cd-hook() {
   if [ "$PWD" == "/Users/vamac/Desktop/procure" ]; then
     source ".env"
   fi
+  if [ "$PWD" == "/Users/vamac/Desktop/confy" ]; then
+    source ".vscode/vars"
+  fi
 }
 
 #- - - - - - - - - - -

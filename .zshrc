@@ -96,7 +96,7 @@ GPG_TTY=$(tty) && export GPG_TTY
 source $HOME/.aliases.bash
 source $HOME/.functions.bash
 # dosource "$VSCODE_OVERRIDES"
-eval "$(direnv hook zsh)"
+# eval "$(direnv hook zsh)"
 
 #========== Zsh overrides
 alias srit="source $HOME/.zshrc && clear"
