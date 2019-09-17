@@ -8,17 +8,19 @@ cl() {
   fi
   \cd -P "$_path" 1>/dev/null || return
   ls
-  cd-hook
 }
 
 #- - - - - - - - - - -
 
-cd-hook() {
+chpwd() {
   if [ "$PWD" == "/Users/vamac/Desktop/procure" ]; then
     source ".env"
   fi
   if [ "$PWD" == "/Users/vamac/Desktop/confy" ]; then
     source ".vscode/vars"
+  fi
+  if [ "$OLDPWD" == "/Users/vamac/Desktop/confy" ]; then
+    unset MILESTONE
   fi
 }
 
