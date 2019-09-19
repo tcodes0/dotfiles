@@ -818,3 +818,14 @@ bd() {
 edoc() {
   open "https://hexdocs.pm/$*"
 }
+
+# hub issue
+hisl() {
+  local command="hub issue -a thomazella"
+  if [ "$MILESTONE" ]; then
+    command="${command} -M ${MILESTONE}"
+  fi
+  eval "$command"
+}
+
+#='hub issue -l '
