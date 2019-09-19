@@ -823,7 +823,7 @@ edoc() {
 hisl() {
   local command="hub issue -a thomazella"
   if [ "$MILESTONE" ]; then
-    command="${command} -M ${MILESTONE}"
+    command="${command} -M \"${MILESTONE}\""
   fi
   eval "$command"
 }
