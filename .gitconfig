@@ -3,7 +3,7 @@
 	email = thomazella9@gmail.com
 	signingkey = D600E88A0C5FE062
 [core]
-	editor = emacs
+	editor = code -w
 	compression = -1
 	excludesfile = /Users/vamac/.gitignore_global
 [commit]

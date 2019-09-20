@@ -43,7 +43,7 @@ if [[ "$(uname -s)" =~ Darwin ]]; then
   export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/bin:/usr/local/opt/go/libexec/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/opt/util-linux/bin:/usr/local/opt/ruby/bin:$HOME/.rvm/bin:$HOME/.cargo/bin:$HOME/Library/Android/sdk/tools:$HOME/Library/Android/sdk/tools/bin:/Applications/Postgres.app/Contents/Versions/latest/bin"
   export MANPATH="/usr/local/opt/erlang/lib/erlang/man:$MANPATH"
   export CDPATH=$HOME:/Volumes:$HOME/Desktop
-  export EDITOR='code'
+  export EDITOR='code -w'
   export GOPATH="$HOME/.go"
   LS_COLORS=$(cat "$HOME/Code/LS_COLORS/LS_COLORS_RAW") && export LS_COLORS
 

@@ -39,7 +39,7 @@ GIT_PS1_SHOWCOLORHINTS="true"
 if [[ "$(uname -s)" =~ Darwin ]]; then
     # export PATH="/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/bin:/usr/local/opt/go/libexec/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/opt/util-linux/bin:/usr/local/opt/ruby/bin:$HOME/.rvm/bin:$HOME/.cargo/bin:$HOME/Library/Android/sdk/tools:$HOME/Library/Android/sdk/tools/bin:/Applications/Postgres.app/Contents/Versions/latest/bin"
     export CDPATH=${HOMES[0]}:/Volumes:${HOMES[0]}/Desktop
-    export EDITOR='code'
+    export EDITOR='code -w'
     export GOPATH="${HOMES[0]}/.go"
     LS_COLORS=$(cat "${HOMES[0]}/Code/LS_COLORS/LS_COLORS_RAW") && export LS_COLORS
 

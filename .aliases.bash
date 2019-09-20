@@ -53,8 +53,8 @@ alias find="gfind"
 ################
 alias .d="cd \$HOME/Desktop"
 alias .c="cd \$HOME/Code"
-alias mackupdir='cd $(dirname $(readlink $HOME/.bashrc))'
-alias abletondir='cd /Volumes/Izi/Ableton/_projects/time-killer\ Project'
+alias .m="cd \$HOME/Documents/GoogleDrive/Mackup"
+alias .b="cd \$HOME/bin"
 ####################
 #--------mac aliases
 ####################
